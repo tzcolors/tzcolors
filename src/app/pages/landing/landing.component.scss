@@ -1,0 +1,72 @@
+.colors__c {
+  color: #ffbf00;
+}
+.colors__o {
+  color: #ff2800;
+}
+.colors__l {
+  color: #de5246;
+}
+.colors__o__2nd {
+  color: #2887c8;
+}
+.colors__r {
+  color: #1aa260;
+}
+.colors__s {
+  color: #fb9912;
+}
+.card--container__common,
+.card--color--type__container {
+  .card--header {
+    background-color: var(--common);
+  }
+  .card--header--symbol,
+  .card--color--type__common {
+    color: var(--common);
+  }
+}
+.card--container__rare,
+.card--color--type__container {
+  .card--header {
+    background-color: var(--rare);
+  }
+  .card--header--symbol,
+  .card--color--type__rare {
+    color: var(--rare);
+  }
+}
+.card--container__epic,
+.card--color--type__container {
+  .card--header {
+    background-color: var(--epic);
+  }
+  .card--header--symbol,
+  .card--color--type__epic {
+    color: var(--epic);
+  }
+}
+.card--header--symbol__container {
+  position: relative;
+  top: -40px;
+}
+.card--header--symbol {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 40px 60px 0 rgba(0, 0, 0, 0.08),
+    0 80px 160px 0 rgba(0, 0, 0, 0.04);
+}
+.card--color__header {
+  height: 164px;
+  border-radius: 16px;
+}
+.card--color--type__container {
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  box-shadow: 0 40px 60px 0 rgba(0, 0, 0, 0.08),
+    0 80px 160px 0 rgba(0, 0, 0, 0.04);
+}
