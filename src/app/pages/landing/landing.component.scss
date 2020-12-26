@@ -17,32 +17,47 @@
   color: #fb9912;
 }
 .card--container__common,
-.card--color--type__container {
+.card--color--type__common {
+  .card--header--symbol,
+  .card--color--type__container {
+    border-radius: 50%;
+  }
   .card--header {
     background-color: var(--common);
   }
   .card--header--symbol,
-  .card--color--type__common {
+  .card-color--type--symbol {
     color: var(--common);
   }
 }
 .card--container__rare,
-.card--color--type__container {
+.card--color--type__rare {
+  .card--header--symbol,
+  .card--color--type__container {
+    border-radius: 50%;
+    border-top-left-radius: 0;
+  }
   .card--header {
     background-color: var(--rare);
   }
   .card--header--symbol,
-  .card--color--type__rare {
+  .card-color--type--symbol {
     color: var(--rare);
   }
 }
 .card--container__epic,
-.card--color--type__container {
+.card--color--type__epic {
+  .card--header--symbol,
+  .card--color--type__container {
+    border-radius: 50%;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
   .card--header {
     background-color: var(--epic);
   }
   .card--header--symbol,
-  .card--color--type__epic {
+  .card-color--type--symbol {
     color: var(--epic);
   }
 }
@@ -53,11 +68,6 @@
 .card--header--symbol {
   width: 80px;
   height: 80px;
-  border-radius: 50%;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0 40px 60px 0 rgba(0, 0, 0, 0.08),
-    0 80px 160px 0 rgba(0, 0, 0, 0.04);
 }
 .card--color__header {
   height: 164px;
@@ -66,7 +76,13 @@
 .card--color--type__container {
   width: 24px;
   height: 24px;
-  border-radius: 24px;
+  background-color: #fff;
+  box-shadow: 0 40px 60px 0 rgba(0, 0, 0, 0.08),
+    0 80px 160px 0 rgba(0, 0, 0, 0.04);
+}
+.card--header--symbol {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.04);
   box-shadow: 0 40px 60px 0 rgba(0, 0, 0, 0.08),
     0 80px 160px 0 rgba(0, 0, 0, 0.04);
 }
