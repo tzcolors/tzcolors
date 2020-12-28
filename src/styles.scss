@@ -56,6 +56,10 @@ $dropdown-link-active-bg: rgba(map_get($theme-colors, 'primary'), 0.54);
 $modal-content-bg: transparent;
 $modal-content-border-width: 0;
 
+.nav-link.active {
+  font-weight: bold;
+}
+
 .container {
   max-width: 1400px !important;
 }
