@@ -82,6 +82,23 @@ $modal-content-border-width: 0;
   border-bottom-right-radius: $border-radius !important;
 }
 
+.panel {
+  margin-bottom: 4px;
+  button,
+  .card {
+    box-shadow: none !important;
+  }
+  .card-header {
+    background-color: #fff;
+  }
+  .card-header:first-child {
+    border-radius: 24px;
+  }
+  .btn-link {
+    color: var(--dark);
+  }
+}
+
 @import '../node_modules/bootstrap/scss/bootstrap';
 
 /* Importing Bootstrap SCSS file. */

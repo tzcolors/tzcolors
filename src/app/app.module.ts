@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AlertModule } from 'ngx-bootstrap/alert'
+import { AccordionModule } from 'ngx-bootstrap/accordion'
+
 import { HeaderItemComponent } from './components/header-item/header-item.component'
 import { LandingComponent } from './pages/landing/landing.component'
 import { FooterItemComponent } from './components/footer-item/footer-item.component'
@@ -33,6 +35,7 @@ import { AuctionModalComponent } from './components/auction-modal/auction-modal.
     BrowserAnimationsModule,
     AlertModule.forRoot(),
     ModalModule.forRoot(),
+    AccordionModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent, BsModalService],
