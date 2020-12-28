@@ -53,6 +53,8 @@ $btn-line-height: 2.5;
 $btn-border-radius: $border-radius;
 $card-spacer-x: 1.5rem;
 $dropdown-link-active-bg: rgba(map_get($theme-colors, 'primary'), 0.54);
+$modal-content-bg: transparent;
+$modal-content-border-width: 0;
 
 .container {
   max-width: 1400px !important;
@@ -77,3 +79,6 @@ $dropdown-link-active-bg: rgba(map_get($theme-colors, 'primary'), 0.54);
 }
 
 @import '../node_modules/bootstrap/scss/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

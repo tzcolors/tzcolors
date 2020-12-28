@@ -27,7 +27,7 @@
     <p class="m-0 font-weight-light">tz12M…214x</p>
     <p class="text-muted font-weight-light m-0">Highest Bidder</p>
     <div class="p-4">
-      <div class="input-group">
+      <div *ngIf="!isOwned" class="input-group">
         <input
           type="text"
           class="form-control"
@@ -38,6 +38,14 @@
           <button type="button" class="btn btn-light">Bid</button>
         </span>
       </div>
+      <button
+        *ngIf="isOwned"
+        (click)="openAuctionModal()"
+        type="button"
+        class="btn btn-block btn-light"
+      >
+        Create Auction
+      </button>
     </div>
   </div>
 </div>
