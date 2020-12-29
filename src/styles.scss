@@ -55,6 +55,7 @@ $card-spacer-x: 1.5rem;
 $dropdown-link-active-bg: rgba(map_get($theme-colors, 'primary'), 0.54);
 $modal-content-bg: transparent;
 $modal-content-border-width: 0;
+$link-hover-decoration: none;
 
 .nav-link.active {
   font-weight: bold;

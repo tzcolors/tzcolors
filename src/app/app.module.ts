@@ -7,6 +7,7 @@ import { AppComponent } from './app.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AlertModule } from 'ngx-bootstrap/alert'
 import { AccordionModule } from 'ngx-bootstrap/accordion'
+import { CollapseModule } from 'ngx-bootstrap/collapse'
 
 import { HeaderItemComponent } from './components/header-item/header-item.component'
 import { LandingComponent } from './pages/landing/landing.component'
@@ -36,6 +37,7 @@ import { AuctionModalComponent } from './components/auction-modal/auction-modal.
     AlertModule.forRoot(),
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
+    CollapseModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent, BsModalService],

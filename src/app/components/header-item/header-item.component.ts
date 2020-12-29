@@ -7,6 +7,7 @@ import { Router } from '@angular/router'
   styleUrls: ['./header-item.component.scss'],
 })
 export class HeaderItemComponent implements OnInit {
+  isCollapsed = true
   constructor(private readonly router: Router) {}
 
   ngOnInit(): void {}
