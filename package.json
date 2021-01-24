@@ -16,7 +16,7 @@
   },
   "private": true,
   "dependencies": {
-    "@airgap/beacon-sdk": "^2.0.1",
+    "@airgap/beacon-sdk": "^2.2.0-beta.0",
     "@angular/animations": "~11.0.5",
     "@angular/common": "~11.0.5",
     "@angular/compiler": "~11.0.5",
@@ -27,7 +27,7 @@
     "@angular/router": "~11.0.5",
     "@ngrx/effects": "^10.1.2",
     "@ngrx/store": "^10.1.2",
-    "@taquito/beacon-wallet": "^7.1.0-beta.0",
+    "@taquito/beacon-wallet": "^8.0.0-beta.3",
     "bootstrap": "^4.5.3",
     "ngx-bootstrap": "^6.2.0",
     "rxjs": "~6.6.0",
@@ -67,7 +67,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run check-version && pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged"
     }
   }
 }

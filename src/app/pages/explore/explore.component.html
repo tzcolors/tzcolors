@@ -2,9 +2,27 @@
   <div class="row my-3 align-items-center">
     <div class="col-12 col-md-6 d-flex align-items-center pb-3 pb-md-0">
       <h3 class="m-0 d-inline-block mr-3">Explore</h3>
-      <button type="button" class="btn btn-light btn-sm mr-3">Common</button>
-      <button type="button" class="btn btn-light btn-sm mr-3">Rare</button>
-      <button type="button" class="btn btn-light btn-sm mr-3">Epic</button>
+      <button
+        (click)="setCategory('C')"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Common
+      </button>
+      <button
+        (click)="setCategory('R')"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Rare
+      </button>
+      <button
+        (click)="setCategory('E')"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Epic
+      </button>
     </div>
     <div class="col-12 col-md-4 offset-0 offset-md-2">
       <div class="input-group">
@@ -13,31 +31,15 @@
           class="form-control"
           placeholder="Search"
           aria-label="search"
+          [(ngModel)]="searchString"
+          (keypress)="textInput($event)"
         />
       </div>
     </div>
   </div>
 </div>
 <div class="row">
-  <div class="col-12 col-md-3 py-3">
-    <app-color-card-item></app-color-card-item>
-  </div>
-  <div class="col-12 col-md-3 py-3">
-    <app-color-card-item></app-color-card-item>
-  </div>
-  <div class="col-12 col-md-3 py-3">
-    <app-color-card-item></app-color-card-item>
-  </div>
-  <div class="col-12 col-md-3 py-3">
-    <app-color-card-item></app-color-card-item>
-  </div>
-  <div class="col-12 col-md-3 py-3">
-    <app-color-card-item></app-color-card-item>
-  </div>
-  <div class="col-12 col-md-3 py-3">
-    <app-color-card-item></app-color-card-item>
-  </div>
-  <div class="col-12 col-md-3 py-3">
-    <app-color-card-item></app-color-card-item>
+  <div class="col-12 col-md-3 py-3" *ngFor="let color of colors$ | async">
+    <app-color-card-item [color]="color"></app-color-card-item>
   </div>
 </div>

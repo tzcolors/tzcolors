@@ -16,6 +16,8 @@ import { Store } from '@ngrx/store'
 import * as fromRoot from '../../app.reducer'
 import * as actions from '../../connect-wallet.actions'
 
+const TZ_COLORS_CONTRACT = 'KT1L2regUHWP31bg2mTUeMvvY97LC9r8Txpz'
+
 const RPC_URL = 'https://testnet-tezos.giganode.io'
 
 const tezos = new TezosToolkit(RPC_URL)
@@ -30,6 +32,7 @@ export class BeaconService {
   constructor(private readonly store$: Store<fromRoot.State>) {
     this.wallet = new BeaconWallet({ name: 'TzColors' })
     tezos.setWalletProvider(this.wallet)
+    this.getBalances('')
   }
 
   async setupBeaconWallet(): Promise<AccountInfo | undefined> {
@@ -60,5 +63,25 @@ export class BeaconService {
 
   async reset(): Promise<void> {
     return this.wallet.clearActiveAccount()
+  }
+
+  private async getBalances(_userAddress: string) {
+    try {
+      const contractInstance = await tezos.wallet.at(TZ_COLORS_CONTRACT)
+      const storage: Storage = await contractInstance.storage()
+
+      console.log(storage)
+
+      // https://testnet-tezos.giganode.io/chains/main/blocks/head/context/contracts/KT1L2regUHWP31bg2mTUeMvvY97LC9r8Txpz/storage
+
+      // return new BigNumber(
+      //   await storage.ledger.get({
+      //     token_id: contract.token_id,
+      //     owner: userAddress,
+      //   })
+      // )
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
