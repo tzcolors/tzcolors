@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 import { BsModalService, ModalModule } from 'ngx-bootstrap/modal'
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
@@ -25,6 +26,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { environment } from '../environments/environment'
 import { ConnectWalletEffects } from './connect-wallet.effects'
 import { FormsModule } from '@angular/forms'
+import { ShortenPipe } from './pipes/shorten.pipe'
 
 @NgModule({
   declarations: [
@@ -37,11 +39,13 @@ import { FormsModule } from '@angular/forms'
     AuctionsComponent,
     MyColorsComponent,
     AuctionModalComponent,
+    ShortenPipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
