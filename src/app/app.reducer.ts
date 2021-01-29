@@ -28,11 +28,6 @@ export interface State {
 export const initialState: State = {
   connectedWallet: undefined,
   colors: colors.map((color: Color) => {
-    color.category = color.name.startsWith('A')
-      ? 'E'
-      : color.name.startsWith('B')
-      ? 'R'
-      : 'C'
     return color
   }),
   busy: {
