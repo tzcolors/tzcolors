@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { AuctionsComponent } from './auctions.component'
+import { CountdownComponent } from './countdown.component'
 
-describe('AuctionsComponent', () => {
-  let component: AuctionsComponent
-  let fixture: ComponentFixture<AuctionsComponent>
+describe('CountdownComponent', () => {
+  let component: CountdownComponent
+  let fixture: ComponentFixture<CountdownComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AuctionsComponent],
+      declarations: [CountdownComponent],
     }).compileComponents()
   })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AuctionsComponent)
+    fixture = TestBed.createComponent(CountdownComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

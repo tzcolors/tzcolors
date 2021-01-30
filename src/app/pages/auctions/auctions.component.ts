@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'app-auctions',
   templateUrl: './auctions.component.html',
-  styleUrls: ['./auctions.component.scss']
+  styleUrls: ['./auctions.component.scss'],
 })
 export class AuctionsComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

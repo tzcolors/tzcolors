@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core'
+import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { of } from 'rxjs'
 import {
   map,
@@ -11,11 +11,14 @@ import {
 } from 'rxjs/operators'
 
 import * as actions from './connect-wallet.actions'
-import { BeaconService } from './services/beacon/beacon.service';
+import { BeaconService } from './services/beacon/beacon.service'
 
 @Injectable()
 export class ConnectWalletEffects {
-  constructor(private actions$: Actions, private readonly beaconService: BeaconService) { }
+  constructor(
+    private actions$: Actions,
+    private readonly beaconService: BeaconService
+  ) {}
 
   setupBeacon$ = createEffect(() =>
     this.actions$.pipe(
@@ -41,9 +44,7 @@ export class ConnectWalletEffects {
       switchMap(() => {
         return this.beaconService
           .requestPermission()
-          .then((accountInfo) =>
-            actions.connectWalletSuccess({ accountInfo })
-          )
+          .then((accountInfo) => actions.connectWalletSuccess({ accountInfo }))
           .catch((error) => actions.connectWalletFailure({ error }))
       })
     )
@@ -62,13 +63,9 @@ export class ConnectWalletEffects {
       switchMap(() => {
         return this.beaconService
           .reset()
-          .then(() =>
-            actions.disconnectWalletSuccess()
-          )
+          .then(() => actions.disconnectWalletSuccess())
           .catch((error) => actions.disconnectWalletFailure({ error }))
       })
     )
   )
-
-
 }
