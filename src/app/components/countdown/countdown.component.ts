@@ -12,9 +12,6 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
   private subscription!: Subscription
 
-  public dateNow = new Date()
-  public finalDate = new Date(this.endDate)
-
   milliSecondsInASecond = 1000
   hoursInADay = 24
   minutesInAnHour = 60
@@ -29,7 +26,8 @@ export class CountdownComponent implements OnInit, OnDestroy {
   constructor() {}
 
   getTimeDifference() {
-    this.timeDifference = this.finalDate.getTime() - new Date().getTime()
+    this.timeDifference =
+      new Date(this.endDate).getTime() - new Date().getTime()
     this.allocateTimeUnits(this.timeDifference)
   }
 
@@ -62,6 +60,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
       this.getTimeDifference()
     })
   }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
   }

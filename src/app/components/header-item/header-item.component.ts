@@ -16,14 +16,16 @@ export class HeaderItemComponent implements OnInit {
   connectedWallet$: Observable<AccountInfo | undefined> | undefined
 
   isCollapsed = true
-  constructor(private readonly router: Router, private readonly store$: Store<State>) {
+  constructor(
+    private readonly router: Router,
+    private readonly store$: Store<State>
+  ) {
     this.connectedWallet$ = this.store$.select(
       (state) => (state as any).app.connectedWallet // TODO: Fix type
     )
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   connectWallet() {
     this.store$.dispatch(actions.connectWallet())

@@ -1,22 +1,21 @@
-import { AccountInfo } from '@airgap/beacon-sdk';
+import { AccountInfo } from '@airgap/beacon-sdk'
 import {
   ActionReducer,
   ActionReducerMap,
   createFeatureSelector,
   createSelector,
-  MetaReducer
-} from '@ngrx/store';
-import { environment } from '../../environments/environment';
-import * as fromApp from '../app.reducer';
-
+  MetaReducer,
+} from '@ngrx/store'
+import { environment } from '../../environments/environment'
+import * as fromApp from '../app.reducer'
 
 export interface State {
-  [fromApp.appFeatureKey]: fromApp.State;
+  [fromApp.appFeatureKey]: fromApp.State
 }
 
 export const reducers: ActionReducerMap<State> = {
   [fromApp.appFeatureKey]: fromApp.reducer,
-};
+}
 
 // console.log all actions
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
@@ -32,4 +31,6 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
   }
 }
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [logger] : [];
+export const metaReducers: MetaReducer<State>[] = !environment.production
+  ? [logger]
+  : []

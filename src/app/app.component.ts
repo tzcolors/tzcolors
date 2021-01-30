@@ -12,9 +12,7 @@ import * as actions from './connect-wallet.actions'
 export class AppComponent implements OnInit {
   title = 'tzcolors'
 
-  constructor(private readonly store$: Store<State>,) {
-
-  }
+  constructor(private readonly store$: Store<State>) {}
 
   ngOnInit() {
     this.store$.dispatch(actions.setupBeacon())
