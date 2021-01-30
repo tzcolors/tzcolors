@@ -57,15 +57,33 @@
             Connect Wallet
           </button>
 
-          {{ (connectedWallet$ | async)?.address }}
-
-          <button
-            *ngIf="connectedWallet$ | async"
-            (click)="disconnectWallet()"
-            class="btn btn-light btn-rounded"
-          >
-            Disconnect Wallet
-          </button>
+          <div class="btn-group" dropdown *ngIf="connectedWallet$ | async">
+            <button
+              id="button-animated"
+              dropdownToggle
+              type="button"
+              class="btn btn-light"
+              aria-controls="dropdown-animated"
+            >
+              <h1 class="text-success d-inline-block align-bottom m-0 mr-1">
+                •
+              </h1>
+              {{ (connectedWallet$ | async)?.address! | shorten }}
+            </button>
+            <ul
+              id="dropdown-animated"
+              *dropdownMenu
+              class="dropdown-menu dropdown-menu-right"
+              role="menu"
+              aria-labelledby="button-animated"
+            >
+              <li role="menuitem">
+                <a class="dropdown-item" href="#" (click)="disconnectWallet()">
+                  Disconnect Wallet
+                </a>
+              </li>
+            </ul>
+          </div>
         </li>
       </ul>
     </div>
