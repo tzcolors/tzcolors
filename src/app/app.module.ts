@@ -27,6 +27,7 @@ import { environment } from '../environments/environment'
 import { ConnectWalletEffects } from './connect-wallet.effects'
 import { FormsModule } from '@angular/forms'
 import { ShortenPipe } from './pipes/shorten.pipe'
+import { CountdownComponent } from './components/countdown/countdown.component'
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ShortenPipe } from './pipes/shorten.pipe'
     MyColorsComponent,
     AuctionModalComponent,
     ShortenPipe,
+    CountdownComponent,
   ],
   imports: [
     BrowserModule,
