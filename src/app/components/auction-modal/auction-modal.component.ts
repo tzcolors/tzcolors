@@ -10,6 +10,7 @@ import { Color } from 'src/app/store.service'
 })
 export class AuctionModalComponent implements OnInit {
   color: Color | undefined
+  categoryName: string = 'category'
 
   constructor(
     public bsModalRef: BsModalRef,
