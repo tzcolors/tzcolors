@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { Color, State } from 'src/app/app.reducer'
 
-type ColorCategory = 'epic' | 'rare' | 'common'
+export type ColorCategory = 'epic' | 'rare' | 'common'
 
 @Component({
   selector: 'app-explore',
@@ -42,7 +42,9 @@ export class ExploreComponent implements OnInit {
         ((state as any).app.colors as Color[])
           .filter(
             (color) =>
-              color.name.includes(this.searchString) &&
+              color.name
+                .toLowerCase()
+                .includes(this.searchString.toLowerCase()) &&
               color.category === this.category
           )
           .slice(0, 500) // TODO: Fix type

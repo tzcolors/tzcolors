@@ -16,32 +16,43 @@
     <p class="text-muted font-weight-light">
       #{{ color.token_id }} • {{ categoryName }}
     </p>
-    <ng-container *ngIf="isAuction">
+    <ng-container *ngIf="isAuction && auction">
       <div class="row py-2">
         <div class="col">
-          <h3 class="m-0 font-weight-light">0.1 tez</h3>
+          <h3 class="m-0 font-weight-light">{{ auction.bidAmount }}</h3>
           <p class="text-muted font-weight-light">Price</p>
         </div>
         <div class="col text-right">
-          <h3 class="m-0 font-weight-light">12:12:00</h3>
+          <h3 class="m-0 font-weight-light">
+            <app-countdown
+              [endDate]="auction.endTimestamp.toString()"
+            ></app-countdown>
+          </h3>
           <p class="text-muted font-weight-light">Time Left</p>
         </div>
       </div>
-      <p class="m-0 font-weight-light">tz12M…214x</p>
+      <p class="m-0 font-weight-light">{{ auction.bidder }}</p>
       <p class="text-muted font-weight-light m-0">Highest Bidder</p>
-
       <div class="p-4">
-        <div *ngIf="!isOwned" class="input-group">
+        <div class="input-group">
           <input
             type="text"
             class="form-control"
-            placeholder="0.1 tez"
+            [(ngModel)]="bidAmount"
+            [placeholder]="auction.bidAmount"
             aria-label="Amount"
           />
           <span class="input-group-prepend">
-            <button type="button" class="btn btn-light">Bid</button>
+            <button (click)="bid()" type="button" class="btn btn-light">
+              Bid
+            </button>
           </span>
         </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="isOwned">
+      <div class="p-4">
         <button
           *ngIf="isOwned"
           (click)="openAuctionModal()"

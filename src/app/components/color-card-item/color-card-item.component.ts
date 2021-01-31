@@ -3,6 +3,8 @@ import { Component, OnInit, Input } from '@angular/core'
 import { BsModalService } from 'ngx-bootstrap/modal'
 import { Color } from 'src/app/app.reducer'
 import { AuctionModalComponent } from 'src/app/components/auction-modal/auction-modal.component'
+import { BeaconService } from 'src/app/services/beacon/beacon.service'
+import { AuctionItem } from 'src/app/store.service'
 
 @Component({
   selector: 'app-color-card-item',
@@ -19,9 +21,17 @@ export class ColorCardItemComponent implements OnInit {
   @Input()
   isAuction: boolean = false
 
+  @Input()
+  auction: AuctionItem | undefined
+
+  bidAmount: string | undefined
+
   categoryName: 'Epic' | 'Rare' | 'Common' = 'Common'
 
-  constructor(private readonly modalService: BsModalService) {}
+  constructor(
+    private readonly modalService: BsModalService,
+    private readonly beaconService: BeaconService
+  ) {}
 
   ngOnInit(): void {
     if (this.color?.category === 'E') {
@@ -33,8 +43,20 @@ export class ColorCardItemComponent implements OnInit {
   }
 
   openAuctionModal() {
+    if (!this.color) {
+      return
+    }
     const modalRef = this.modalService.show(AuctionModalComponent, {
+      initialState: {
+        color: this.color,
+      },
       class: 'modal-lg modal-dialog-centered',
     })
+  }
+
+  bid() {
+    if (this.auction && this.bidAmount) {
+      this.beaconService.bid(this.auction.tokenId, this.bidAmount)
+    }
   }
 }
