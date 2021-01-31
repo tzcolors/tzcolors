@@ -1,4 +1,4 @@
-<h3 class="timer">
+<h3 *ngIf="!shortTimeFormat">
   <strong>
     <span> {{ daysToDday }}</span
     >d <span> {{ hoursToDday }}</span
@@ -6,4 +6,7 @@
     >min <span> {{ secondsToDday }}</span
     >s
   </strong>
+</h3>
+<h3 *ngIf="shortTimeFormat">
+  {{ daysToDday }}:{{ hoursToDday }}:{{ minutesToDday }}:{{ secondsToDday }}
 </h3>

@@ -10,6 +10,9 @@ export class CountdownComponent implements OnInit, OnDestroy {
   @Input()
   public endDate: string = ''
 
+  @Input()
+  public shortTimeFormat: boolean = false
+
   private subscription!: Subscription
 
   milliSecondsInASecond = 1000
