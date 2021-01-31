@@ -1,7 +1,12 @@
 <div *ngIf="color" class="card h-100">
   <div
-    class="card--color__header card--color--type__common card-color--type__common d-flex justify-content-end align-items-end m-4"
+    class="card--color__header d-flex justify-content-end align-items-end m-4"
     [ngStyle]="{ 'background-color': color.symbol }"
+    [ngClass]="{
+      'card--color--type__common': color.category === 'common',
+      'card--color--type__rare': color.category === 'rare',
+      'card--color--type__epic': color.category === 'epic'
+    }"
   >
     <div class="card--color--type__container m-2">
       <div
@@ -26,12 +31,13 @@
           <h3 class="m-0 font-weight-light">
             <app-countdown
               [endDate]="auction.endTimestamp.toString()"
+              [shortTimeFormat]="true"
             ></app-countdown>
           </h3>
           <p class="text-muted font-weight-light">Time Left</p>
         </div>
       </div>
-      <p class="m-0 font-weight-light">{{ auction.bidder }}</p>
+      <p class="m-0 font-weight-light">{{ auction.bidder | shorten }}</p>
       <p class="text-muted font-weight-light m-0">Highest Bidder</p>
       <div class="p-4">
         <div class="input-group">
