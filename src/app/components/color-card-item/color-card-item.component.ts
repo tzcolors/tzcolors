@@ -28,6 +28,8 @@ export class ColorCardItemComponent implements OnInit {
 
   categoryName: 'Epic' | 'Rare' | 'Common' = 'Common'
 
+  isOver: boolean = false
+
   constructor(
     private readonly modalService: BsModalService,
     private readonly beaconService: BeaconService
@@ -58,5 +60,17 @@ export class ColorCardItemComponent implements OnInit {
     if (this.auction && this.bidAmount) {
       this.beaconService.bid(this.auction.tokenId, this.bidAmount)
     }
+  }
+
+  withdraw() {
+    if (this.auction) {
+      // TODO: Remove hardcoded value
+      this.beaconService.withdraw(2)
+    }
+  }
+
+  auctionOverEvent() {
+    // TODO: Trigger reload to make sure auction was not extended
+    this.isOver = true
   }
 }

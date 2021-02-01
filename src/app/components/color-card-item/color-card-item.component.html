@@ -32,6 +32,7 @@
             <app-countdown
               [endDate]="auction.endTimestamp.toString()"
               [shortTimeFormat]="true"
+              (countdownReached)="auctionOverEvent()"
             ></app-countdown>
           </h3>
           <p class="text-muted font-weight-light">Time Left</p>
@@ -39,7 +40,7 @@
       </div>
       <p class="m-0 font-weight-light">{{ auction.bidder | shorten }}</p>
       <p class="text-muted font-weight-light m-0">Highest Bidder</p>
-      <div class="p-4">
+      <div class="p-4" *ngIf="!isOver">
         <div class="input-group">
           <input
             type="text"
@@ -55,12 +56,20 @@
           </span>
         </div>
       </div>
+      <div class="p-4" *ngIf="isOver">
+        <button
+          (click)="withdraw()"
+          type="button"
+          class="btn btn-block btn-light"
+        >
+          Withdraw
+        </button>
+      </div>
     </ng-container>
 
     <ng-container *ngIf="isOwned">
       <div class="p-4">
         <button
-          *ngIf="isOwned"
           (click)="openAuctionModal()"
           type="button"
           class="btn btn-block btn-light"

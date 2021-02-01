@@ -86,6 +86,14 @@ export class BeaconService {
     console.log(res)
   }
 
+  async withdraw(auctionId: number): Promise<void> {
+    const contractInstance = await tezos.wallet.at(TZ_COLORS_AUCTION_CONTRACT)
+    console.log(contractInstance)
+    const result = await contractInstance.methods.withdraw(auctionId).send()
+
+    console.log(result)
+  }
+
   async createAuction(
     tokenId: number,
     startAmount: string,

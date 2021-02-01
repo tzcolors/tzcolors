@@ -1,12 +1,15 @@
-<h3 *ngIf="!shortTimeFormat">
-  <strong>
-    <span> {{ daysToDday }}</span
-    >d <span> {{ hoursToDday }}</span
-    >h <span> {{ minutesToDday }}</span
-    >min <span> {{ secondsToDday }}</span
-    >s
-  </strong>
-</h3>
-<h3 *ngIf="shortTimeFormat">
-  {{ daysToDday }}:{{ hoursToDday }}:{{ minutesToDday }}:{{ secondsToDday }}
-</h3>
+<h3 *ngIf="timeDifference <= 0">Expired!</h3>
+<ng-container *ngIf="timeDifference > 0">
+  <h3 *ngIf="!shortTimeFormat">
+    <strong>
+      <span> {{ daysToDday }}</span
+      >d <span> {{ hoursToDday }}</span
+      >h <span> {{ minutesToDday }}</span
+      >min <span> {{ secondsToDday }}</span
+      >s
+    </strong>
+  </h3>
+  <h3 *ngIf="shortTimeFormat">
+    {{ daysToDday }}:{{ hoursToDday }}:{{ minutesToDday }}:{{ secondsToDday }}
+  </h3>
+</ng-container>

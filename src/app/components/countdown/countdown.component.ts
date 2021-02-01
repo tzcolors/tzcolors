@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core'
+import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core'
+import { EventEmitter } from '@angular/core'
 import { Subscription, interval } from 'rxjs'
 
 @Component({
@@ -12,6 +13,9 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
   @Input()
   public shortTimeFormat: boolean = false
+
+  @Output()
+  public countdownReached: EventEmitter<boolean> = new EventEmitter()
 
   private subscription!: Subscription
 
@@ -29,9 +33,17 @@ export class CountdownComponent implements OnInit, OnDestroy {
   constructor() {}
 
   getTimeDifference() {
-    this.timeDifference =
-      new Date(this.endDate).getTime() - new Date().getTime()
-    this.allocateTimeUnits(this.timeDifference)
+    this.timeDifference = Math.max(
+      new Date(this.endDate).getTime() - new Date().getTime(),
+      0
+    )
+
+    if (this.timeDifference <= 0) {
+      this.countdownReached.emit(true)
+      this.subscription.unsubscribe()
+    } else {
+      this.allocateTimeUnits(this.timeDifference)
+    }
   }
 
   allocateTimeUnits(timeDifference: any) {
