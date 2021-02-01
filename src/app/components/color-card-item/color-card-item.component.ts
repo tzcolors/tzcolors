@@ -26,7 +26,7 @@ export class ColorCardItemComponent implements OnInit {
 
   bidAmount: string | undefined
 
-  categoryName: 'legendary' | 'epic' | 'Common' = 'Common'
+  categoryName: 'legendary' | 'epic' | 'Standard' = 'Standard'
 
   isOver: boolean = false
 
