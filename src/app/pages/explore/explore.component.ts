@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { Color, State } from 'src/app/app.reducer'
 
-export type ColorCategory = 'legendary' | 'legendary' | 'standard'
+export type ColorCategory = 'legendary' | 'epic' | 'standard'
 
 @Component({
   selector: 'app-explore',
