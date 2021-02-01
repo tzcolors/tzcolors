@@ -1,6 +1,6 @@
-<h3 *ngIf="timeDifference <= 0">Expired!</h3>
+<h3 class="m-0 font-weight-light" *ngIf="timeDifference <= 0">Expired</h3>
 <ng-container *ngIf="timeDifference > 0">
-  <h3 *ngIf="!shortTimeFormat">
+  <h3 class="m-0" *ngIf="!shortTimeFormat">
     <strong>
       <span> {{ daysToDday }}</span
       >d <span> {{ hoursToDday }}</span
@@ -9,7 +9,7 @@
       >s
     </strong>
   </h3>
-  <h3 *ngIf="shortTimeFormat">
+  <h3 class="m-0 font-weight-light" *ngIf="shortTimeFormat">
     {{ daysToDday }}:{{ hoursToDday }}:{{ minutesToDday }}:{{ secondsToDday }}
   </h3>
 </ng-container>
