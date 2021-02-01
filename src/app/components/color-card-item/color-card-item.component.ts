@@ -26,7 +26,7 @@ export class ColorCardItemComponent implements OnInit {
 
   bidAmount: string | undefined
 
-  categoryName: 'Epic' | 'Rare' | 'Common' = 'Common'
+  categoryName: 'legendary' | 'epic' | 'Common' = 'Common'
 
   isOver: boolean = false
 
@@ -37,10 +37,10 @@ export class ColorCardItemComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.color?.category === 'E') {
-      this.categoryName = 'Epic'
+      this.categoryName = 'legendary'
     }
     if (this.color?.category === 'R') {
-      this.categoryName = 'Rare'
+      this.categoryName = 'epic'
     }
   }
 

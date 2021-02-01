@@ -12,7 +12,7 @@ export class MyColorsComponent implements OnInit {
   public colors$: Observable<Color[]> = new Observable()
 
   searchString: string = ''
-  category: ColorCategory = 'rare'
+  category: ColorCategory = 'epic'
 
   constructor(private readonly storeService: StoreService) {
     this.colors$ = this.storeService.myColors$

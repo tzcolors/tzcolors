@@ -3,18 +3,11 @@
     <div class="col-12 col-md-6 d-flex align-items-center pb-3 pb-md-0">
       <h3 class="m-0 d-inline-block mr-3">Explore</h3>
       <button
-        (click)="setCategory('common')"
+        (click)="setCategory('standard')"
         type="button"
         class="btn btn-light btn-sm mr-3"
       >
-        Common
-      </button>
-      <button
-        (click)="setCategory('rare')"
-        type="button"
-        class="btn btn-light btn-sm mr-3"
-      >
-        Rare
+        Standard
       </button>
       <button
         (click)="setCategory('epic')"
@@ -22,6 +15,13 @@
         class="btn btn-light btn-sm mr-3"
       >
         Epic
+      </button>
+      <button
+        (click)="setCategory('legendary')"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Legendary
       </button>
     </div>
     <div class="col-12 col-md-4 offset-0 offset-md-2">

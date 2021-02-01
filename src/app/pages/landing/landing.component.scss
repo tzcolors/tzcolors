@@ -16,33 +16,18 @@
 .colors__s {
   color: #fb9912;
 }
-.card--container__common,
-.card--color--type__common {
+.card--container__standard,
+.card--color--type__standard {
   .card--header--symbol,
   .card--color--type__container {
     border-radius: 50%;
   }
   .card--header {
-    background-color: var(--common);
+    background-color: var(--standard);
   }
   .card--header--symbol,
   .card-color--type--symbol {
-    color: var(--common);
-  }
-}
-.card--container__rare,
-.card--color--type__rare {
-  .card--header--symbol,
-  .card--color--type__container {
-    border-radius: 50%;
-    border-top-left-radius: 0;
-  }
-  .card--header {
-    background-color: var(--rare);
-  }
-  .card--header--symbol,
-  .card-color--type--symbol {
-    color: var(--rare);
+    color: var(--standard);
   }
 }
 .card--container__epic,
@@ -51,7 +36,6 @@
   .card--color--type__container {
     border-radius: 50%;
     border-top-left-radius: 0;
-    border-bottom-right-radius: 0;
   }
   .card--header {
     background-color: var(--epic);
@@ -59,6 +43,22 @@
   .card--header--symbol,
   .card-color--type--symbol {
     color: var(--epic);
+  }
+}
+.card--container__legendary,
+.card--color--type__legendary {
+  .card--header--symbol,
+  .card--color--type__container {
+    border-radius: 50%;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .card--header {
+    background-color: var(--legendary);
+  }
+  .card--header--symbol,
+  .card-color--type--symbol {
+    color: var(--legendary);
   }
 }
 .card--header--symbol__container {

@@ -12,7 +12,7 @@ export class AuctionsComponent implements OnInit {
   public auctions$: Observable<AuctionItem[]> = new Observable()
 
   searchString: string = ''
-  category: ColorCategory = 'rare'
+  category: ColorCategory = 'epic'
 
   constructor(private readonly storeService: StoreService) {
     this.auctions$ = this.storeService.auctions$
