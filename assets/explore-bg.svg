@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1197px" height="226px" viewBox="0 0 1197 226" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 13</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0 96 0 96 96 0 96"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Landing-Copy-2" transform="translate(-121.000000, -1864.000000)">
+            <g id="Group-3-Copy-3" transform="translate(112.000000, 348.000000)">
+                <g id="Group-13" transform="translate(0.000000, 1505.000000)">
+                    <rect id="Rectangle" x="0" y="0" width="1210" height="237"></rect>
+                    <path d="M694,116 L734,116 C756.09139,116 774,133.90861 774,156 L774,196 L734,196 C711.90861,196 694,178.09139 694,156 L694,116 Z" id="Rectangle" fill-opacity="0.48" fill="#9013FE"></path>
+                    <path d="M1132.31755,63.8413378 L1168.31755,63.8413378 C1188.1998,63.8413378 1204.31755,79.9590868 1204.31755,99.8413378 L1204.31755,135.841338 L1168.31755,135.841338 C1148.4353,135.841338 1132.31755,119.723589 1132.31755,99.8413378 L1132.31755,63.8413378 Z" id="Rectangle-Copy" stroke="#9013FE" stroke-width="2" fill-opacity="0.12" fill="#9013FE" transform="translate(1168.317553, 99.841338) rotate(25.000000) translate(-1168.317553, -99.841338) "></path>
+                    <path d="M10,52 L58,52 C84.509668,52 106,73.490332 106,100 L106,100 C106,126.509668 84.509668,148 58,148 L58,148 C31.490332,148 10,126.509668 10,100 L10,52 Z" id="Rectangle" stroke="#2887C8" stroke-width="2" fill-opacity="0.32" fill="#2887C8" transform="translate(58.000000, 100.000000) scale(-1, 1) translate(-58.000000, -100.000000) "></path>
+                    <rect id="Rectangle-Copy-3" stroke="#417505" stroke-width="2" fill-opacity="0.12" fill="#417505" x="1075" y="89" width="30" height="30" rx="15"></rect>
+                    <rect id="Rectangle" fill="#417505" opacity="0.48" x="446" y="184" width="48" height="48" rx="24"></rect>
+                    <rect id="Rectangle-Copy-2" stroke="#417505" stroke-width="2" opacity="0.48" x="705" y="36" width="22" height="22" rx="11"></rect>
+                    <rect id="Rectangle-Copy-4" stroke="#417505" stroke-width="2" x="120" y="19" width="22" height="22" rx="11"></rect>
+                    <path d="M196.525503,215.404005 L186.339829,231.531322 L206.711176,231.531322 L196.525503,215.404005 Z" id="Rectangle" stroke="#FF2800" stroke-width="2" transform="translate(196.525503, 223.031322) rotate(20.000000) translate(-196.525503, -223.031322) "></path>
+                    <path d="M1100.5255,32.4040054 L1086.33983,54.864655 L1114.71118,54.864655 L1100.5255,32.4040054 Z" id="Rectangle" stroke="#FF2800" stroke-width="2" transform="translate(1100.525503, 43.197988) rotate(-21.000000) translate(-1100.525503, -43.197988) "></path>
+                    <g id="square" transform="translate(337.000000, 11.000000)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="Duplicate-control"></g>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="0" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="8" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="16" width="4" height="4" rx="2"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="64" width="4" height="4" rx="2"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="16" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="56" width="4" height="4" rx="2"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="24" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="32" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="16" width="4" height="4" rx="2"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="40" y="88" width="4" height="4" rx="2"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="40" width="4" height="4" rx="2"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="48" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="72" width="4" height="4" rx="2"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="56" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="64" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="72" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="24" width="4" height="4" rx="2"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="64" width="4" height="4" rx="2"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="80" y="88" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="0" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="8" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="16" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="24" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="32" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="40" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="48" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="56" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="64" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="72" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="80" width="4" height="4"></rect>
+                        <rect id="Rectangle" fill="#FFBF00" mask="url(#mask-2)" x="88" y="88" width="4" height="4"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
