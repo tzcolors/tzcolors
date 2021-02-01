@@ -4,9 +4,9 @@
       class="card--color__header d-flex justify-content-end align-items-end m-4"
       [ngStyle]="{ 'background-color': color.symbol }"
       [ngClass]="{
-        'card--color--type__common': color.category === 'common',
-        'card--color--type__rare': color.category === 'rare',
-        'card--color--type__epic': color.category === 'epic'
+        'card--color--type__standard': color.category === 'standard',
+        'card--color--type__epic': color.category === 'epic',
+        'card--color--type__legendary': color.category === 'legendary'
       }"
     >
       <div class="card--color--type__container m-2">

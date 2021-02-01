@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { Color, State } from 'src/app/app.reducer'
 
-export type ColorCategory = 'epic' | 'rare' | 'common'
+export type ColorCategory = 'legendary' | 'legendary' | 'standard'
 
 @Component({
   selector: 'app-explore',
@@ -14,7 +14,7 @@ export class ExploreComponent implements OnInit {
   public colors$: Observable<Color[]> = new Observable()
 
   searchString: string = ''
-  category: ColorCategory = 'rare'
+  category: ColorCategory = 'epic'
 
   constructor(private readonly store$: Store<State>) {
     this.setColor()

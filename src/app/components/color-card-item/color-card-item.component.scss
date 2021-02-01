@@ -2,40 +2,40 @@
   .card-body {
     padding: 0;
   }
-  .card--color--type__common {
+  .card--color--type__standard {
     .card--color--type__container {
       border-radius: 50%;
     }
     .card--header {
-      background-color: var(--common);
+      background-color: var(--standard);
     }
     .card-color--type--symbol {
-      color: var(--common);
-    }
-  }
-  .card--color--type__rare {
-    .card--color--type__container {
-      border-radius: 50%;
-      border-top-left-radius: 0;
-    }
-    .card--header {
-      background-color: var(--rare);
-    }
-    .card-color--type--symbol {
-      color: var(--rare);
+      color: var(--standard);
     }
   }
   .card--color--type__epic {
     .card--color--type__container {
       border-radius: 50%;
       border-top-left-radius: 0;
-      border-bottom-right-radius: 0;
     }
     .card--header {
       background-color: var(--epic);
     }
     .card-color--type--symbol {
       color: var(--epic);
+    }
+  }
+  .card--color--type__legendary {
+    .card--color--type__container {
+      border-radius: 50%;
+      border-top-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .card--header {
+      background-color: var(--legendary);
+    }
+    .card-color--type--symbol {
+      color: var(--legendary);
     }
   }
   .card--color__header {
