@@ -119,6 +119,13 @@
               "devServerTarget": "tzcolors:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/tzcolors/",
+            "message": "Deploying latest changes"
+          }
         }
       }
     }

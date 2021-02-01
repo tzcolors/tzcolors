@@ -2,6 +2,9 @@
   "name": "tzcolors",
   "version": "0.0.0",
   "scripts": {
+    "actions:deploy": "ng deploy --name $GITHUB_ACTOR --email $GITHUB_ACTOR@users.noreply.github.com --no-silent",
+    "actions:prettier": "prettier \"src/**/*.ts\" \"e2e/**/*.ts\" \"angular.json\" \"README.md\" --list-different",
+    "postinstall": "node scripts/patch_crypto.js && npm run prepare-prod-build",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -9,7 +12,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "prettier": "prettier --write './**/*'",
-    "fix-crypto": "node scripts/patch_crypto.js && npm run prepare-prod-build",
     "prepare-prod-build": "npm run disable-pure-getters && npm run configure-mangle",
     "disable-pure-getters": "replace 'pure_getters: buildOptions.buildOptimizer' 'pure_getters: false' ./node_modules/@angular-devkit/build-angular/src/webpack/configs/common.js ",
     "configure-mangle": "replace 'safari10: true' 'safari10: true, keep_fnames: true' ./node_modules/@angular-devkit/build-angular/src/webpack/configs/common.js "
@@ -43,6 +45,7 @@
     "@ngrx/store-devtools": "^10.1.2",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "angular-cli-ghpages": "^1.0.0-rc.1",
     "codelyzer": "^6.0.0",
     "husky": "^4.3.6",
     "jasmine-core": "~3.6.0",
