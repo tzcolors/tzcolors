@@ -36,6 +36,34 @@
         >
           Clear Filters
         </button>
+        <button
+          (click)="[sortType('price'), sortDirection('desc')]"
+          type="button"
+          class="btn btn-light btn-sm mr-3"
+        >
+          Sort Price
+        </button>
+        <button
+          (click)="[sortType('time'), sortDirection('asc')]"
+          type="button"
+          class="btn btn-light btn-sm mr-3"
+        >
+          Sort Time
+        </button>
+        <button
+          (click)="sortDirection('asc')"
+          type="button"
+          class="btn btn-light btn-sm mr-3"
+        >
+          ASC
+        </button>
+        <button
+          (click)="sortDirection('desc')"
+          type="button"
+          class="btn btn-light btn-sm mr-3"
+        >
+          DESC
+        </button>
       </div>
     </div>
     <div class="col-12 col-md-4 offset-0 offset-md-2">

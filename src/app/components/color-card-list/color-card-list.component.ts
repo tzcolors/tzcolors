@@ -5,6 +5,8 @@ import { ColorCategory } from 'src/app/pages/explore/explore.component'
 import {
   AuctionItem,
   Color,
+  SortDirection,
+  SortTypes,
   StoreService,
 } from 'src/app/services/store/store.service'
 
@@ -46,6 +48,13 @@ export class ColorCardListComponent implements OnInit {
   setCategory(category: ColorCategory): void {
     this.category = category
     this.storeService.setCategory(this.category)
+  }
+
+  sortType(type: SortTypes) {
+    this.storeService.setSortType(type)
+  }
+  sortDirection(direction: SortDirection) {
+    this.storeService.setSortDirection(direction)
   }
 
   clearFilters(): void {
