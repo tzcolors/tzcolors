@@ -40,7 +40,9 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
     if (this.timeDifference <= 0) {
       this.countdownReached.emit(true)
-      this.subscription.unsubscribe()
+      if (this.subscription) {
+        this.subscription.unsubscribe()
+      }
     } else {
       this.allocateTimeUnits(this.timeDifference)
     }
