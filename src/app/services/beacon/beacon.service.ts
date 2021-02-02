@@ -95,14 +95,38 @@ export class BeaconService {
   }
 
   async createInitialAuction(tokenId: number): Promise<void> {
-    const contractInstance = await tezos.wallet.at(environment.tzColorsContract)
-    console.log(contractInstance)
-    const randomNumber = Math.round(Math.random() * 10000) // TODO: Use UUID or fetch old id?
-    const result = await contractInstance.methods
-      .initial_auction(randomNumber, [tokenId])
-      .send()
+    const assetContract = await tezos.wallet.at(environment.tzColorsContract)
+    const auctionContract = await tezos.wallet.at(
+      environment.tzColorsAuctionContract
+    )
 
-    console.log(result)
+    const randomNumber = Math.round(Math.random() * 100000) // TODO: Use UUID or fetch old id?
+    const result = await assetContract.methods
+      .initial_auction(randomNumber, [tokenId])
+      .toTransferParams()
+
+    const bidResult = await auctionContract.methods
+      .bid(randomNumber)
+      .toTransferParams()
+
+    const res = await this.wallet.client.requestOperation({
+      operationDetails: [
+        {
+          kind: TezosOperationType.TRANSACTION,
+          amount: '0',
+          destination: result.to,
+          parameters: result.parameter as any,
+        },
+        {
+          kind: TezosOperationType.TRANSACTION,
+          amount: '200000',
+          destination: bidResult.to,
+          parameters: bidResult.parameter as any,
+        },
+      ],
+    })
+
+    console.log(res)
   }
 
   async createAuction(
@@ -131,7 +155,7 @@ export class BeaconService {
       environment.tzColorsAuctionContract
     )
 
-    const randomNumber = Math.round(Math.random() * 10000) // TODO: Use UUID or fetch old id?
+    const randomNumber = Math.round(Math.random() * 100000) // TODO: Use UUID or fetch old id?
 
     const res = await auctionContract.methods
       .create_auction(
