@@ -1,45 +1,5 @@
-<div class="pt-md-5 my-5">
-  <div class="row my-3 align-items-center">
-    <div class="col-12 col-md-6 d-flex align-items-center pb-3 pb-md-0">
-      <h3 class="m-0 d-inline-block mr-3">My Colors</h3>
-      <button
-        (click)="setCategory('standard')"
-        type="button"
-        class="btn btn-light btn-sm mr-3"
-      >
-        Standard
-      </button>
-      <button
-        (click)="setCategory('epic')"
-        type="button"
-        class="btn btn-light btn-sm mr-3"
-      >
-        Epic
-      </button>
-      <button
-        (click)="setCategory('legendary')"
-        type="button"
-        class="btn btn-light btn-sm mr-3"
-      >
-        Legendary
-      </button>
-    </div>
-    <div class="col-12 col-md-4 offset-0 offset-md-2">
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search"
-          aria-label="search"
-          [(ngModel)]="searchString"
-          (keypress)="textInput($event)"
-        />
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-12 col-md-3 py-3" *ngFor="let color of colors$ | async">
-    <app-color-card-item [color]="color" [isOwned]="true"></app-color-card-item>
-  </div>
-</div>
+<app-color-card-list
+  [title]="'My Colors'"
+  [count$]="colorsCount$"
+  [colors$]="colors$"
+></app-color-card-list>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { BsModalRef } from 'ngx-bootstrap/modal'
 import { BeaconService } from 'src/app/services/beacon/beacon.service'
-import { Color } from 'src/app/store.service'
+import { Color } from 'src/app/services/store/store.service'
 
 @Component({
   selector: 'app-auction-modal',

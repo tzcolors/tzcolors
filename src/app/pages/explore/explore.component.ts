@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
-import { Color, State } from 'src/app/app.reducer'
+import { Color, StoreService } from 'src/app/services/store/store.service'
 
 export type ColorCategory = 'legendary' | 'epic' | 'standard'
 
@@ -12,42 +12,13 @@ export type ColorCategory = 'legendary' | 'epic' | 'standard'
 })
 export class ExploreComponent implements OnInit {
   public colors$: Observable<Color[]> = new Observable()
+  public colorsCount$: Observable<number> = new Observable()
 
-  searchString: string = ''
-  category: ColorCategory = 'epic'
-
-  constructor(private readonly store$: Store<State>) {
-    this.setColor()
+  constructor(private readonly storeService: StoreService) {
+    this.storeService.setView('explore')
+    this.colors$ = this.storeService.colors$
+    this.colorsCount$ = this.storeService.colorsCount$
   }
 
   ngOnInit(): void {}
-
-  setCategory(category: ColorCategory): void {
-    console.log(category)
-    this.category = category
-    this.setColor()
-  }
-
-  textInput(ev: any) {
-    console.log(ev)
-    setTimeout(() => {
-      this.setColor()
-    })
-  }
-
-  setColor() {
-    console.log(this.searchString)
-    this.colors$ = this.store$.select(
-      (state) =>
-        ((state as any).app.colors as Color[])
-          .filter(
-            (color) =>
-              color.name
-                .toLowerCase()
-                .includes(this.searchString.toLowerCase()) &&
-              color.category === this.category
-          )
-          .slice(0, 500) // TODO: Fix type
-    )
-  }
 }

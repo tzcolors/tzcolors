@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core'
+import BigNumber from 'bignumber.js'
 
 import { BsModalService } from 'ngx-bootstrap/modal'
-import { Color } from 'src/app/app.reducer'
 import { AuctionModalComponent } from 'src/app/components/auction-modal/auction-modal.component'
 import { BeaconService } from 'src/app/services/beacon/beacon.service'
-import { AuctionItem } from 'src/app/store.service'
+import { Color } from 'src/app/services/store/store.service'
 
 @Component({
   selector: 'app-color-card-item',
@@ -20,9 +20,6 @@ export class ColorCardItemComponent implements OnInit {
 
   @Input()
   isAuction: boolean = false
-
-  @Input()
-  auction: AuctionItem | undefined
 
   bidAmount: string | undefined
 
@@ -42,6 +39,13 @@ export class ColorCardItemComponent implements OnInit {
     if (this.color?.category === 'R') {
       this.categoryName = 'epic'
     }
+
+    if (this.color && this.color.auction) {
+      this.bidAmount = new BigNumber(this.color.auction.bidAmount)
+        .plus(100_000)
+        .shiftedBy(-6)
+        .toString()
+    }
   }
 
   openAuctionModal() {
@@ -57,15 +61,21 @@ export class ColorCardItemComponent implements OnInit {
   }
 
   bid() {
-    if (this.auction && this.bidAmount) {
-      this.beaconService.bid(this.auction.tokenId, this.bidAmount)
+    if (this.color && this.color.auction && this.bidAmount) {
+      const bidAmount = new BigNumber(this.bidAmount).shiftedBy(6).toString()
+      this.beaconService.bid(this.color.auction.auctionId, bidAmount)
     }
   }
 
-  withdraw() {
-    if (this.auction) {
-      // TODO: Remove hardcoded value
-      this.beaconService.withdraw(2)
+  claim() {
+    if (this.color && this.color.auction) {
+      this.beaconService.claim(this.color.auction.auctionId)
+    }
+  }
+
+  createInitialAuction() {
+    if (this.color) {
+      this.beaconService.createInitialAuction(this.color.token_id)
     }
   }
 

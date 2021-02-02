@@ -2,18 +2,11 @@ import { AccountInfo } from '@airgap/beacon-sdk'
 import { Action, createReducer, on } from '@ngrx/store'
 
 import * as actions from './connect-wallet.actions'
+import { Color } from './services/store/store.service'
 
 const colors = require('../assets/colors.json')
 
 export const appFeatureKey = 'app'
-
-export interface Color {
-  name: string
-  description: string
-  symbol: string
-  token_id: number
-  category: string
-}
 
 export interface Busy {
   connectedWallet: boolean

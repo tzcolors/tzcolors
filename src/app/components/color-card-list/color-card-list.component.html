@@ -1,0 +1,71 @@
+<div class="pt-md-5 my-5">
+  <div class="row my-3 align-items-center">
+    <div class="col-12 col-md-6 d-flex align-items-center pb-3 pb-md-0">
+      <h3 class="m-0 d-inline-block mr-3">
+        {{ title }}
+        <span>({{ count$ | async }})</span>
+      </h3>
+      <button
+        (click)="clearFilters()"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Clear Filters
+      </button>
+      <button
+        (click)="setCategory('standard')"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Standard
+      </button>
+      <button
+        (click)="setCategory('epic')"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Epic
+      </button>
+      <button
+        (click)="setCategory('legendary')"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Legendary
+      </button>
+    </div>
+    <div class="col-12 col-md-4 offset-0 offset-md-2">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          aria-label="search"
+          [(ngModel)]="searchString"
+          (keydown)="textInput($event)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-md-3 py-3" *ngFor="let color of colors$ | async">
+    <app-color-card-item [color]="color"></app-color-card-item>
+  </div>
+
+  <!-- TODO: Styling -->
+  <div
+    *ngIf="showMoreButton | async"
+    class="row justify-content-center align-items-center py-5 my-5 explore--container"
+  >
+    <div class="col-12 col-md-3">
+      <button
+        type="button"
+        class="btn btn-block btn-light"
+        (click)="showMoreItems()"
+      >
+        Show more
+      </button>
+    </div>
+  </div>
+</div>

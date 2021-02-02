@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Observable } from 'rxjs'
-import { StoreService, Color } from 'src/app/store.service'
+import { StoreService, Color } from 'src/app/services/store/store.service'
 import { ColorCategory } from '../explore/explore.component'
 
 @Component({
@@ -10,33 +10,13 @@ import { ColorCategory } from '../explore/explore.component'
 })
 export class MyColorsComponent implements OnInit {
   public colors$: Observable<Color[]> = new Observable()
-
-  searchString: string = ''
-  category: ColorCategory = 'epic'
+  public colorsCount$: Observable<number> = new Observable()
 
   constructor(private readonly storeService: StoreService) {
-    this.colors$ = this.storeService.myColors$
-    this.colors$.subscribe(console.log)
-
-    this.setColor()
+    this.storeService.setView('my-colors')
+    this.colors$ = this.storeService.colors$
+    this.colorsCount$ = this.storeService.colorsCount$
   }
 
   ngOnInit(): void {}
-
-  setCategory(category: ColorCategory): void {
-    console.log(category)
-    this.category = category
-    this.setColor()
-  }
-
-  textInput(ev: any) {
-    console.log(ev)
-    setTimeout(() => {
-      this.setColor()
-    })
-  }
-
-  setColor() {
-    console.log(this.searchString)
-  }
 }

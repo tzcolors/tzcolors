@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { Observable } from 'rxjs'
-import { AuctionItem, Color, StoreService } from 'src/app/store.service'
-import { ColorCategory } from '../explore/explore.component'
+import {
+  AuctionItem,
+  Color,
+  StoreService,
+} from 'src/app/services/store/store.service'
 
 @Component({
   selector: 'app-auctions',
@@ -9,34 +12,14 @@ import { ColorCategory } from '../explore/explore.component'
   styleUrls: ['./auctions.component.scss'],
 })
 export class AuctionsComponent implements OnInit {
-  public auctions$: Observable<AuctionItem[]> = new Observable()
-
-  searchString: string = ''
-  category: ColorCategory = 'epic'
+  public colors$: Observable<Color[]> = new Observable()
+  public colorsCount$: Observable<number> = new Observable()
 
   constructor(private readonly storeService: StoreService) {
-    this.auctions$ = this.storeService.auctions$
-    this.auctions$.subscribe(console.log)
-
-    this.setColor()
+    this.storeService.setView('auctions')
+    this.colors$ = this.storeService.colors$
+    this.colorsCount$ = this.storeService.colorsCount$
   }
 
   ngOnInit(): void {}
-
-  setCategory(category: ColorCategory): void {
-    console.log(category)
-    this.category = category
-    this.setColor()
-  }
-
-  textInput(ev: any) {
-    console.log(ev)
-    setTimeout(() => {
-      this.setColor()
-    })
-  }
-
-  setColor() {
-    console.log(this.searchString)
-  }
 }

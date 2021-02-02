@@ -22,34 +22,46 @@
       <p class="text-muted font-weight-light">
         #{{ color.token_id }} • {{ categoryName }}
       </p>
-      <ng-container *ngIf="isAuction && auction">
+      <ng-container *ngIf="color.auction">
         <div class="row py-2">
           <div class="col">
-            <h3 class="m-0 font-weight-light">{{ auction.bidAmount }}</h3>
+            <h3 class="m-0 font-weight-light">
+              {{
+                color.auction.bidAmount
+                  | amountConverter
+                    : {
+                        decimals: 6,
+                        symbol: 'tez'
+                      }
+                  | async
+              }}
+            </h3>
             <p class="text-muted font-weight-light">Price</p>
           </div>
           <div class="col text-right">
             <app-countdown
-              [endDate]="auction.endTimestamp.toString()"
+              [endDate]="color.auction.endTimestamp.toString()"
               [shortTimeFormat]="true"
               (countdownReached)="auctionOverEvent()"
             ></app-countdown>
             <p class="text-muted font-weight-light">Time Left</p>
           </div>
         </div>
-        <p class="m-0 font-weight-light">{{ auction.bidder | shorten }}</p>
+        <p class="m-0 font-weight-light">
+          {{ color.auction.bidder | shorten }}
+        </p>
         <p class="text-muted font-weight-light m-0">Highest Bidder</p>
       </ng-container>
     </div>
     <div class="mt-auto">
-      <ng-container *ngIf="isAuction && auction">
+      <ng-container *ngIf="color.auction">
         <div class="p-4" *ngIf="!isOver">
           <div class="input-group">
             <input
               type="text"
               class="form-control"
               [(ngModel)]="bidAmount"
-              [placeholder]="auction.bidAmount"
+              [placeholder]="color.auction.bidAmount"
               aria-label="Amount"
             />
             <span class="input-group-prepend">
@@ -63,7 +75,7 @@
       <ng-container *ngIf="isOver">
         <div class="p-4">
           <button
-            (click)="withdraw()"
+            (click)="claim()"
             type="button"
             class="btn btn-block btn-light"
           >
@@ -79,6 +91,18 @@
             class="btn btn-block btn-light"
           >
             Create Auction
+          </button>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!color.auction">
+        <div class="p-4">
+          <button
+            (click)="createInitialAuction()"
+            type="button"
+            class="btn btn-block btn-light"
+          >
+            Bid 0.1 tez
           </button>
         </div>
       </ng-container>

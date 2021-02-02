@@ -71,12 +71,15 @@ export class CountdownComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getTimeDifference()
     this.subscription = interval(1000).subscribe((x) => {
       this.getTimeDifference()
     })
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe()
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
   }
 }
