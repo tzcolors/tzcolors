@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, combineLatest, Observable, ReplaySubject } from 'rxjs'
+import {
+  BehaviorSubject,
+  combineLatest,
+  interval,
+  Observable,
+  ReplaySubject,
+} from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 const MichelsonCodec = require('@taquito/local-forging/dist/lib/codec')
 const Codec = require('@taquito/local-forging/dist/lib/codec')
@@ -44,7 +50,7 @@ export interface Value {
 
 export interface Data {
   key: Key
-  value: Value
+  value: Value | undefined
   key_hash: string
   key_string: string
   level: number
@@ -69,7 +75,7 @@ export interface AuctionItem {
 
 export type ViewTypes = 'explore' | 'auctions' | 'my-colors'
 
-export type SortTypes = 'alphabetical' | 'price' | 'activity'
+export type SortTypes = 'alphabetical' | 'price' | 'activity' | 'time'
 export type SortDirection = 'asc' | 'desc'
 
 @Injectable({
@@ -83,6 +89,12 @@ export class StoreService {
 
   private _numberOfItems: BehaviorSubject<number> = new BehaviorSubject(12)
   private _searchTerm: BehaviorSubject<string> = new BehaviorSubject('')
+  private _sortType: BehaviorSubject<SortTypes> = new BehaviorSubject<SortTypes>(
+    'time'
+  )
+  private _sortDirection: BehaviorSubject<SortDirection> = new BehaviorSubject<SortDirection>(
+    'desc'
+  )
   private _category: BehaviorSubject<string | undefined> = new BehaviorSubject<
     string | undefined
   >(undefined)
@@ -113,15 +125,15 @@ export class StoreService {
         this._accountInfo.next(accountInfo)
       }) // TODO: Refactor?
 
-    let internalColors$ = combineLatest([
+    let temp$ = combineLatest([
       this._colors$,
-      this._searchTerm,
       this._category,
       this._view,
       this._ownerInfo,
       this._auctionInfo,
+      this._accountInfo,
     ]).pipe(
-      map(([colors, searchTerm, category, view, ownerInfo, auctionInfo]) =>
+      map(([colors, category, view, ownerInfo, auctionInfo, accountInfo]) =>
         colors
           .map((c) => ({
             ...c,
@@ -134,13 +146,52 @@ export class StoreService {
               : view === 'auctions'
               ? !!c.auction
               : view === 'my-colors'
-              ? c.owner && c.owner === this._accountInfo.value?.address
+              ? c.owner && c.owner === accountInfo?.address
               : true
           )
           .filter((c) => !category || (category && c.category === category))
+      )
+    )
+    let internalColors$ = combineLatest([
+      temp$,
+      this._searchTerm,
+      this._sortType,
+      this._sortDirection,
+    ]).pipe(
+      map(([colors, searchTerm, sortType, sortDirection]) =>
+        colors
           .filter((c) =>
             c.name.toLowerCase().startsWith(searchTerm.toLowerCase())
           )
+          .sort((a_, b_) => {
+            const { a, b } =
+              sortDirection === 'asc' ? { a: a_, b: b_ } : { a: b_, b: a_ }
+
+            const aAuction = a.auction
+            const bAuction = b.auction
+
+            if (sortType === 'time') {
+              if (aAuction && bAuction) {
+                return (
+                  (aAuction.endTimestamp?.getTime() ?? 0) -
+                  (bAuction.endTimestamp?.getTime() ?? 0)
+                )
+              } else {
+                return -1
+              }
+            } else if (sortType === 'price') {
+              if (aAuction && bAuction) {
+                return (
+                  (Number(aAuction.bidAmount) ?? 0) -
+                  (Number(bAuction.bidAmount) ?? 0)
+                )
+              } else {
+                return -1
+              }
+            }
+
+            return a.name.localeCompare(b.name)
+          })
       )
     )
     this.colorsCount$ = internalColors$.pipe(map((colors) => colors.length))
@@ -152,6 +203,7 @@ export class StoreService {
 
     this.getColorOwners()
     this.getAuctions()
+    this.updateState()
   }
 
   setView(view: ViewTypes) {
@@ -166,7 +218,12 @@ export class StoreService {
     this._category.next(category)
   }
   setFilter() {}
-  setSort() {}
+  setSortType(type: SortTypes) {
+    this._sortType.next(type)
+  }
+  setSortDirection(direction: SortDirection) {
+    this._sortDirection.next(direction)
+  }
   setSearchString(searchTerm: string) {
     this._searchTerm.next(searchTerm)
   }
@@ -209,13 +266,18 @@ export class StoreService {
     const auctionInfo = new Map<number, AuctionItem>()
 
     data.forEach((d) => {
-      const tokenAddress = d.data.value.children[0].value
-      const tokenId = Number(d.data.value.children[1].value)
-      const tokenAmount = Number(d.data.value.children[2].value)
-      const endTimestamp = new Date(d.data.value.children[3].value)
-      const seller = d.data.value.children[4].value
-      const bidAmount = d.data.value.children[5].value
-      const bidder = d.data.value.children[6].value
+      const value = d.data.value
+
+      if (!value) {
+        return
+      }
+      const tokenAddress = value.children[0].value
+      const tokenId = Number(value.children[1].value)
+      const tokenAmount = Number(value.children[2].value)
+      const endTimestamp = new Date(value.children[3].value)
+      const seller = value.children[4].value
+      const bidAmount = value.children[5].value
+      const bidder = value.children[6].value
 
       const auctionItem = {
         auctionId: Number(d.data.key_string),
@@ -232,5 +294,13 @@ export class StoreService {
     })
 
     this._auctionInfo.next(auctionInfo)
+  }
+
+  updateState() {
+    let subscription = interval(10_000).subscribe((x) => {
+      console.log('refresh')
+      this.getColorOwners()
+      this.getAuctions()
+    })
   }
 }
