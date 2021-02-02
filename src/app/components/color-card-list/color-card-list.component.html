@@ -3,7 +3,7 @@
     <div class="col-12 col-md-6 d-flex align-items-center pb-3 pb-md-0">
       <h3 class="m-0 d-inline-block mr-3">
         {{ title }}
-        <span>({{ count$ | async }})</span>
+        <span>- {{ count$ | async }}</span>
       </h3>
       <button
         (click)="clearFilters()"
