@@ -29,41 +29,6 @@
         >
           Legendary
         </button>
-        <button
-          (click)="clearFilters()"
-          type="button"
-          class="btn btn-light btn-sm mr-3"
-        >
-          Clear Filters
-        </button>
-        <button
-          (click)="[sortType('price'), sortDirection('desc')]"
-          type="button"
-          class="btn btn-light btn-sm mr-3"
-        >
-          Sort Price
-        </button>
-        <button
-          (click)="[sortType('time'), sortDirection('asc')]"
-          type="button"
-          class="btn btn-light btn-sm mr-3"
-        >
-          Sort Time
-        </button>
-        <button
-          (click)="sortDirection('asc')"
-          type="button"
-          class="btn btn-light btn-sm mr-3"
-        >
-          ASC
-        </button>
-        <button
-          (click)="sortDirection('desc')"
-          type="button"
-          class="btn btn-light btn-sm mr-3"
-        >
-          DESC
-        </button>
       </div>
     </div>
     <div class="col-12 col-md-4 offset-0 offset-md-2">
@@ -77,6 +42,47 @@
           (keydown)="textInput($event)"
         />
       </div>
+    </div>
+  </div>
+  <div class="row my-3">
+    <div
+      class="col-12 col-md-6 offset-0 offset-md-6 d-flex justify-content-end"
+    >
+      <button
+        (click)="[sortType('price'), sortDirection('desc')]"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Sort Price
+      </button>
+      <button
+        (click)="[sortType('time'), sortDirection('asc')]"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        Sort Time
+      </button>
+      <button
+        (click)="sortDirection('asc')"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        ASC
+      </button>
+      <button
+        (click)="sortDirection('desc')"
+        type="button"
+        class="btn btn-light btn-sm mr-3"
+      >
+        DESC
+      </button>
+      <button
+        (click)="clearFilters()"
+        type="button"
+        class="btn btn-light btn-sm"
+      >
+        Clear Filters
+      </button>
     </div>
   </div>
 </div>
