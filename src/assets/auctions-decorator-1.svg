@@ -1,0 +1,35 @@
+<svg
+width="98px"
+height="98px"
+viewBox="0 0 98 98"
+version="1.1"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+<g
+  id="Page-1"
+  stroke="none"
+  stroke-width="1"
+  fill="none"
+  fill-rule="evenodd"
+  fill-opacity="0.48"
+  stroke-opacity="0.04"
+>
+  <g
+    id="Landing-Copy-2"
+    transform="translate(-1058.000000, -1446.000000)"
+    fill="#2887C8"
+    stroke="#000000"
+  >
+    <g
+      id="Group-3-Copy-3"
+      transform="translate(1048.000000, 1290.000000)"
+    >
+      <path
+        d="M11,157 L59,157 C85.509668,157 107,178.490332 107,205 L107,205 C107,231.509668 85.509668,253 59,253 L59,253 C32.490332,253 11,231.509668 11,205 L11,157 Z"
+        id="Rectangle"
+      ></path>
+    </g>
+  </g>
+</g>
+</svg>
