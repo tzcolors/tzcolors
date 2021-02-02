@@ -95,7 +95,7 @@
           </button>
         </div>
       </ng-container>
-      <ng-container *ngIf="isOwned">
+      <ng-container *ngIf="color.owner">
         <div class="p-4">
           <button
             (click)="openAuctionModal()"
@@ -107,7 +107,7 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="!color.auction">
+      <ng-container *ngIf="!color.owner && !color.auction">
         <div class="p-4">
           <button
             (click)="createInitialAuction()"

@@ -137,19 +137,17 @@ export class BeaconService {
     const contractInstance = await tezos.wallet.at(environment.tzColorsContract)
     console.log(contractInstance)
 
-    const result = await contractInstance.methods
-      .update_operator([
+    const updateOperatorsResult = await contractInstance.methods
+      .update_operators([
         {
           add_operator: {
-            amount: startAmount,
+            owner: 'tz1Mj7RzPmMAqDUNFBn5t5VbXmWW4cSUAdtT',
             operator: environment.tzColorsAuctionContract,
             token_id: tokenId,
           },
         },
       ])
-      .send()
-
-    console.log(result)
+      .toTransferParams()
 
     const auctionContract = await tezos.wallet.at(
       environment.tzColorsAuctionContract
@@ -157,7 +155,7 @@ export class BeaconService {
 
     const randomNumber = Math.round(Math.random() * 100000) // TODO: Use UUID or fetch old id?
 
-    const res = await auctionContract.methods
+    const createAuctionResult = await auctionContract.methods
       .create_auction(
         randomNumber, // auction_id
         startAmount, // bid_amount
@@ -166,7 +164,24 @@ export class BeaconService {
         1, // token_amount (always 1)
         tokenId // token_id
       )
-      .send()
+      .toTransferParams()
+
+    const res = await this.wallet.client.requestOperation({
+      operationDetails: [
+        {
+          kind: TezosOperationType.TRANSACTION,
+          amount: '0',
+          destination: updateOperatorsResult.to,
+          parameters: updateOperatorsResult.parameter as any,
+        },
+        {
+          kind: TezosOperationType.TRANSACTION,
+          amount: '0',
+          destination: createAuctionResult.to,
+          parameters: createAuctionResult.parameter as any,
+        },
+      ],
+    })
 
     console.log(res)
   }

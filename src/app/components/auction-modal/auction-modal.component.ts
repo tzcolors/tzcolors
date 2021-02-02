@@ -20,6 +20,8 @@ export class AuctionModalComponent implements OnInit {
   ngOnInit(): void {}
 
   createAuction() {
-    this.beaconService.createAuction(4, '1000000', '5')
+    if (this.color) {
+      this.beaconService.createAuction(this.color.token_id, '100000', '5')
+    }
   }
 }

@@ -144,9 +144,13 @@ export class StoreService {
             view === 'explore'
               ? true
               : view === 'auctions'
-              ? !!c.auction
+              ? !!c.auction &&
+                c.auction.endTimestamp.getTime() > new Date().getTime()
               : view === 'my-colors'
-              ? c.owner && c.owner === accountInfo?.address
+              ? (c.owner && c.owner === accountInfo?.address) ||
+                (!!c.auction &&
+                  c.auction.endTimestamp.getTime() < new Date().getTime() &&
+                  c.auction.bidder === accountInfo?.address)
               : true
           )
           .filter((c) => !category || (category && c.category === category))
