@@ -4,8 +4,8 @@
       class="col-12 col-md-6 d-flex flex-column flex-md-row align-items-center pb-3 pb-md-0"
     >
       <h3 class="m-md-0 mr-md-3 pb-3 pb-md-0">
-        {{ title }}
-        <span>- {{ count$ | async }}</span>
+        {{ title }} -
+        <strong>{{ count$ | async }}</strong>
       </h3>
       <div>
         <button
@@ -46,7 +46,7 @@
   </div>
   <div class="row my-3">
     <div
-      class="col-12 col-md-6 offset-0 offset-md-6 d-flex justify-content-end"
+      class="col-12 col-md-6 offset-0 offset-md-6 d-flex justify-content-end advanced-search__container"
     >
       <button
         (click)="[sortType('price'), sortDirection('desc')]"
