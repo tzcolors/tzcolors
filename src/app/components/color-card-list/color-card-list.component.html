@@ -52,20 +52,15 @@
   <div class="col-12 col-md-3 py-3" *ngFor="let color of colors$ | async">
     <app-color-card-item [color]="color"></app-color-card-item>
   </div>
-
-  <!-- TODO: Styling -->
-  <div
-    *ngIf="showMoreButton | async"
-    class="row justify-content-center align-items-center py-5 my-5 explore--container"
-  >
-    <div class="col-12 col-md-3">
-      <button
-        type="button"
-        class="btn btn-block btn-light"
-        (click)="showMoreItems()"
-      >
-        Show more
-      </button>
-    </div>
+</div>
+<div *ngIf="showMoreButton | async" class="row my-5 justify-content-center">
+  <div class="col-12 col-md-3">
+    <button
+      type="button"
+      class="btn btn-block btn-light"
+      (click)="showMoreItems()"
+    >
+      Load more
+    </button>
   </div>
 </div>
