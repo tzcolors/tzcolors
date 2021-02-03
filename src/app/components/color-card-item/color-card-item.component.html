@@ -13,7 +13,7 @@
         <div
           class="card-color--type--symbol d-flex justify-content-center align-items-center"
         >
-          <p class="m-0">{{ color.category }}</p>
+          <p class="m-0">{{ color.category | slice: 0:1 | uppercase }}</p>
         </div>
       </div>
     </div>
