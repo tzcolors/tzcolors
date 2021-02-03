@@ -20,7 +20,7 @@
     <div class="px-4 d-flex flex-column">
       <h3 class="m-0">{{ color.name }}</h3>
       <p class="text-muted font-weight-light">
-        #{{ color.token_id }} • {{ categoryName }}
+        #{{ color.token_id }} • {{ color.category | titlecase }}
       </p>
       <ng-container *ngIf="state === 'free'">
         <div class="row py-2">
@@ -79,7 +79,8 @@
               Congratulations on your new color!
             </p>
             <p class="font-weight-light text-muted">
-              Please click below to claim it.
+              Claim it first to your wallet to fully own it and be able to
+              create a new auction.
             </p>
           </div>
         </div>
