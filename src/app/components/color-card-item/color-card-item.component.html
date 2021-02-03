@@ -39,7 +39,7 @@
           <div class="col">
             <h3 class="m-0 font-weight-light">
               {{
-                color.auction.bidAmount
+                color.auction?.bidAmount
                   | amountConverter
                     : {
                         decimals: 6,
@@ -52,7 +52,7 @@
           </div>
           <div class="col text-right">
             <app-countdown
-              [endDate]="color.auction.endTimestamp.toString()"
+              [endDate]="color.auction?.endTimestamp.toString()"
               [shortTimeFormat]="true"
               (countdownReached)="auctionOverEvent()"
             ></app-countdown>
@@ -60,14 +60,14 @@
           </div>
         </div>
         <p class="m-0 font-weight-light">
-          {{ color.auction.bidder | shorten }}
+          {{ color.auction?.bidder | shorten }}
         </p>
         <p class="text-muted font-weight-light m-0">Highest Bidder</p>
       </ng-container>
 
       <ng-container *ngIf="state === 'owned'">
         <p class="m-0 font-weight-light">
-          {{ color.owner | shorten }}
+          {{ color?.owner | shorten }}
         </p>
         <p class="text-muted font-weight-light m-0">Owner</p>
       </ng-container>
@@ -93,7 +93,7 @@
               type="text"
               class="form-control"
               [(ngModel)]="bidAmount"
-              [placeholder]="color.auction.bidAmount"
+              [placeholder]="color.auction?.bidAmount"
               aria-label="Amount"
             />
             <span class="input-group-prepend">
