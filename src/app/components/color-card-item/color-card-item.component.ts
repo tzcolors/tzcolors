@@ -1,10 +1,20 @@
+import { state } from '@angular/animations'
 import { Component, OnInit, Input } from '@angular/core'
 import BigNumber from 'bignumber.js'
 
 import { BsModalService } from 'ngx-bootstrap/modal'
+import { first } from 'rxjs/operators'
 import { AuctionModalComponent } from 'src/app/components/auction-modal/auction-modal.component'
 import { BeaconService } from 'src/app/services/beacon/beacon.service'
-import { Color } from 'src/app/services/store/store.service'
+import {
+  Color,
+  isActiveAuction,
+  isClaimable,
+  isOwner,
+  StoreService,
+} from 'src/app/services/store/store.service'
+
+type ColorState = 'free' | 'auction' | 'claim' | 'owned' | 'own'
 
 @Component({
   selector: 'app-color-card-item',
@@ -27,9 +37,12 @@ export class ColorCardItemComponent implements OnInit {
 
   isOver: boolean = false
 
+  state: ColorState = 'free'
+
   constructor(
     private readonly modalService: BsModalService,
-    private readonly beaconService: BeaconService
+    private readonly beaconService: BeaconService,
+    private readonly storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +59,23 @@ export class ColorCardItemComponent implements OnInit {
         .shiftedBy(-6)
         .toString()
     }
+
+    this.storeService.accountInfo$.pipe(first()).subscribe((accountInfo) => {
+      if (this.color) {
+        if (this.color.owner) {
+          this.state = 'owned'
+        }
+        if (isOwner(this.color, accountInfo)) {
+          this.state = 'own'
+        }
+        if (isActiveAuction(this.color)) {
+          this.state = 'auction'
+        }
+        if (isClaimable(this.color, accountInfo)) {
+          this.state = 'claim'
+        }
+      }
+    })
   }
 
   openAuctionModal() {

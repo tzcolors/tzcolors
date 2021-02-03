@@ -13,7 +13,13 @@ import { Uint8ArrayConsumer } from '@taquito/local-forging'
 import { Store } from '@ngrx/store'
 import { State } from 'src/app/app.reducer'
 import { environment } from 'src/environments/environment'
-import { map } from 'rxjs/operators'
+import {
+  auditTime,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  tap,
+} from 'rxjs/operators'
 import { AccountInfo } from '@airgap/beacon-sdk'
 
 const colorsFromStorage: Color[] = require('../../../assets/colors.json')
@@ -78,12 +84,36 @@ export type ViewTypes = 'explore' | 'auctions' | 'my-colors'
 export type SortTypes = 'alphabetical' | 'price' | 'activity' | 'time'
 export type SortDirection = 'asc' | 'desc'
 
+export const isOwner = (color: Color, accountInfo?: AccountInfo) => {
+  return color.owner && color.owner === accountInfo?.address
+}
+
+export const isActiveAuction = (color: Color) => {
+  return (
+    !!color.auction &&
+    color.auction.endTimestamp.getTime() > new Date().getTime()
+  )
+}
+
+export const isClaimable = (color: Color, accountInfo?: AccountInfo) => {
+  return (
+    !!color.auction &&
+    color.auction.endTimestamp.getTime() < new Date().getTime() &&
+    color.auction.bidder === accountInfo?.address
+  )
+}
+
+export const isSeller = (color: Color, accountInfo?: AccountInfo) => {
+  return color.auction && color.auction.seller === accountInfo?.address
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class StoreService {
   public colors$: Observable<Color[]>
   public colorsCount$: Observable<number>
+  public accountInfo$: Observable<AccountInfo | undefined>
 
   private _colors$: ReplaySubject<Color[]> = new ReplaySubject(1)
 
@@ -113,6 +143,10 @@ export class StoreService {
     AccountInfo | undefined
   > = new BehaviorSubject<AccountInfo | undefined>(undefined)
 
+  private _loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    true
+  )
+
   constructor(
     private readonly http: HttpClient,
     private readonly store$: Store<State>
@@ -125,14 +159,41 @@ export class StoreService {
         this._accountInfo.next(accountInfo)
       }) // TODO: Refactor?
 
+    this.accountInfo$ = this._accountInfo.asObservable()
+
+    this._loading.subscribe(console.warn)
+
     let temp$ = combineLatest([
-      this._colors$,
-      this._category,
-      this._view,
-      this._ownerInfo,
-      this._auctionInfo,
-      this._accountInfo,
+      this._colors$.pipe(
+        distinctUntilChanged(),
+        tap((x) => console.log('colors changed', x))
+      ),
+      this._category.pipe(
+        distinctUntilChanged(),
+        tap((x) => console.log('category changed', x))
+      ),
+      this._view.pipe(
+        distinctUntilChanged(),
+        tap((x) => console.log('view changed', x))
+      ),
+      this._ownerInfo.pipe(
+        distinctUntilChanged(),
+        tap((x) => console.log('ownerInfo changed', x))
+      ),
+      this._auctionInfo.pipe(
+        distinctUntilChanged(),
+        tap((x) => console.log('auctionInfo changed', x))
+      ),
+      this._accountInfo.pipe(
+        distinctUntilChanged(),
+        tap((x) => console.log('accountInfo changed', x))
+      ),
     ]).pipe(
+      distinctUntilChanged(),
+      tap(([colors, category, view, ownerInfo, auctionInfo, accountInfo]) => {
+        console.log('running TAP')
+        this._loading.next(true)
+      }),
       map(([colors, category, view, ownerInfo, auctionInfo, accountInfo]) =>
         colors
           .map((c) => ({
@@ -144,13 +205,11 @@ export class StoreService {
             view === 'explore'
               ? true
               : view === 'auctions'
-              ? !!c.auction &&
-                c.auction.endTimestamp.getTime() > new Date().getTime()
+              ? isActiveAuction(c)
               : view === 'my-colors'
-              ? (c.owner && c.owner === accountInfo?.address) ||
-                (!!c.auction &&
-                  c.auction.endTimestamp.getTime() < new Date().getTime() &&
-                  c.auction.bidder === accountInfo?.address)
+              ? isOwner(c, accountInfo) ||
+                isClaimable(c, accountInfo) ||
+                isSeller(c, accountInfo)
               : true
           )
           .filter((c) => !category || (category && c.category === category))
@@ -196,7 +255,8 @@ export class StoreService {
 
             return a.name.localeCompare(b.name)
           })
-      )
+      ),
+      tap(() => this._loading.next(false))
     )
     this.colorsCount$ = internalColors$.pipe(map((colors) => colors.length))
     this.colors$ = combineLatest([internalColors$, this._numberOfItems]).pipe(
@@ -257,7 +317,11 @@ export class StoreService {
         )
       })
 
-    this._ownerInfo.next(ownerInfo)
+    // TODO: Deep equal
+    if (this._ownerInfo.value.size !== ownerInfo.size) {
+      console.log('Owners: Size is not equal, updating')
+      this._ownerInfo.next(ownerInfo)
+    }
   }
 
   async getAuctions() {
@@ -297,7 +361,11 @@ export class StoreService {
       auctionInfo.set(tokenId, auctionItem)
     })
 
-    this._auctionInfo.next(auctionInfo)
+    // TODO: Deep equal
+    if (this._auctionInfo.value.size !== auctionInfo.size) {
+      console.log('Auctions: Size is not equal, updating')
+      this._auctionInfo.next(auctionInfo)
+    }
   }
 
   updateState() {

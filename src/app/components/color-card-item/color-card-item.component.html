@@ -22,7 +22,7 @@
       <p class="text-muted font-weight-light">
         #{{ color.token_id }} • {{ categoryName }}
       </p>
-      <ng-container *ngIf="!isOwned && !color.auction">
+      <ng-container *ngIf="state === 'free'">
         <div class="row py-2">
           <div class="col">
             <p class="font-weight-light text-muted">
@@ -34,7 +34,7 @@
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="color.auction">
+      <ng-container *ngIf="state === 'auction'">
         <div class="row py-2">
           <div class="col">
             <h3 class="m-0 font-weight-light">
@@ -64,10 +64,30 @@
         </p>
         <p class="text-muted font-weight-light m-0">Highest Bidder</p>
       </ng-container>
+
+      <ng-container *ngIf="state === 'owned'">
+        <p class="m-0 font-weight-light">
+          {{ color.owner | shorten }}
+        </p>
+        <p class="text-muted font-weight-light m-0">Owner</p>
+      </ng-container>
+
+      <ng-container *ngIf="state === 'claim'">
+        <div class="row py-2">
+          <div class="col">
+            <p class="font-weight-light text-muted">
+              Congratulations on your new color!
+            </p>
+            <p class="font-weight-light text-muted">
+              Please click below to claim it.
+            </p>
+          </div>
+        </div>
+      </ng-container>
     </div>
     <div class="mt-auto">
-      <ng-container *ngIf="color.auction">
-        <div class="p-4 mx-4 pt-5" *ngIf="!isOver">
+      <ng-container *ngIf="state === 'auction'">
+        <div class="p-4 mx-4 pt-5">
           <div class="input-group">
             <input
               type="text"
@@ -84,7 +104,7 @@
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="isOver">
+      <ng-container *ngIf="state === 'claim'">
         <div class="p-4">
           <button
             (click)="claim()"
@@ -95,7 +115,7 @@
           </button>
         </div>
       </ng-container>
-      <ng-container *ngIf="color.owner">
+      <ng-container *ngIf="state === 'own'">
         <div class="p-4">
           <button
             (click)="openAuctionModal()"
@@ -107,7 +127,7 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="!color.owner && !color.auction">
+      <ng-container *ngIf="state === 'free'">
         <div class="p-4">
           <button
             (click)="createInitialAuction()"
