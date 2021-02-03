@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import {
   AccountInfo,
+  BeaconEvent,
   Network,
   NetworkType,
   OperationResponseOutput,
@@ -33,6 +34,12 @@ export class BeaconService {
 
   constructor() {
     this.wallet = new BeaconWallet({ name: environment.appName })
+    this.wallet.client.subscribeToEvent(
+      BeaconEvent.ACTIVE_ACCOUNT_SET,
+      (activeAccount) => {
+        console.log('NEW ACTIVEACCOUNT SET', activeAccount)
+      }
+    )
     tezos.setWalletProvider(this.wallet)
     this.getBalances('')
   }
