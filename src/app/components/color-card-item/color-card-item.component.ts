@@ -60,22 +60,7 @@ export class ColorCardItemComponent implements OnInit {
         .toString()
     }
 
-    this.storeService.accountInfo$.pipe(first()).subscribe((accountInfo) => {
-      if (this.color) {
-        if (this.color.owner) {
-          this.state = 'owned'
-        }
-        if (isOwner(this.color, accountInfo)) {
-          this.state = 'own'
-        }
-        if (isActiveAuction(this.color)) {
-          this.state = 'auction'
-        }
-        if (isClaimable(this.color, accountInfo)) {
-          this.state = 'claim'
-        }
-      }
-    })
+    this.updateCardState()
   }
 
   openAuctionModal() {
@@ -110,7 +95,25 @@ export class ColorCardItemComponent implements OnInit {
   }
 
   auctionOverEvent() {
-    // TODO: Trigger reload to make sure auction was not extended
-    this.isOver = true
+    this.updateCardState()
+  }
+
+  private updateCardState() {
+    this.storeService.accountInfo$.pipe(first()).subscribe((accountInfo) => {
+      if (this.color) {
+        if (this.color.owner) {
+          this.state = 'owned'
+        }
+        if (isOwner(this.color, accountInfo)) {
+          this.state = 'own'
+        }
+        if (isActiveAuction(this.color)) {
+          this.state = 'auction'
+        }
+        if (isClaimable(this.color, accountInfo)) {
+          this.state = 'claim'
+        }
+      }
+    })
   }
 }
