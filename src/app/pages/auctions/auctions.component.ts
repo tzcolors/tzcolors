@@ -17,6 +17,8 @@ export class AuctionsComponent implements OnInit {
 
   constructor(private readonly storeService: StoreService) {
     this.storeService.setView('auctions')
+    this.storeService.setSortType('time')
+    this.storeService.setSortDirection('asc')
     this.colors$ = this.storeService.colors$
     this.colorsCount$ = this.storeService.colorsCount$
   }

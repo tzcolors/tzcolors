@@ -16,6 +16,8 @@ export class ExploreComponent implements OnInit {
 
   constructor(private readonly storeService: StoreService) {
     this.storeService.setView('explore')
+    this.storeService.setSortType('alphabetical')
+    this.storeService.setSortDirection('asc')
     this.colors$ = this.storeService.colors$
     this.colorsCount$ = this.storeService.colorsCount$
   }

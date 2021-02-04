@@ -5,19 +5,24 @@
         <div
           class="card--color__header card--color--type__standard card-color--type__standard d-flex justify-content-end align-items-end m-4"
           [ngStyle]="{ 'background-color': color.symbol }"
+          [ngClass]="{
+            'card--color--type__standard': color.category === 'standard',
+            'card--color--type__epic': color.category === 'epic',
+            'card--color--type__legendary': color.category === 'legendary'
+          }"
         >
           <div class="card--color--type__container m-2">
             <div
               class="card-color--type--symbol d-flex justify-content-center align-items-center"
             >
-              <p class="m-0">{{ color.category }}</p>
+              <p class="m-0">{{ color.category | slice: 0:1 | uppercase }}</p>
             </div>
           </div>
         </div>
         <div class="px-4">
           <h3 class="m-0">{{ color.name }}</h3>
           <p class="text-muted font-weight-light">
-            #{{ color.token_id }} • {{ categoryName }}
+            #{{ color.token_id }} • {{ color.category | titlecase }}
           </p>
         </div>
       </div>

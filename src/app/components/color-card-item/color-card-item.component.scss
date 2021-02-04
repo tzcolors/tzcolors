@@ -52,11 +52,5 @@
   }
   .card-color--type--symbol {
     height: inherit;
-    p {
-      width: 1ch;
-      overflow: hidden;
-      white-space: nowrap;
-      text-transform: uppercase;
-    }
   }
 }

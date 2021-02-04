@@ -1,5 +1,7 @@
-<h3 class="m-0 font-weight-light" *ngIf="timeDifference <= 0">Expired</h3>
-<ng-container *ngIf="timeDifference > 0">
+<h3 class="m-0 font-weight-light" *ngIf="timeDifference && timeDifference <= 0">
+  Expired
+</h3>
+<ng-container *ngIf="timeDifference && timeDifference > 0">
   <h3 class="m-0" *ngIf="!shortTimeFormat">
     <strong>
       <span> {{ daysToDday }}</span
