@@ -12,11 +12,17 @@
     </strong>
   </h3>
   <h3 class="m-0 font-weight-light" *ngIf="shortTimeFormat">
-    <ng-container *ngIf="daysToDday !== '00'">{{ daysToDday }}:</ng-container>
-    <ng-container *ngIf="hoursToDday !== '00'">{{ hoursToDday }}:</ng-container>
-    <ng-container *ngIf="minutesToDday !== '00'"
-      >{{ minutesToDday }}:</ng-container
+    <ng-container *ngIf="daysToDday > 0">
+      {{ daysToDday | number: '2.0' }}:</ng-container
     >
-    <ng-container>{{ secondsToDday }}</ng-container>
+    <ng-container *ngIf="hoursToDday > 0">
+      {{ hoursToDday | number: '2.0' }}:</ng-container
+    >
+    <ng-container *ngIf="minutesToDday > 0"
+      >{{ minutesToDday | number: '2.0' }}:</ng-container
+    >
+    <ng-container *ngIf="secondsToDday > 0">{{
+      secondsToDday | number: '2.0'
+    }}</ng-container>
   </h3>
 </ng-container>
