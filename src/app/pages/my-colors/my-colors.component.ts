@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Observable } from 'rxjs'
 import { StoreService, Color } from 'src/app/services/store/store.service'
-import { ColorCategory } from '../explore/explore.component'
 
 @Component({
   selector: 'app-my-colors',
@@ -14,7 +13,7 @@ export class MyColorsComponent implements OnInit {
 
   constructor(private readonly storeService: StoreService) {
     this.storeService.setView('my-colors')
-    this.storeService.setSortType('alphabetical')
+    this.storeService.setSortType('name')
     this.storeService.setSortDirection('asc')
     this.colors$ = this.storeService.colors$
     this.colorsCount$ = this.storeService.colorsCount$

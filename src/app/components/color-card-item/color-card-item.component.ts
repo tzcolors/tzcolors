@@ -14,7 +14,7 @@ import {
   StoreService,
 } from 'src/app/services/store/store.service'
 
-type ColorState = 'free' | 'auction' | 'claim' | 'owned' | 'own'
+type ColorState = 'loading' | 'free' | 'auction' | 'claim' | 'owned' | 'own'
 
 @Component({
   selector: 'app-color-card-item',
@@ -37,7 +37,7 @@ export class ColorCardItemComponent implements OnInit {
 
   isOver: boolean = false
 
-  state: ColorState = 'free'
+  state: ColorState = 'loading'
 
   constructor(
     private readonly modalService: BsModalService,
@@ -101,6 +101,7 @@ export class ColorCardItemComponent implements OnInit {
   private updateCardState() {
     this.storeService.accountInfo$.pipe(first()).subscribe((accountInfo) => {
       if (this.color) {
+        this.state = 'free'
         if (this.color.owner) {
           this.state = 'owned'
         }

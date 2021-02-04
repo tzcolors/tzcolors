@@ -81,7 +81,9 @@ export interface AuctionItem {
 
 export type ViewTypes = 'explore' | 'auctions' | 'my-colors'
 
-export type SortTypes = 'alphabetical' | 'price' | 'activity' | 'time'
+export type ColorCategory = 'all' | 'legendary' | 'epic' | 'standard'
+
+export type SortTypes = 'name' | 'price' | 'activity' | 'time'
 export type SortDirection = 'asc' | 'desc'
 
 export const isOwner = (color: Color, accountInfo?: AccountInfo) => {
@@ -115,6 +117,10 @@ export class StoreService {
   public colorsCount$: Observable<number>
   public accountInfo$: Observable<AccountInfo | undefined>
 
+  public sortType$: Observable<SortTypes>
+  public sortDirection$: Observable<SortDirection>
+  public category$: Observable<ColorCategory>
+
   private _colors$: ReplaySubject<Color[]> = new ReplaySubject(1)
 
   private _numberOfItems: BehaviorSubject<number> = new BehaviorSubject(12)
@@ -125,9 +131,9 @@ export class StoreService {
   private _sortDirection: BehaviorSubject<SortDirection> = new BehaviorSubject<SortDirection>(
     'desc'
   )
-  private _category: BehaviorSubject<string | undefined> = new BehaviorSubject<
-    string | undefined
-  >(undefined)
+  private _category: BehaviorSubject<ColorCategory> = new BehaviorSubject<ColorCategory>(
+    'all'
+  )
   private _view: BehaviorSubject<ViewTypes> = new BehaviorSubject<ViewTypes>(
     'explore'
   )
@@ -151,6 +157,7 @@ export class StoreService {
     private readonly http: HttpClient,
     private readonly store$: Store<State>
   ) {
+    console.error('CONSTRUCTOR')
     this.store$
       .select(
         (state) => (state as any).app.connectedWallet as AccountInfo | undefined
@@ -160,6 +167,9 @@ export class StoreService {
       }) // TODO: Refactor?
 
     this.accountInfo$ = this._accountInfo.asObservable()
+    this.sortType$ = this._sortType.asObservable()
+    this.sortDirection$ = this._sortDirection.asObservable()
+    this.category$ = this._category.asObservable()
 
     this._loading.subscribe(console.warn)
 
@@ -189,10 +199,12 @@ export class StoreService {
         tap((x) => console.log('accountInfo changed', x))
       ),
     ]).pipe(
-      distinctUntilChanged(),
+      debounceTime(50),
       tap(([colors, category, view, ownerInfo, auctionInfo, accountInfo]) => {
         console.log('running TAP')
+        //if (!this._loading.value) {
         this._loading.next(true)
+        //}
       }),
       map(([colors, category, view, ownerInfo, auctionInfo, accountInfo]) =>
         colors
@@ -212,15 +224,34 @@ export class StoreService {
                 isSeller(c, accountInfo)
               : true
           )
-          .filter((c) => !category || (category && c.category === category))
+          .filter((c) => category === 'all' || c.category === category)
       )
     )
+
+    temp$.subscribe((x) => console.warn('temp', x))
+
     let internalColors$ = combineLatest([
       temp$,
-      this._searchTerm,
-      this._sortType,
-      this._sortDirection,
+      this._searchTerm.pipe(
+        distinctUntilChanged(),
+        tap((x) => console.log('_searchTerm changed', x))
+      ),
+      this._sortType.pipe(
+        distinctUntilChanged((prev, curr) => prev === curr),
+        tap((x) => console.log('_sortType changed', x))
+      ),
+      this._sortDirection.pipe(
+        tap((x) => console.log('_sortDirection changed before debounce', x)),
+        debounceTime(50),
+        tap((x) => console.log('_sortDirection changed before', x)),
+        distinctUntilChanged((prev, curr) => {
+          console.log('comparing prev, curr', prev, curr)
+          return prev === curr
+        }),
+        tap((x) => console.log('_sortDirection changed after', x))
+      ),
     ]).pipe(
+      debounceTime(50),
       map(([colors, searchTerm, sortType, sortDirection]) =>
         colors
           .filter((c) =>
@@ -258,6 +289,9 @@ export class StoreService {
       ),
       tap(() => this._loading.next(false))
     )
+
+    internalColors$.subscribe((x) => console.warn('internalColors', x))
+
     this.colorsCount$ = internalColors$.pipe(map((colors) => colors.length))
     this.colors$ = combineLatest([internalColors$, this._numberOfItems]).pipe(
       map(([colors, numberOfItems]) => colors.slice(0, numberOfItems))
@@ -274,11 +308,11 @@ export class StoreService {
     this._view.next(view)
   }
   resetFilters() {
-    this._category.next(undefined)
+    this._category.next('all')
     this._searchTerm.next('')
     this._numberOfItems.next(12)
   }
-  setCategory(category: string | undefined) {
+  setCategory(category: ColorCategory) {
     this._category.next(category)
   }
   setFilter() {}

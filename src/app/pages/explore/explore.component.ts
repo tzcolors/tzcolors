@@ -3,8 +3,6 @@ import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { Color, StoreService } from 'src/app/services/store/store.service'
 
-export type ColorCategory = 'legendary' | 'epic' | 'standard'
-
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
@@ -16,7 +14,7 @@ export class ExploreComponent implements OnInit {
 
   constructor(private readonly storeService: StoreService) {
     this.storeService.setView('explore')
-    this.storeService.setSortType('alphabetical')
+    this.storeService.setSortType('name')
     this.storeService.setSortDirection('asc')
     this.colors$ = this.storeService.colors$
     this.colorsCount$ = this.storeService.colorsCount$

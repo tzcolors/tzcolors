@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { ColorCategory } from 'src/app/pages/explore/explore.component'
 import {
-  AuctionItem,
   Color,
+  ColorCategory,
   SortDirection,
   SortTypes,
   StoreService,
@@ -23,10 +22,12 @@ export class ColorCardListComponent implements OnInit {
   public title: string = 'Colors'
 
   @Input()
+  public emptyText: string = 'There is nothing here yet!'
+
+  @Input()
   public count$: Observable<number> = new Observable()
 
   searchString: string = ''
-  category: ColorCategory = 'epic'
 
   itemsPerPage: number = 24
   numberOfItems: number = 12
@@ -35,8 +36,15 @@ export class ColorCardListComponent implements OnInit {
     true
   ).asObservable()
 
+  sortType$: Observable<SortTypes>
+  sortDirection$: Observable<SortDirection>
+  category$: Observable<ColorCategory>
+
   constructor(private readonly storeService: StoreService) {
     this.storeService.setNumberOfItems(this.numberOfItems)
+    this.sortType$ = this.storeService.sortType$
+    this.sortDirection$ = this.storeService.sortDirection$
+    this.category$ = this.storeService.category$
   }
 
   ngOnInit(): void {
@@ -45,16 +53,23 @@ export class ColorCardListComponent implements OnInit {
     )
   }
 
-  setCategory(category: ColorCategory): void {
-    this.category = category
-    this.storeService.setCategory(this.category)
+  setCategory(oldCategory: ColorCategory, category: ColorCategory): void {
+    if (oldCategory === category) {
+      this.storeService.setCategory('all')
+    } else {
+      this.storeService.setCategory(category)
+    }
   }
 
   sortType(type: SortTypes) {
     this.storeService.setSortType(type)
   }
-  sortDirection(direction: SortDirection) {
-    this.storeService.setSortDirection(direction)
+  sortDirection(oldDirection: SortDirection, newDirection: SortDirection) {
+    if (oldDirection === 'asc') {
+      this.storeService.setSortDirection('desc')
+    } else {
+      this.storeService.setSortDirection('asc')
+    }
   }
 
   clearFilters(): void {
