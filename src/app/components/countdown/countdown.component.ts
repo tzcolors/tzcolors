@@ -24,11 +24,11 @@ export class CountdownComponent implements OnInit, OnDestroy {
   minutesInAnHour = 60
   SecondsInAMinute = 60
 
-  public timeDifference: number | undefined
-  public secondsToDday: string | undefined
-  public minutesToDday: string | undefined
-  public hoursToDday: string | undefined
-  public daysToDday: string | undefined
+  public timeDifference: number = 0
+  public secondsToDday: number = 0
+  public minutesToDday: number = 0
+  public hoursToDday: number = 0
+  public daysToDday: number = 0
 
   constructor() {}
 
@@ -52,14 +52,12 @@ export class CountdownComponent implements OnInit, OnDestroy {
     this.secondsToDday = Math.floor(
       (timeDifference / this.milliSecondsInASecond) % this.SecondsInAMinute
     )
-      .toString(10)
-      .padStart(2, '0')
+
     this.minutesToDday = Math.floor(
       (timeDifference / (this.milliSecondsInASecond * this.minutesInAnHour)) %
         this.SecondsInAMinute
     )
-      .toString(10)
-      .padStart(2, '0')
+
     this.hoursToDday = Math.floor(
       (timeDifference /
         (this.milliSecondsInASecond *
@@ -67,8 +65,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
           this.SecondsInAMinute)) %
         this.hoursInADay
     )
-      .toString(10)
-      .padStart(2, '0')
+
     this.daysToDday = Math.floor(
       timeDifference /
         (this.milliSecondsInASecond *
@@ -76,8 +73,6 @@ export class CountdownComponent implements OnInit, OnDestroy {
           this.SecondsInAMinute *
           this.hoursInADay)
     )
-      .toString(10)
-      .padStart(2, '0')
   }
 
   ngOnInit(): void {
