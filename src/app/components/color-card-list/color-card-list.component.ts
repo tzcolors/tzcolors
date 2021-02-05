@@ -40,11 +40,14 @@ export class ColorCardListComponent implements OnInit {
   sortDirection$: Observable<SortDirection>
   category$: Observable<ColorCategory>
 
+  loading$: Observable<boolean>
+
   constructor(private readonly storeService: StoreService) {
     this.storeService.setNumberOfItems(this.numberOfItems)
     this.sortType$ = this.storeService.sortType$
     this.sortDirection$ = this.storeService.sortDirection$
     this.category$ = this.storeService.category$
+    this.loading$ = this.storeService.loading$
   }
 
   ngOnInit(): void {

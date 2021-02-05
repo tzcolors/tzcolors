@@ -14,10 +14,10 @@ import { Store } from '@ngrx/store'
 import { State } from 'src/app/app.reducer'
 import { environment } from 'src/environments/environment'
 import {
-  auditTime,
   debounceTime,
   distinctUntilChanged,
   map,
+  shareReplay,
   tap,
 } from 'rxjs/operators'
 import { AccountInfo } from '@airgap/beacon-sdk'
@@ -121,6 +121,8 @@ export class StoreService {
   public sortDirection$: Observable<SortDirection>
   public category$: Observable<ColorCategory>
 
+  public loading$: Observable<boolean>
+
   private _colors$: ReplaySubject<Color[]> = new ReplaySubject(1)
 
   private _numberOfItems: BehaviorSubject<number> = new BehaviorSubject(12)
@@ -157,7 +159,6 @@ export class StoreService {
     private readonly http: HttpClient,
     private readonly store$: Store<State>
   ) {
-    console.error('CONSTRUCTOR')
     this.store$
       .select(
         (state) => (state as any).app.connectedWallet as AccountInfo | undefined
@@ -170,10 +171,9 @@ export class StoreService {
     this.sortType$ = this._sortType.asObservable()
     this.sortDirection$ = this._sortDirection.asObservable()
     this.category$ = this._category.asObservable()
+    this.loading$ = this._loading.asObservable()
 
-    this._loading.subscribe(console.warn)
-
-    let temp$ = combineLatest([
+    let internalColors$ = combineLatest([
       this._colors$.pipe(
         distinctUntilChanged(),
         tap((x) => console.log('colors changed', x))
@@ -198,103 +198,108 @@ export class StoreService {
         distinctUntilChanged(),
         tap((x) => console.log('accountInfo changed', x))
       ),
-    ]).pipe(
-      debounceTime(50),
-      tap(([colors, category, view, ownerInfo, auctionInfo, accountInfo]) => {
-        console.log('running TAP')
-        //if (!this._loading.value) {
-        this._loading.next(true)
-        //}
-      }),
-      map(([colors, category, view, ownerInfo, auctionInfo, accountInfo]) =>
-        colors
-          .map((c) => ({
-            ...c,
-            auction: auctionInfo.get(c.token_id),
-            owner: ownerInfo.get(c.token_id),
-          }))
-          .filter((c) =>
-            view === 'explore'
-              ? true
-              : view === 'auctions'
-              ? isActiveAuction(c)
-              : view === 'my-colors'
-              ? isOwner(c, accountInfo) ||
-                isClaimable(c, accountInfo) ||
-                isSeller(c, accountInfo)
-              : true
-          )
-          .filter((c) => category === 'all' || c.category === category)
-      )
-    )
-
-    temp$.subscribe((x) => console.warn('temp', x))
-
-    let internalColors$ = combineLatest([
-      temp$,
       this._searchTerm.pipe(
         distinctUntilChanged(),
         tap((x) => console.log('_searchTerm changed', x))
       ),
       this._sortType.pipe(
-        distinctUntilChanged((prev, curr) => prev === curr),
+        distinctUntilChanged(),
         tap((x) => console.log('_sortType changed', x))
       ),
       this._sortDirection.pipe(
-        tap((x) => console.log('_sortDirection changed before debounce', x)),
-        debounceTime(50),
-        tap((x) => console.log('_sortDirection changed before', x)),
-        distinctUntilChanged((prev, curr) => {
-          console.log('comparing prev, curr', prev, curr)
-          return prev === curr
-        }),
-        tap((x) => console.log('_sortDirection changed after', x))
+        distinctUntilChanged(),
+        tap((x) => console.log('_sortDirection changed', x))
       ),
     ]).pipe(
-      debounceTime(50),
-      map(([colors, searchTerm, sortType, sortDirection]) =>
-        colors
-          .filter((c) =>
-            c.name.toLowerCase().startsWith(searchTerm.toLowerCase())
-          )
-          .sort((a_, b_) => {
-            const { a, b } =
-              sortDirection === 'asc' ? { a: a_, b: b_ } : { a: b_, b: a_ }
+      map((x) => x as any), // TODO: Fix typing?
+      tap(() => {
+        this._loading.next(true)
+      }),
+      debounceTime(10),
+      map(
+        ([
+          colors,
+          category,
+          view,
+          ownerInfo,
+          auctionInfo,
+          accountInfo,
+          searchTerm,
+          sortType,
+          sortDirection,
+        ]: [
+          Color[],
+          ColorCategory,
+          ViewTypes,
+          Map<number, string>,
+          Map<number, AuctionItem>,
+          AccountInfo | undefined,
+          string,
+          SortTypes,
+          SortDirection
+        ]) =>
+          colors
+            .map((c) => ({
+              ...c,
+              auction: auctionInfo.get(c.token_id),
+              owner: ownerInfo.get(c.token_id),
+            }))
+            .filter((c) =>
+              view === 'explore'
+                ? true
+                : view === 'auctions'
+                ? isActiveAuction(c)
+                : view === 'my-colors'
+                ? isOwner(c, accountInfo) ||
+                  isClaimable(c, accountInfo) ||
+                  isSeller(c, accountInfo)
+                : true
+            )
+            .filter((c) => category === 'all' || c.category === category)
+            .filter((c) =>
+              c.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+            )
+            .sort((a_, b_) => {
+              const { a, b } =
+                sortDirection === 'asc' ? { a: a_, b: b_ } : { a: b_, b: a_ }
 
-            const aAuction = a.auction
-            const bAuction = b.auction
+              const aAuction = a.auction
+              const bAuction = b.auction
 
-            if (sortType === 'time') {
-              if (aAuction && bAuction) {
-                return (
-                  (aAuction.endTimestamp?.getTime() ?? 0) -
-                  (bAuction.endTimestamp?.getTime() ?? 0)
-                )
-              } else {
-                return -1
+              if (sortType === 'time') {
+                if (aAuction && bAuction) {
+                  return (
+                    (aAuction.endTimestamp?.getTime() ?? 0) -
+                    (bAuction.endTimestamp?.getTime() ?? 0)
+                  )
+                } else {
+                  return -1
+                }
+              } else if (sortType === 'price') {
+                if (aAuction && bAuction) {
+                  return (
+                    (Number(aAuction.bidAmount) ?? 0) -
+                    (Number(bAuction.bidAmount) ?? 0)
+                  )
+                } else {
+                  return -1
+                }
               }
-            } else if (sortType === 'price') {
-              if (aAuction && bAuction) {
-                return (
-                  (Number(aAuction.bidAmount) ?? 0) -
-                  (Number(bAuction.bidAmount) ?? 0)
-                )
-              } else {
-                return -1
-              }
-            }
 
-            return a.name.localeCompare(b.name)
-          })
+              return a.name.localeCompare(b.name)
+            })
       ),
-      tap(() => this._loading.next(false))
+      shareReplay(1)
     )
 
-    internalColors$.subscribe((x) => console.warn('internalColors', x))
-
-    this.colorsCount$ = internalColors$.pipe(map((colors) => colors.length))
+    this.colorsCount$ = internalColors$.pipe(
+      map((colors) => colors.length),
+      shareReplay(1)
+    )
     this.colors$ = combineLatest([internalColors$, this._numberOfItems]).pipe(
-      map(([colors, numberOfItems]) => colors.slice(0, numberOfItems))
+      map(([colors, numberOfItems]) => colors.slice(0, numberOfItems)),
+      tap(() => this._loading.next(false)),
+      shareReplay(1)
     )
 
     this._colors$.next(colorsFromStorage)
