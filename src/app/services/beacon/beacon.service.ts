@@ -53,6 +53,17 @@ export class BeaconService {
     }
   }
 
+  async openAccountLink(): Promise<void> {
+    const activeAccount = await this.wallet.client.getActiveAccount()
+    if (activeAccount) {
+      const link = await this.wallet.client.blockExplorer.getAddressLink(
+        activeAccount.address,
+        activeAccount.network
+      )
+      window.open(link, '_blank')
+    }
+  }
+
   async requestPermission(): Promise<AccountInfo | undefined> {
     await this.wallet.requestPermissions({ network: this.network })
     return this.wallet.client.getActiveAccount()
