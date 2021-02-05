@@ -98,6 +98,12 @@ $link-hover-decoration: none;
   }
 }
 
+.btn {
+  fa-icon {
+    margin-right: 0.75em;
+  }
+}
+
 @import '../node_modules/bootstrap/scss/bootstrap';
 
 /* Importing Bootstrap SCSS file. */
