@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AlertModule } from 'ngx-bootstrap/alert'
 import { AccordionModule } from 'ngx-bootstrap/accordion'
 import { CollapseModule } from 'ngx-bootstrap/collapse'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 import { HeaderItemComponent } from './components/header-item/header-item.component'
 import { LandingComponent } from './pages/landing/landing.component'
@@ -54,6 +55,7 @@ import { ColorCardListComponent } from './components/color-card-list/color-card-
     BrowserAnimationsModule,
     HttpClientModule,
     BsDropdownModule.forRoot(),
+    FontAwesomeModule,
     AlertModule.forRoot(),
     ModalModule.forRoot(),
     AccordionModule.forRoot(),

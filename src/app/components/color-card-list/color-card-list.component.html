@@ -12,7 +12,7 @@
           (click)="setCategory(category, 'all')"
           type="button"
           class="btn btn-sm mr-3"
-          [ngClass]="category === 'all' ? 'btn-secondary' : 'btn-light'"
+          [ngClass]="category === 'all' ? 'btn-dark' : 'btn-light'"
         >
           All
         </button>
@@ -20,7 +20,7 @@
           (click)="setCategory(category, 'standard')"
           type="button"
           class="btn btn-sm mr-3"
-          [ngClass]="category === 'standard' ? 'btn-secondary' : 'btn-light'"
+          [ngClass]="category === 'standard' ? 'btn-dark' : 'btn-light'"
         >
           Standard
         </button>
@@ -28,7 +28,7 @@
           (click)="setCategory(category, 'epic')"
           type="button"
           class="btn btn-sm mr-3"
-          [ngClass]="category === 'epic' ? 'btn-secondary' : 'btn-light'"
+          [ngClass]="category === 'epic' ? 'btn-dark' : 'btn-light'"
         >
           Epic
         </button>
@@ -36,7 +36,7 @@
           (click)="setCategory(category, 'legendary')"
           type="button"
           class="btn btn-sm mr-3"
-          [ngClass]="category === 'legendary' ? 'btn-secondary' : 'btn-light'"
+          [ngClass]="category === 'legendary' ? 'btn-dark' : 'btn-light'"
         >
           Legendary
         </button>
@@ -65,46 +65,52 @@
           (click)="[sortType('name'), sortDirection(sortingDirection, 'asc')]"
           type="button"
           class="btn btn-sm mr-3"
-          [ngClass]="sortingType === 'name' ? 'btn-secondary' : 'btn-light'"
+          [ngClass]="sortingType === 'name' ? 'btn-dark' : 'btn-light'"
         >
-          Name
-          {{
-            sortingType === 'name'
-              ? sortingDirection === 'asc'
-                ? '(up)'
-                : '(down)'
-              : ''
-          }}
+          <fa-icon
+            [icon]="faSortAlphaDown"
+            *ngIf="sortingType === 'name' && sortingDirection === 'asc'"
+          ></fa-icon>
+
+          <fa-icon
+            [icon]="faSortAlphaUp"
+            *ngIf="sortingType === 'name' && sortingDirection === 'desc'"
+          ></fa-icon>
+          <span>Name</span>
         </button>
         <button
           (click)="[sortType('price'), sortDirection(sortingDirection, 'desc')]"
           type="button"
           class="btn btn-sm mr-3"
-          [ngClass]="sortingType === 'price' ? 'btn-secondary' : 'btn-light'"
+          [ngClass]="sortingType === 'price' ? 'btn-dark' : 'btn-light'"
         >
-          Price
-          {{
-            sortingType === 'price'
-              ? sortingDirection === 'asc'
-                ? '(up)'
-                : '(down)'
-              : ''
-          }}
+          <fa-icon
+            [icon]="faSortAmountUp"
+            *ngIf="sortingType === 'price' && sortingDirection === 'asc'"
+          ></fa-icon>
+
+          <fa-icon
+            [icon]="faSortAmountDown"
+            *ngIf="sortingType === 'price' && sortingDirection === 'desc'"
+          ></fa-icon>
+          <span>Price</span>
         </button>
         <button
           (click)="[sortType('time'), sortDirection(sortingDirection, 'asc')]"
           type="button"
           class="btn btn-sm mr-3"
-          [ngClass]="sortingType === 'time' ? 'btn-secondary' : 'btn-light'"
+          [ngClass]="sortingType === 'time' ? 'btn-dark' : 'btn-light'"
         >
-          Time
-          {{
-            sortingType === 'time'
-              ? sortingDirection === 'asc'
-                ? '(up)'
-                : '(down)'
-              : ''
-          }}
+          <fa-icon
+            [icon]="faSortAmountUp"
+            *ngIf="sortingType === 'time' && sortingDirection === 'asc'"
+          ></fa-icon>
+
+          <fa-icon
+            [icon]="faSortAmountDown"
+            *ngIf="sortingType === 'time' && sortingDirection === 'desc'"
+          ></fa-icon>
+          <span>Time</span>
         </button>
         <button
           (click)="clearFilters()"
