@@ -36,10 +36,13 @@
               <label>Minimum Price</label>
               <div class="input-group mb-3">
                 <input
-                  type="text"
+                  type="number"
+                  [(ngModel)]="bidAmount"
                   class="form-control"
                   placeholder="1"
                   aria-label="minimum price"
+                  step="0.1"
+                  min="0.1"
                 />
                 <div class="input-group-append">
                   <span class="input-group-text">tez</span>
@@ -48,10 +51,13 @@
               <label>Auction Duration</label>
               <div class="input-group mb-3">
                 <input
-                  type="text"
+                  type="number"
+                  [(ngModel)]="durationHours"
                   class="form-control"
                   placeholder="1"
                   aria-label="auction duration"
+                  step="1"
+                  min="1"
                 />
                 <div class="input-group-append">
                   <span class="input-group-text">hrs</span>

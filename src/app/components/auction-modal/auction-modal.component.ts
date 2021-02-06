@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { BsModalRef } from 'ngx-bootstrap/modal'
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { BeaconService } from 'src/app/services/beacon/beacon.service'
 import { Color } from 'src/app/services/store/store.service'
 
@@ -12,8 +12,12 @@ export class AuctionModalComponent implements OnInit {
   color: Color | undefined
   categoryName: string = 'category'
 
+  bidAmount: string = '0.1'
+  durationHours: string = '24'
+
   constructor(
     public bsModalRef: BsModalRef,
+    public modalService: BsModalService,
     private readonly beaconService: BeaconService
   ) {}
 
@@ -21,7 +25,12 @@ export class AuctionModalComponent implements OnInit {
 
   createAuction() {
     if (this.color) {
-      this.beaconService.createAuction(this.color.token_id, '100000', '5')
+      this.beaconService.createAuction(
+        this.color.token_id,
+        this.bidAmount,
+        this.durationHours
+      )
+      this.modalService.hide()
     }
   }
 }

@@ -180,7 +180,7 @@ export class StoreService {
 
     let internalColors$ = combineLatest([
       this._colors$.pipe(
-        distinctUntilChanged(),
+        // distinctUntilChanged(),
         tap((x) => console.log('colors changed', x))
       ),
       this._category.pipe(
@@ -364,18 +364,16 @@ export class StoreService {
     data
       .filter((d) => d.data.value !== null)
       .forEach((d) => {
-        const splits = d.data.key_string.split(' ')
         ownerInfo.set(
-          Number(splits[1]),
-          MichelsonCodec.addressDecoder(
-            Uint8ArrayConsumer.fromHexString(splits[2].slice(2))
-          )
+          Number(d.data.key.children[0].value),
+          d.data.key.children[1].value
         )
       })
 
     if (!deepEqual(this._ownerInfo.value, ownerInfo)) {
       console.log('Owners: Not equal, updating')
       this._ownerInfo.next(ownerInfo)
+      this._colorStates.next(new Map())
     } else {
       console.log('Owners: responses are equal')
     }
@@ -418,13 +416,22 @@ export class StoreService {
       auctionInfo.set(tokenId, auctionItem)
     })
 
+    // TODO: This will only update the "loading" state if the color was actually affected by the update
+    // const currentAuction = this._auctionInfo.value
+    // for (const key of currentAuction.keys()) {
+    //   console.log('KEY,', key)
+    //   if (deepEqual(currentAuction.get(key), auctionInfo.get(key))) {
+    //     continue
+    //   } else {
+    //     console.log(`TOKEN "${key}" WAS UPDATED`)
+    //     this.setColorLoadingState(key, false)
+    //   }
+    // }
+
     if (!deepEqual(this._auctionInfo.value, auctionInfo)) {
-      console.log(
-        'Auctions: Not equal, updating',
-        this._auctionInfo.value,
-        auctionInfo
-      )
+      console.log('Auctions: Not equal, updating')
       this._auctionInfo.next(auctionInfo)
+      this._colorStates.next(new Map())
     } else {
       console.log('Auctions: responses are equal')
     }
@@ -439,8 +446,16 @@ export class StoreService {
   }
 
   private getDate(value: string): Date {
+    let date = new Date(value)
+    if (!isNaN(date.getTime())) {
+      return date
+    }
     if (value.includes(' ')) {
-      return new Date(value.slice(0, 19).replace(' ', 'T'))
+      // TODO: WTF Safari???
+      return new Date(
+        new Date(value.slice(0, 19).replace(' ', 'T')).getTime() +
+          1000 * 60 * 60
+      )
     } else {
       return new Date(value)
     }

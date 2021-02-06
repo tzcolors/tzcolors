@@ -5,23 +5,15 @@ import {
   Network,
   NetworkType,
   OperationResponseOutput,
-  PermissionScope,
   RequestOperationInput,
   SignPayloadResponseOutput,
   TezosOperationType,
 } from '@airgap/beacon-sdk'
 import { TezosToolkit } from '@taquito/taquito'
-import { Observable, of } from 'rxjs'
 import BigNumber from 'bignumber.js'
 import { BeaconWallet } from '@taquito/beacon-wallet'
-import { Store } from '@ngrx/store'
-import * as fromRoot from '../../app.reducer'
-import * as actions from '../../connect-wallet.actions'
-import { HttpClient } from '@angular/common/http'
-const MichelsonCodec = require('@taquito/local-forging/dist/lib/codec')
-const Codec = require('@taquito/local-forging/dist/lib/codec')
-import { Uint8ArrayConsumer } from '@taquito/local-forging'
 import { environment } from 'src/environments/environment'
+import { StoreService } from '../store/store.service'
 
 const tezos = new TezosToolkit(environment.rpcUrl)
 
@@ -32,7 +24,7 @@ export class BeaconService {
   public wallet: BeaconWallet
   public network: Network = { type: NetworkType.DELPHINET }
 
-  constructor() {
+  constructor(private readonly storeService: StoreService) {
     this.wallet = new BeaconWallet({ name: environment.appName })
     this.wallet.client.subscribeToEvent(
       BeaconEvent.ACTIVE_ACCOUNT_SET,
@@ -81,7 +73,13 @@ export class BeaconService {
     return this.wallet.client.requestOperation(input)
   }
 
-  async bid(auctionId: number, bidAmount: string): Promise<void> {
+  async bid(
+    auctionId: number,
+    tokenId: number,
+    bidAmount: string
+  ): Promise<void> {
+    this.storeService.setColorLoadingState(tokenId, true)
+
     const contractInstance = await tezos.wallet.at(
       environment.tzColorsAuctionContract
     )
@@ -102,7 +100,9 @@ export class BeaconService {
     console.log(res)
   }
 
-  async claim(auctionId: number): Promise<void> {
+  async claim(auctionId: number, tokenId: number): Promise<void> {
+    this.storeService.setColorLoadingState(tokenId, true)
+
     const contractInstance = await tezos.wallet.at(
       environment.tzColorsAuctionContract
     )
@@ -113,6 +113,8 @@ export class BeaconService {
   }
 
   async createInitialAuction(tokenId: number): Promise<void> {
+    this.storeService.setColorLoadingState(tokenId, true)
+
     const assetContract = await tezos.wallet.at(environment.tzColorsContract)
     const auctionContract = await tezos.wallet.at(
       environment.tzColorsAuctionContract
@@ -150,10 +152,24 @@ export class BeaconService {
   async createAuction(
     tokenId: number,
     startAmount: string,
-    duration: string
+    durationHours: string
   ): Promise<void> {
+    this.storeService.setColorLoadingState(tokenId, true)
+
+    const amount = new BigNumber(startAmount).shiftedBy(6)
+    if (!startAmount || !amount.modulo(100_000).isEqualTo(0)) {
+      throw new Error(`Invalid "start amount" ${startAmount}`)
+    }
+    if (!durationHours || new BigNumber(durationHours).isLessThan(1)) {
+      throw new Error(`Invalid "duration" ${durationHours}`)
+    }
+
+    const durationInSeconds = new BigNumber(durationHours)
+      .times(60)
+      .times(60)
+      .times(1000)
+
     const contractInstance = await tezos.wallet.at(environment.tzColorsContract)
-    console.log(contractInstance)
 
     const updateOperatorsResult = await contractInstance.methods
       .update_operators([
@@ -176,8 +192,8 @@ export class BeaconService {
     const createAuctionResult = await auctionContract.methods
       .create_auction(
         randomNumber, // auction_id
-        startAmount, // bid_amount
-        new Date(new Date().getTime() + 1000000), // end_timestamp (this is about 15 minutes)
+        amount.toString(), // bid_amount
+        new Date(new Date().getTime() + durationInSeconds.toNumber()), // end_timestamp (this is about 15 minutes)
         environment.tzColorsContract, // token_address
         1, // token_amount (always 1)
         tokenId // token_id

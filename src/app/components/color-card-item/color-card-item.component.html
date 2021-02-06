@@ -91,15 +91,16 @@
         <div class="p-4 mx-4 pt-5">
           <div class="input-group">
             <input
-              type="text"
+              type="number"
               class="form-control"
               [(ngModel)]="bidAmount"
-              [placeholder]="color.auction?.bidAmount"
               aria-label="Amount"
+              step="0.1"
+              [min]="minBidAmount"
             />
             <span class="input-group-prepend">
               <button (click)="bid()" type="button" class="btn btn-light">
-                Bid
+                {{ color.loading ? 'loading...' : 'Bid' }}
               </button>
             </span>
           </div>
@@ -112,7 +113,7 @@
             type="button"
             class="btn btn-block btn-light"
           >
-            {{ color.loading ? 'loading' : 'Claim' }}
+            {{ color.loading ? 'loading...' : 'Claim' }}
           </button>
         </div>
       </ng-container>
@@ -123,7 +124,7 @@
             type="button"
             class="btn btn-block btn-light"
           >
-            Create Auction
+            {{ color.loading ? 'loading...' : 'Create Auction' }}
           </button>
         </div>
       </ng-container>
@@ -135,7 +136,13 @@
             type="button"
             class="btn btn-block btn-light"
           >
-            {{ state }} Start Auction - <strong>0.2 tez</strong>
+            <span
+              [innerHtml]="
+                color.loading
+                  ? 'loading...'
+                  : 'Start Auction - <strong>0.2 tez</strong>'
+              "
+            ></span>
           </button>
         </div>
       </ng-container>

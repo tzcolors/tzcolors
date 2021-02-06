@@ -32,6 +32,7 @@ export class ColorCardItemComponent implements OnInit {
   isAuction: boolean = false
 
   bidAmount: string | undefined
+  minBidAmount: string | undefined
 
   categoryName: 'legendary' | 'epic' | 'Standard' = 'Standard'
 
@@ -58,6 +59,8 @@ export class ColorCardItemComponent implements OnInit {
         .plus(100_000)
         .shiftedBy(-6)
         .toString()
+
+      this.minBidAmount = this.bidAmount
     }
 
     this.updateCardState()
@@ -75,25 +78,43 @@ export class ColorCardItemComponent implements OnInit {
     })
   }
 
-  bid() {
-    if (this.color && this.color.auction && this.bidAmount) {
+  async bid() {
+    if (
+      this.color &&
+      !this.color.loading &&
+      this.color.auction &&
+      this.bidAmount
+    ) {
       const bidAmount = new BigNumber(this.bidAmount).shiftedBy(6).toString()
-      this.beaconService.bid(this.color.auction.auctionId, bidAmount)
+      await this.beaconService.bid(
+        this.color.auction.auctionId,
+        this.color.token_id,
+        bidAmount
+      )
+      console.log('Bidding done')
+    } else {
+      console.log('Bidding already in progress')
     }
   }
 
-  claim() {
+  async claim() {
     if (this.color && !this.color.loading && this.color.auction) {
-      this.beaconService.claim(this.color.auction.auctionId)
-      this.storeService.setColorLoadingState(this.color.token_id, true)
+      await this.beaconService.claim(
+        this.color.auction.auctionId,
+        this.color.token_id
+      )
+      console.log('Claiming done')
     } else {
       console.log('Claiming already in progress')
     }
   }
 
-  createInitialAuction() {
-    if (this.color) {
-      this.beaconService.createInitialAuction(this.color.token_id)
+  async createInitialAuction() {
+    if (this.color && !this.color.loading) {
+      await this.beaconService.createInitialAuction(this.color.token_id)
+      console.log('Creating auction done')
+    } else {
+      console.log('Creating auction already in progress')
     }
   }
 
