@@ -112,7 +112,7 @@
             type="button"
             class="btn btn-block btn-light"
           >
-            Claim
+            {{ color.loading ? 'loading' : 'Claim' }}
           </button>
         </div>
       </ng-container>
@@ -135,7 +135,7 @@
             type="button"
             class="btn btn-block btn-light"
           >
-            Start Auction - <strong>0.2 tez</strong>
+            {{ state }} Start Auction - <strong>0.2 tez</strong>
           </button>
         </div>
       </ng-container>

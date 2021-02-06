@@ -21,6 +21,7 @@ import {
   tap,
 } from 'rxjs/operators'
 import { AccountInfo } from '@airgap/beacon-sdk'
+var deepEqual = require('fast-deep-equal/es6')
 
 const colorsFromStorage: Color[] = require('../../../assets/colors.json')
 
@@ -32,6 +33,7 @@ export interface Color {
   category: string
   auction: AuctionItem | undefined
   owner: string | undefined
+  loading: boolean
 }
 
 export interface Child {
@@ -146,6 +148,9 @@ export class StoreService {
   private _auctionInfo: BehaviorSubject<
     Map<number, AuctionItem>
   > = new BehaviorSubject(new Map())
+  private _colorStates: BehaviorSubject<
+    Map<number, boolean>
+  > = new BehaviorSubject(new Map())
 
   private _accountInfo: BehaviorSubject<
     AccountInfo | undefined
@@ -187,12 +192,16 @@ export class StoreService {
         tap((x) => console.log('view changed', x))
       ),
       this._ownerInfo.pipe(
-        distinctUntilChanged(),
+        // distinctUntilChanged(),
         tap((x) => console.log('ownerInfo changed', x))
       ),
       this._auctionInfo.pipe(
-        distinctUntilChanged(),
+        // distinctUntilChanged(),
         tap((x) => console.log('auctionInfo changed', x))
+      ),
+      this._colorStates.pipe(
+        // distinctUntilChanged(),
+        tap((x) => console.log('colorStates changed', x))
       ),
       this._accountInfo.pipe(
         distinctUntilChanged(),
@@ -223,6 +232,7 @@ export class StoreService {
           view,
           ownerInfo,
           auctionInfo,
+          colorStates,
           accountInfo,
           searchTerm,
           sortType,
@@ -233,6 +243,7 @@ export class StoreService {
           ViewTypes,
           Map<number, string>,
           Map<number, AuctionItem>,
+          Map<number, boolean>,
           AccountInfo | undefined,
           string,
           SortTypes,
@@ -243,6 +254,7 @@ export class StoreService {
               ...c,
               auction: auctionInfo.get(c.token_id),
               owner: ownerInfo.get(c.token_id),
+              loading: colorStates.get(c.token_id) ?? false,
             }))
             .filter((c) =>
               view === 'explore'
@@ -334,6 +346,11 @@ export class StoreService {
   setNumberOfItems(numberOfItems: number) {
     this._numberOfItems.next(numberOfItems)
   }
+  setColorLoadingState(tokenId: number, loading: boolean) {
+    const map = this._colorStates.value
+    map.set(tokenId, loading)
+    this._colorStates.next(map)
+  }
 
   async getColorOwners() {
     const data = await this.http
@@ -356,10 +373,11 @@ export class StoreService {
         )
       })
 
-    // TODO: Deep equal
-    if (this._ownerInfo.value.size !== ownerInfo.size) {
-      console.log('Owners: Size is not equal, updating')
+    if (!deepEqual(this._ownerInfo.value, ownerInfo)) {
+      console.log('Owners: Not equal, updating')
       this._ownerInfo.next(ownerInfo)
+    } else {
+      console.log('Owners: responses are equal')
     }
   }
 
@@ -381,7 +399,7 @@ export class StoreService {
       const tokenAddress = value.children[0].value
       const tokenId = Number(value.children[1].value)
       const tokenAmount = Number(value.children[2].value)
-      const endTimestamp = new Date(value.children[3].value)
+      const endTimestamp = this.getDate(value.children[3].value)
       const seller = value.children[4].value
       const bidAmount = value.children[5].value
       const bidder = value.children[6].value
@@ -400,10 +418,15 @@ export class StoreService {
       auctionInfo.set(tokenId, auctionItem)
     })
 
-    // TODO: Deep equal
-    if (this._auctionInfo.value.size !== auctionInfo.size) {
-      console.log('Auctions: Size is not equal, updating')
+    if (!deepEqual(this._auctionInfo.value, auctionInfo)) {
+      console.log(
+        'Auctions: Not equal, updating',
+        this._auctionInfo.value,
+        auctionInfo
+      )
       this._auctionInfo.next(auctionInfo)
+    } else {
+      console.log('Auctions: responses are equal')
     }
   }
 
@@ -413,5 +436,13 @@ export class StoreService {
       this.getColorOwners()
       this.getAuctions()
     })
+  }
+
+  private getDate(value: string): Date {
+    if (value.includes(' ')) {
+      return new Date(value.slice(0, 19).replace(' ', 'T'))
+    } else {
+      return new Date(value)
+    }
   }
 }

@@ -83,8 +83,11 @@ export class ColorCardItemComponent implements OnInit {
   }
 
   claim() {
-    if (this.color && this.color.auction) {
+    if (this.color && !this.color.loading && this.color.auction) {
       this.beaconService.claim(this.color.auction.auctionId)
+      this.storeService.setColorLoadingState(this.color.token_id, true)
+    } else {
+      console.log('Claiming already in progress')
     }
   }
 
