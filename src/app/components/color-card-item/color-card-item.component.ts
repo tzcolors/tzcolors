@@ -31,6 +31,8 @@ export class ColorCardItemComponent implements OnInit {
   @Input()
   isAuction: boolean = false
 
+  ownAddress: string | undefined
+
   bidAmount: string | undefined
   minBidAmount: string | undefined
 
@@ -124,6 +126,7 @@ export class ColorCardItemComponent implements OnInit {
 
   private updateCardState() {
     this.storeService.accountInfo$.pipe(first()).subscribe((accountInfo) => {
+      this.ownAddress = accountInfo?.address
       if (this.color) {
         this.state = 'free'
         if (this.color.owner) {
