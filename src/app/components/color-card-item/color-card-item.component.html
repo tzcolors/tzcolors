@@ -145,6 +145,12 @@
             type="button"
             class="btn btn-block btn-light"
           >
+            <span
+              *ngIf="color.loading"
+              class="spinner-border spinner-border-sm mr-1"
+              role="status"
+              aria-hidden="true"
+            ></span>
             {{
               color.loading ? 'Waiting for confirmation...' : 'Create Auction'
             }}
