@@ -91,6 +91,8 @@
         <div class="p-4 mx-4 pt-5">
           <div class="input-group">
             <input
+              [ngStyle]="{ display: 'color.loading' ? '' : 'none' }"
+              [disabled]="color.loading"
               type="number"
               class="form-control"
               [(ngModel)]="bidAmount"
@@ -99,8 +101,19 @@
               [min]="minBidAmount"
             />
             <span class="input-group-prepend">
-              <button (click)="bid()" type="button" class="btn btn-light">
-                {{ color.loading ? 'loading...' : 'Bid' }}
+              <button
+                [disabled]="color.loading"
+                (click)="bid()"
+                type="button"
+                class="btn btn-light"
+              >
+                <span
+                  *ngIf="color.loading"
+                  class="spinner-border spinner-border-sm mr-1"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                {{ color.loading ? 'Waiting for confirmation...' : 'Bid' }}
               </button>
             </span>
           </div>
@@ -109,22 +122,32 @@
       <ng-container *ngIf="state === 'claim'">
         <div class="p-4">
           <button
+            [disabled]="color.loading"
             (click)="claim()"
             type="button"
             class="btn btn-block btn-light"
           >
-            {{ color.loading ? 'loading...' : 'Claim' }}
+            <span
+              *ngIf="color.loading"
+              class="spinner-border spinner-border-sm mr-1"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            {{ color.loading ? 'Waiting for confirmation...' : 'Claim' }}
           </button>
         </div>
       </ng-container>
       <ng-container *ngIf="state === 'own'">
         <div class="p-4">
           <button
+            [disabled]="color.loading"
             (click)="openAuctionModal()"
             type="button"
             class="btn btn-block btn-light"
           >
-            {{ color.loading ? 'loading...' : 'Create Auction' }}
+            {{
+              color.loading ? 'Waiting for confirmation...' : 'Create Auction'
+            }}
           </button>
         </div>
       </ng-container>
@@ -132,14 +155,21 @@
       <ng-container *ngIf="state === 'free'">
         <div class="p-4">
           <button
+            [disabled]="color.loading"
             (click)="createInitialAuction()"
             type="button"
             class="btn btn-block btn-light"
           >
             <span
+              *ngIf="color.loading"
+              class="spinner-border spinner-border-sm mr-1"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            <span
               [innerHtml]="
                 color.loading
-                  ? 'loading...'
+                  ? 'Waiting for confirmation...'
                   : 'Start Auction - <strong>0.2 tez</strong>'
               "
             ></span>
