@@ -32,9 +32,12 @@
         <div class="card-body">
           <h3>Create Auction</h3>
           <div class="row py-4">
-            <div class="col-12 col-md-6">
-              <label>Minimum Price</label>
-              <div class="input-group mb-3">
+            <div class="col-12 col-md-7">
+              <label class="mb-0s">Minimum Price</label>
+              <small class="d-inline-block text-muted mb-2"
+                >Minimum price is 0.1 tez</small
+              >
+              <div class="input-group mb-4">
                 <input
                   type="number"
                   [(ngModel)]="bidAmount"
@@ -48,8 +51,11 @@
                   <span class="input-group-text">tez</span>
                 </div>
               </div>
-              <label>Auction Duration</label>
-              <div class="input-group mb-3">
+              <label class="mb-0">Auction Duration</label>
+              <small class="d-inline-block text-muted mb-2"
+                >Minimum duration is 1 hour</small
+              >
+              <div class="input-group mb-4">
                 <input
                   type="number"
                   [(ngModel)]="durationHours"
