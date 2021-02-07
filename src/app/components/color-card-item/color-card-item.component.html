@@ -60,7 +60,9 @@
           </div>
         </div>
         <p class="m-0 font-weight-light">
-          {{ color.auction?.bidder! | shorten }}
+          <!--TODO: if highest bidder = connected account -->
+          <span class="text-primary">You</span>
+          • {{ color.auction?.bidder! | shorten }}
         </p>
         <p class="text-muted font-weight-light m-0">Highest Bidder</p>
       </ng-container>
