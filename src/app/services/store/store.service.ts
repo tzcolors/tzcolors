@@ -351,6 +351,9 @@ export class StoreService {
     map.set(tokenId, loading)
     this._colorStates.next(map)
   }
+  resetColorLoadingStates() {
+    this._colorStates.next(new Map())
+  }
 
   async getColorOwners() {
     const data = await this.http

@@ -33,6 +33,15 @@ export class BeaconService {
       }
     )
     tezos.setWalletProvider(this.wallet)
+
+    // Handle aborted event emitted by the SDK
+    this.wallet.client.subscribeToEvent(
+      BeaconEvent.OPERATION_REQUEST_ERROR,
+      () => {
+        this.storeService.resetColorLoadingStates()
+      }
+    )
+
     this.getBalances('')
   }
 
