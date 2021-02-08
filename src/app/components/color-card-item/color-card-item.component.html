@@ -64,9 +64,7 @@
             <span class="text-primary">You</span>
             •
           </ng-container>
-          <ng-container *ngIf="color.auction?.bidder! !== ownAddress">
-            {{ color.auction?.bidder! | shorten }}
-          </ng-container>
+          {{ color.auction?.bidder! | shorten }}
         </p>
         <p class="text-muted font-weight-light m-0">Highest Bidder</p>
       </ng-container>
