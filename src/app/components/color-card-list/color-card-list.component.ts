@@ -88,6 +88,8 @@ export class ColorCardListComponent implements OnInit {
   }
 
   clearFilters(): void {
+    this.searchString = ''
+    this.storeService.setSearchString(this.searchString)
     this.storeService.resetFilters()
   }
 
