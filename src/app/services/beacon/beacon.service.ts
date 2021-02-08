@@ -159,6 +159,7 @@ export class BeaconService {
   }
 
   async createAuction(
+    owner: string,
     tokenId: number,
     startAmount: string,
     durationHours: string
@@ -184,7 +185,7 @@ export class BeaconService {
       .update_operators([
         {
           add_operator: {
-            owner: 'tz1Mj7RzPmMAqDUNFBn5t5VbXmWW4cSUAdtT',
+            owner,
             operator: environment.tzColorsAuctionContract,
             token_id: tokenId,
           },
