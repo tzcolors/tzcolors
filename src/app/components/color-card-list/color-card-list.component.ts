@@ -7,6 +7,7 @@ import {
   SortDirection,
   SortTypes,
   StoreService,
+  ViewTypes,
 } from 'src/app/services/store/store.service'
 
 import {
@@ -39,6 +40,8 @@ export class ColorCardListComponent implements OnInit {
   @Input()
   public count$: Observable<number> = new Observable()
 
+  public view$: Observable<ViewTypes> | undefined
+
   searchString: string = ''
 
   itemsPerPage: number = 24
@@ -59,6 +62,7 @@ export class ColorCardListComponent implements OnInit {
     this.sortType$ = this.storeService.sortType$
     this.sortDirection$ = this.storeService.sortDirection$
     this.category$ = this.storeService.category$
+    this.view$ = this.storeService.view$
     this.loading$ = this.storeService.loading$
   }
 

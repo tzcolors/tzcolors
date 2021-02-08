@@ -7,9 +7,6 @@ import {
   ReplaySubject,
 } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
-const MichelsonCodec = require('@taquito/local-forging/dist/lib/codec')
-const Codec = require('@taquito/local-forging/dist/lib/codec')
-import { Uint8ArrayConsumer } from '@taquito/local-forging'
 import { Store } from '@ngrx/store'
 import { State } from 'src/app/app.reducer'
 import { environment } from 'src/environments/environment'
@@ -103,7 +100,8 @@ export const isClaimable = (color: Color, accountInfo?: AccountInfo) => {
   return (
     !!color.auction &&
     color.auction.endTimestamp.getTime() < new Date().getTime() &&
-    color.auction.bidder === accountInfo?.address
+    (color.auction.bidder === accountInfo?.address ||
+      color.auction.seller === accountInfo?.address)
   )
 }
 
@@ -122,6 +120,7 @@ export class StoreService {
   public sortType$: Observable<SortTypes>
   public sortDirection$: Observable<SortDirection>
   public category$: Observable<ColorCategory>
+  public view$: Observable<ViewTypes>
 
   public loading$: Observable<boolean>
 
@@ -176,6 +175,7 @@ export class StoreService {
     this.sortType$ = this._sortType.asObservable()
     this.sortDirection$ = this._sortDirection.asObservable()
     this.category$ = this._category.asObservable()
+    this.view$ = this._view.asObservable()
     this.loading$ = this._loading.asObservable()
 
     let internalColors$ = combineLatest([

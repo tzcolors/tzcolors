@@ -78,15 +78,46 @@
 
       <ng-container *ngIf="state === 'claim'">
         <div class="row py-2">
-          <div class="col">
-            <p class="font-weight-light text-muted">
-              Congratulations on your new color!
-            </p>
-            <p class="font-weight-light text-muted">
-              Claim it first to your wallet to fully own it and be able to
-              create a new auction.
-            </p>
-          </div>
+          <ng-container
+            *ngIf="
+              color.auction!.bidder === ownAddress &&
+              color.auction!.seller === ownAddress
+            "
+          >
+            <div *ngIf="color.auction!.bidder === ownAddress" class="col">
+              <p class="font-weight-light text-muted">
+                Sadly, your color wasn't sold.
+              </p>
+              <p class="font-weight-light text-muted">
+                Claim it and try again!
+              </p>
+            </div>
+          </ng-container>
+          <ng-container
+            *ngIf="
+              color.auction!.bidder !== ownAddress ||
+              color.auction!.seller !== ownAddress
+            "
+          >
+            <div *ngIf="color.auction!.bidder === ownAddress" class="col">
+              <p class="font-weight-light text-muted">
+                Congratulations on your new color!
+              </p>
+              <p class="font-weight-light text-muted">
+                Claim it first to your wallet to fully own it and be able to
+                create a new auction.
+              </p>
+            </div>
+            <div *ngIf="color.auction!.seller === ownAddress" class="col">
+              <p class="font-weight-light text-muted">
+                Congratulations, your color was sold!
+              </p>
+              <p class="font-weight-light text-muted">
+                Claim it first to your wallet to fully own it and be able to
+                create a new auction.
+              </p>
+            </div>
+          </ng-container>
         </div>
       </ng-container>
     </div>
