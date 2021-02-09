@@ -108,3 +108,15 @@
   min-height: 25vh;
   background-size: contain;
 }
+
+.how-it-works__container {
+  .card-body {
+    padding: 0;
+  }
+  .card__initial {
+    transform: scale(0.7) skew(-8deg, 6deg);
+  }
+  .card_auction {
+    transform: scale(0.7) skew(8deg, -6deg);
+  }
+}

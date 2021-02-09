@@ -10,6 +10,9 @@
   </h1>
   <h1>one of each in existence</h1>
   <h1>three categories</h1>
+  <small class="text-muted"
+    >Smart contracts have not been audited by a third party.</small
+  >
   <h5 class="mt-5">Available in</h5>
   <app-countdown [endDate]="'Feb 11 2021 00:00:00'"></app-countdown>
 </div>
@@ -95,7 +98,7 @@
     </button>
   </div>
 </div>
-<div class="pt-5 pb-3">
+<div class="py-5">
   <h3>
     Open Auctions - <strong>{{ colorsCount$ | async }}</strong>
   </h3>
@@ -122,6 +125,133 @@
     </button>
   </div>
 </div>
+<div class="pt-5 pb-3">
+  <h3>How it works</h3>
+</div>
+<div class="how-it-works__container">
+  <div class="row">
+    <div class="col-12 col-md-4 py-3 d-flex align-items-center">
+      <div class="how-it-works__explanation">
+        <h5>Initial Auctions</h5>
+        <p>Each color is sold in an inital account.</p>
+        <p>
+          The inital account has a duration of 7 days. On completion, the
+          highest bidder wins the color and can claim it.
+        </p>
+        <p>The reward of all initial accounts go to a specified address.</p>
+      </div>
+    </div>
+    <div class="col-12 col-md-3 offset-md-1 d-none d-md-block">
+      <div class="card card__initial">
+        <div class="card-body d-flex flex-column">
+          <div
+            class="card--color__header card--color--type__standard d-flex justify-content-end align-items-end m-4"
+            style="background-color: #ffbf00"
+          >
+            <div class="card--color--type__container m-2">
+              <div
+                class="card-color--type--symbol d-flex justify-content-center align-items-center"
+              >
+                <p class="m-0">L</p>
+              </div>
+            </div>
+          </div>
+          <div class="px-4 d-flex flex-column">
+            <h3 class="m-0">Amber</h3>
+            <p class="text-muted font-weight-light">#26 • Legendary</p>
+            <div class="row py-2">
+              <div class="col">
+                <p class="font-weight-light text-muted">
+                  This NFT is not owned by anyone yet.
+                </p>
+                <p class="font-weight-light text-muted">
+                  Bid on it to start the auction.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-auto">
+          <div class="p-4">
+            <button type="button" class="btn btn-block btn-light">
+              <span>Start Auction - <strong>1 tez</strong></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-3 d-none d-md-block">
+      <div class="card card_auction">
+        <div class="card-body d-flex flex-column">
+          <div
+            class="card--color__header card--color--type__standard d-flex justify-content-end align-items-end m-4"
+            style="background-color: #e0115f"
+          >
+            <div class="card--color--type__container m-2">
+              <div
+                class="card-color--type--symbol d-flex justify-content-center align-items-center"
+              >
+                <p class="m-0">L</p>
+              </div>
+            </div>
+          </div>
+          <div class="px-4 d-flex flex-column">
+            <h3 class="m-0">Ruby</h3>
+            <p class="text-muted font-weight-light">#1342 • Legendary</p>
+            <div class="row py-2">
+              <div class="col">
+                <div class="row py-2">
+                  <div class="col">
+                    <h3 class="m-0 font-weight-light">18 tez</h3>
+                    <p class="text-muted font-weight-light">Price</p>
+                  </div>
+                  <div class="col text-right">
+                    <h3 class="m-0 font-weight-light">O1:24:41</h3>
+                    <p class="text-muted font-weight-light">Time Left</p>
+                  </div>
+                </div>
+                <p class="m-0 font-weight-light">tz1Mj...UAdtT</p>
+                <p class="text-muted font-weight-light m-0">Highest Bidder</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-auto">
+          <div class="p-4 mx-4 pt-5">
+            <div class="input-group">
+              <input
+                type="number"
+                class="form-control"
+                aria-label="Amount"
+                step="0.1"
+                placeholder="18.1"
+              />
+              <span class="input-group-prepend">
+                <button type="button" class="btn btn-light">Bid</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4 offset-md-1 py-3 d-flex align-items-center">
+      <div class="how-it-works__explanation">
+        <h5>Auctions</h5>
+        <p>
+          An owner of a color can create a new auction and specify the minimum
+          bid amount and the auction duration.
+        </p>
+        <p>Each bid additionally extends the auction end time by 5 minutes.</p>
+        <p>
+          The highest bidder can claim the token and the previous owner can
+          claim the reward.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="pt-5 pb-3 mt-5">
   <h3>FAQ</h3>
 </div>
@@ -134,9 +264,7 @@
         mutually interchangeable. This means each color is represented by one
         unique token that only exists once.
       </accordion-group>
-      <accordion-group heading="Where are the colors from?">
-        The colors were taken from ATTRIBUTION
-      </accordion-group>
+
       <accordion-group heading="How is this project funded?">
         This project was created on a voluntary basis during our free time. We
         don't have any direct commercial motivation.
@@ -144,9 +272,30 @@
       <accordion-group
         heading="Who receives the rewards of the inital auctions?"
       >
-        The reward of the initial auction of each go
-        <a href="#" target="_blank">tz1..</a> address. The rewards of all other
-        auctions go 100% to the owner that made the auction.
+        <p>
+          The reward of each initial auction go to the
+          <a href="#" target="_blank">tz1..</a> address.
+        </p>
+        <p>
+          The rewards of all other auctions go 100% to the owner that made the
+          auction.
+        </p>
+      </accordion-group>
+      <accordion-group heading="Where are the contracts?">
+        <p>
+          <a href="https://tzkt.io/" target="_blank">Auction Hous Contract</a>
+        </p>
+        <p><a href="https://tzkt.io/" target="_blank">NFT Token Contract</a></p>
+      </accordion-group>
+      <accordion-group
+        heading="Where can the code of the contracts and frontend be found?"
+      >
+        The code of both the contracts and the frontend can be found on
+        <a href="https://github.com/tzcolors/tzcolors" target="_blank">GitHub</a
+        >.
+      </accordion-group>
+      <accordion-group heading="Where are the colors from?">
+        The colors were taken from <a href="#" target="_blank">ATTRIBUTION</a>.
       </accordion-group>
     </accordion>
   </div>
