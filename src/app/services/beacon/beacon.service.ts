@@ -162,7 +162,7 @@ export class BeaconService {
     owner: string,
     tokenId: number,
     startAmount: string,
-    durationHours: string
+    durationDays: string
   ): Promise<void> {
     this.storeService.setColorLoadingState(tokenId, true)
 
@@ -170,11 +170,12 @@ export class BeaconService {
     if (!startAmount || !amount.modulo(100_000).isEqualTo(0)) {
       throw new Error(`Invalid "start amount" ${startAmount}`)
     }
-    if (!durationHours || new BigNumber(durationHours).isLessThan(1)) {
-      throw new Error(`Invalid "duration" ${durationHours}`)
+    if (!durationDays || new BigNumber(durationDays).isLessThan(0.5)) {
+      throw new Error(`Invalid "duration" ${durationDays}`)
     }
 
-    const durationInSeconds = new BigNumber(durationHours)
+    const durationInSeconds = new BigNumber(durationDays)
+      .times(24)
       .times(60)
       .times(60)
       .times(1000)

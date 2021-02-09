@@ -41,6 +41,8 @@
                 <input
                   type="number"
                   [(ngModel)]="bidAmount"
+                  (keydown)="validate()"
+                  (change)="validate()"
                   class="form-control"
                   placeholder="1"
                   aria-label="minimum price"
@@ -51,23 +53,32 @@
                   <span class="input-group-text">tez</span>
                 </div>
               </div>
+              <div class="d-inline-block text-muted mb-2">
+                {{ amountError }}
+              </div>
               <label class="mb-0">Auction Duration</label>
               <small class="d-inline-block text-muted mb-2"
-                >Minimum duration is 1 hour</small
+                >Minimum duration is half a day</small
               >
               <div class="input-group mb-4">
                 <input
                   type="number"
-                  [(ngModel)]="durationHours"
+                  [(ngModel)]="durationDays"
+                  (keydown)="validate()"
+                  (change)="validate()"
                   class="form-control"
                   placeholder="1"
                   aria-label="auction duration"
-                  step="1"
-                  min="1"
+                  step="0.1"
+                  min="0.5"
+                  max="7"
                 />
                 <div class="input-group-append">
-                  <span class="input-group-text">hrs</span>
+                  <span class="input-group-text">days</span>
                 </div>
+              </div>
+              <div class="d-inline-block text-muted mb-2">
+                {{ durationError }}
               </div>
             </div>
           </div>
