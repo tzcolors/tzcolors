@@ -123,8 +123,9 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "/tzcolors/",
-            "message": "Deploying latest changes"
+            "baseHref": "/",
+            "message": "Deploying latest changes",
+            "cname": "tzcolors.io"
           }
         }
       }
