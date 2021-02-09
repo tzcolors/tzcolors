@@ -16,6 +16,7 @@ export class ExploreComponent implements OnInit {
     this.storeService.setView('explore')
     this.storeService.setSortType('name')
     this.storeService.setSortDirection('asc')
+    this.storeService.setSearchString('')
     this.colors$ = this.storeService.colors$
     this.colorsCount$ = this.storeService.colorsCount$
   }

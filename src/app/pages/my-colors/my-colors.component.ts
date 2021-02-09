@@ -15,6 +15,7 @@ export class MyColorsComponent implements OnInit {
     this.storeService.setView('my-colors')
     this.storeService.setSortType('name')
     this.storeService.setSortDirection('asc')
+    this.storeService.setSearchString('')
     this.colors$ = this.storeService.colors$
     this.colorsCount$ = this.storeService.colorsCount$
   }

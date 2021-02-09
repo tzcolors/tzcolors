@@ -19,6 +19,7 @@ export class AuctionsComponent implements OnInit {
     this.storeService.setView('auctions')
     this.storeService.setSortType('time')
     this.storeService.setSortDirection('asc')
+    this.storeService.setSearchString('')
     this.colors$ = this.storeService.colors$
     this.colorsCount$ = this.storeService.colorsCount$
   }

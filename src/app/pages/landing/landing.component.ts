@@ -17,6 +17,7 @@ export class LandingComponent implements OnInit {
     this.storeService.setView('auctions')
     this.storeService.setSortType('time')
     this.storeService.setSortDirection('asc')
+    this.storeService.setSearchString('')
     this.colors$ = this.storeService.colors$.pipe(map((m) => m.slice(0, 7)))
     this.colorsCount$ = this.storeService.colorsCount$
   }

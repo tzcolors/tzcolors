@@ -126,7 +126,7 @@
   </div>
 </div>
 <div class="row">
-  <ng-container *ngIf="true; then content; else empty"></ng-container>
+  <ng-container *ngIf="count$ | async; then content; else empty"></ng-container>
 </div>
 <ng-template #content>
   <div *ngFor="let color of colors$ | async" class="col-12 col-md-3 py-3">
