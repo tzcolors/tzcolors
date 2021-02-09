@@ -18,7 +18,7 @@
   },
   "private": true,
   "dependencies": {
-    "@airgap/beacon-sdk": "^2.2.1-beta.1",
+    "@airgap/beacon-sdk": "2.2.1",
     "@angular/animations": "~11.0.5",
     "@angular/common": "~11.0.5",
     "@angular/compiler": "~11.0.5",
@@ -32,8 +32,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@ngrx/effects": "^10.1.2",
     "@ngrx/store": "^10.1.2",
-    "@taquito/beacon-wallet": "^8.0.0-beta.6",
-    "@taquito/local-forging": "^8.0.0-beta.6",
+    "@taquito/beacon-wallet": "^8.0.0-beta.7",
     "bignumber.js": "^9.0.1",
     "bootstrap": "^4.5.3",
     "fast-deep-equal": "^3.1.3",
