@@ -522,7 +522,7 @@
     "description": "Aureolin",
     "symbol": "#fdee00",
     "token_id": 74,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "AuroMetalSaurus",
@@ -543,7 +543,7 @@
     "description": "Awesome",
     "symbol": "#ff2052",
     "token_id": 77,
-    "category": "standard"
+    "category": "legendary"
   },
   {
     "name": "Axolotl",
@@ -557,7 +557,7 @@
     "description": "Azure",
     "symbol": "#007fff",
     "token_id": 79,
-    "category": "standard"
+    "category": "legendary"
   },
   {
     "name": "Azure mist",
@@ -585,7 +585,7 @@
     "description": "Baby blue",
     "symbol": "#89cff0",
     "token_id": 83,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Baby blue eyes",
@@ -655,7 +655,7 @@
     "description": "Barbie Pink",
     "symbol": "#e94196",
     "token_id": 93,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Barbie Pink (1959-1975)",
@@ -760,7 +760,7 @@
     "description": "Beer",
     "symbol": "#f28e1c",
     "token_id": 108,
-    "category": "epic"
+    "category": "legendary"
   },
   {
     "name": "Begonia",
@@ -865,7 +865,7 @@
     "description": "Black",
     "symbol": "#000000",
     "token_id": 123,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Black (Kokushoku)",
@@ -956,14 +956,14 @@
     "description": "Bleu de France",
     "symbol": "#318ce7",
     "token_id": 136,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Blizzard blue",
     "description": "Blizzard blue",
     "symbol": "#ace5ee",
     "token_id": 137,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Blond",
@@ -1761,7 +1761,7 @@
     "description": "Candy apple red",
     "symbol": "#ff0800",
     "token_id": 251,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Candy pink",
@@ -1873,7 +1873,7 @@
     "description": "Carrot orange",
     "symbol": "#ed9121",
     "token_id": 267,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Castleton green",
@@ -2412,7 +2412,7 @@
     "description": "Coffee",
     "symbol": "#6f4e37",
     "token_id": 344,
-    "category": "epic"
+    "category": "legendary"
   },
   {
     "name": "Cola",
@@ -2650,7 +2650,7 @@
     "description": "Crystal",
     "symbol": "#a7d8de",
     "token_id": 378,
-    "category": "standard"
+    "category": "legendary"
   },
   {
     "name": "Crystal blue",
@@ -3567,7 +3567,7 @@
     "description": "Diamond",
     "symbol": "#b9f2ff",
     "token_id": 509,
-    "category": "standard"
+    "category": "legendary"
   },
   {
     "name": "Dim gray",
@@ -3637,7 +3637,7 @@
     "description": "Dollar bill",
     "symbol": "#85bb65",
     "token_id": 519,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Dolphin gray",
@@ -3966,7 +3966,7 @@
     "description": "Facebook Blue",
     "symbol": "#39569c",
     "token_id": 566,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Faded Sen no Rikyu's tea (Rikyūshiracha)",
@@ -4099,7 +4099,7 @@
     "description": "Flame",
     "symbol": "#e25822",
     "token_id": 585,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Flamingo pink",
@@ -4148,7 +4148,7 @@
     "description": "Flirt",
     "symbol": "#a2006d",
     "token_id": 592,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Flirtatious indigo tea (Aikobicha)",
@@ -4316,14 +4316,14 @@
     "description": "French wine",
     "symbol": "#ac1e44",
     "token_id": 616,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Fresh Air",
     "description": "Fresh Air",
     "symbol": "#a6e7ff",
     "token_id": 617,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Fresh onion (Moegi)",
@@ -4337,7 +4337,7 @@
     "description": "Frostbite",
     "symbol": "#e936a7",
     "token_id": 619,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Fuchsia",
@@ -4435,7 +4435,7 @@
     "description": "Ghost white",
     "symbol": "#f8f8ff",
     "token_id": 633,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Giant's Club",
@@ -4456,7 +4456,7 @@
     "description": "Gin",
     "symbol": "#d8e4bc",
     "token_id": 636,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Glaucous",
@@ -4652,7 +4652,7 @@
     "description": "Grape",
     "symbol": "#6f2da8",
     "token_id": 664,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Grape mouse (Budōnezumi)",
@@ -4750,7 +4750,7 @@
     "description": "Green Lizard",
     "symbol": "#a7f432",
     "token_id": 678,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Green Sheen",
@@ -4932,7 +4932,7 @@
     "description": "Hawaii blue",
     "symbol": "#00c3e3",
     "token_id": 704,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Heart gold",
@@ -4981,7 +4981,7 @@
     "description": "Honolulu blue",
     "symbol": "#006db0",
     "token_id": 711,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Hooker's green",
@@ -5247,7 +5247,7 @@
     "description": "Iron",
     "symbol": "#a19d94",
     "token_id": 749,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Iron color (Tetsu-iro)",
@@ -5513,7 +5513,7 @@
     "description": "Kiwi",
     "symbol": "#8ee53f",
     "token_id": 787,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Kobe",
@@ -5576,7 +5576,7 @@
     "description": "Lapis lazuli",
     "symbol": "#26619c",
     "token_id": 796,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Lapis lazuli color (Ruri-iro)",
@@ -5604,7 +5604,7 @@
     "description": "Lava",
     "symbol": "#cf1020",
     "token_id": 800,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Lavender (floral)",
@@ -5695,7 +5695,7 @@
     "description": "Lemon",
     "symbol": "#fff700",
     "token_id": 813,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Lemon chiffon",
@@ -6339,7 +6339,7 @@
     "description": "Mango",
     "symbol": "#fdbe02",
     "token_id": 905,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Mango green",
@@ -6927,7 +6927,7 @@
     "description": "Midnight",
     "symbol": "#702670",
     "token_id": 989,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Midnight blue",
@@ -7277,7 +7277,7 @@
     "description": "Neon Carrot",
     "symbol": "#ffa343",
     "token_id": 1039,
-    "category": "epicepic"
+    "category": "standard"
   },
   {
     "name": "Neon Fuchsia",
@@ -8481,7 +8481,7 @@
     "description": "Platinum",
     "symbol": "#e5e4e2",
     "token_id": 1211,
-    "category": "standard"
+    "category": "legendary"
   },
   {
     "name": "Plum",
@@ -8663,7 +8663,7 @@
     "description": "Pumpkin",
     "symbol": "#ff7518",
     "token_id": 1237,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Pure crimson (dye) (Akabeni)",
@@ -8705,7 +8705,7 @@
     "description": "Purple Heart",
     "symbol": "#69359c",
     "token_id": 1243,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Purple kite (Murasakitobi)",
@@ -8859,7 +8859,7 @@
     "description": "Raspberry",
     "symbol": "#e30b5d",
     "token_id": 1265,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Raspberry pink",
@@ -9398,7 +9398,7 @@
     "description": "Ruby",
     "symbol": "#e0115f",
     "token_id": 1342,
-    "category": "standard"
+    "category": "legendary"
   },
   {
     "name": "Ruby red",
@@ -9552,7 +9552,7 @@
     "description": "Saffron",
     "symbol": "#f4c430",
     "token_id": 1364,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Sage",
@@ -9685,7 +9685,7 @@
     "description": "School bus yellow",
     "symbol": "#ffd800",
     "token_id": 1383,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Scorched brown (Kogecha)",
@@ -9860,7 +9860,7 @@
     "description": "Silver (Metallic)",
     "symbol": "#aaa9ad",
     "token_id": 1408,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Silver chalice",
@@ -10217,7 +10217,7 @@
     "description": "Sponge",
     "symbol": "#fdfe03",
     "token_id": 1459,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Spring bud",
@@ -10336,7 +10336,7 @@
     "description": "Strawberry",
     "symbol": "#fc5a8d",
     "token_id": 1476,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Strawberry Daiquiri",
@@ -10588,7 +10588,7 @@
     "description": "Terra cotta",
     "symbol": "#e2725b",
     "token_id": 1512,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "The color of an undried wall (Namakabe-iro)",
@@ -10700,7 +10700,7 @@
     "description": "Tomato sauce",
     "symbol": "#b21807",
     "token_id": 1528,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Toolbox",
@@ -10721,7 +10721,7 @@
     "description": "Tractor red",
     "symbol": "#fd0e35",
     "token_id": 1531,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Tree peony (Bōtan)",
@@ -10763,7 +10763,7 @@
     "description": "True Blue",
     "symbol": "#2d68c4",
     "token_id": 1537,
-    "category": "legendary"
+    "category": "standard"
   },
   {
     "name": "True red (Shinshu)",
@@ -11036,7 +11036,7 @@
     "description": "Vegas gold",
     "symbol": "#c5b358",
     "token_id": 1576,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Velvet (Birōdo)",
@@ -11050,7 +11050,7 @@
     "description": "Venetian red",
     "symbol": "#c80815",
     "token_id": 1578,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "Verdigris",
@@ -11498,7 +11498,7 @@
     "description": "White",
     "symbol": "#ffffff",
     "token_id": 1642,
-    "category": "standard"
+    "category": "epic"
   },
   {
     "name": "White chocolate",
@@ -11799,7 +11799,7 @@
     "description": "Youtube red",
     "symbol": "#b2071d",
     "token_id": 1685,
-    "category": "standard"
+    "category": "legendary"
   },
   {
     "name": "Zaffre",
