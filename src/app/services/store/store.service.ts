@@ -269,7 +269,7 @@ export class StoreService {
             )
             .filter((c) => category === 'all' || c.category === category)
             .filter((c) =>
-              c.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+              c.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .sort((a_, b_) => {
               const { a, b } =
