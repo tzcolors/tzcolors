@@ -125,7 +125,7 @@
           "options": {
             "baseHref": "/",
             "message": "Deploying latest changes",
-            "cname": "tzcolors.io"
+            "cname": "www.tzcolors.io"
           }
         }
       }
