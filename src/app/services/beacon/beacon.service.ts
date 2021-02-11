@@ -30,7 +30,7 @@ export async function getRandomNumber(num: number): Promise<string> {
 })
 export class BeaconService {
   public wallet: BeaconWallet
-  public network: Network = { type: NetworkType.DELPHINET }
+  public network: Network = { type: NetworkType.MAINNET }
 
   constructor(private readonly storeService: StoreService) {
     this.wallet = new BeaconWallet({ name: environment.appName })
