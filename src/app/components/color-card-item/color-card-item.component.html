@@ -153,8 +153,9 @@
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="state === 'claim'">
-        <div class="p-4">
+
+      <div class="p-4">
+        <ng-container *ngIf="state === 'claim'">
           <button
             [disabled]="color.loading"
             (click)="claim()"
@@ -169,10 +170,8 @@
             ></span>
             {{ color.loading ? 'Waiting for confirmation...' : 'Claim' }}
           </button>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="state === 'own'">
-        <div class="p-4">
+        </ng-container>
+        <ng-container *ngIf="state === 'own'">
           <button
             [disabled]="color.loading"
             (click)="openAuctionModal()"
@@ -189,11 +188,9 @@
               color.loading ? 'Waiting for confirmation...' : 'Create Auction'
             }}
           </button>
-        </div>
-      </ng-container>
+        </ng-container>
 
-      <ng-container *ngIf="state === 'free'">
-        <div class="p-4">
+        <ng-container *ngIf="state === 'free'">
           <button
             [disabled]="color.loading"
             (click)="createInitialAuction()"
@@ -214,8 +211,8 @@
               "
             ></span>
           </button>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>
