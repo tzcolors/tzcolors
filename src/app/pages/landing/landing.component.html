@@ -103,10 +103,7 @@
     Open Auctions - <strong>{{ colorsCount$ | async }}</strong>
   </h3>
 </div>
-<div
-  class="row pb-5 mb-5"
-  [ngClass]="colorsCount$ === 0 ? 'justify-content-center' : ''"
->
+<div class="row pb-5 mb-5">
   <div *ngFor="let color of colors$ | async" class="col-12 col-md-3 py-3">
     <app-color-card-item [color]="color"></app-color-card-item>
   </div>
