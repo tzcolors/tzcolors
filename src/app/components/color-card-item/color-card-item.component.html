@@ -154,7 +154,7 @@
         </div>
       </ng-container>
 
-      <div class="p-4">
+      <div class="p-4" *ngIf="state != 'auction'">
         <ng-container *ngIf="state === 'claim'">
           <button
             [disabled]="color.loading"
