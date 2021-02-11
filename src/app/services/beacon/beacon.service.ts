@@ -14,8 +14,16 @@ import BigNumber from 'bignumber.js'
 import { BeaconWallet } from '@taquito/beacon-wallet'
 import { environment } from 'src/environments/environment'
 import { StoreService } from '../store/store.service'
+import { ready, randombytes_buf } from 'libsodium-wrappers'
 
 const tezos = new TezosToolkit(environment.rpcUrl)
+
+export async function getRandomNumber(num: number): Promise<string> {
+  await ready
+  const buf = randombytes_buf(Math.ceil(num / 2))
+
+  return buf.join('').slice(0, num)
+}
 
 @Injectable({
   providedIn: 'root',
@@ -129,7 +137,8 @@ export class BeaconService {
       environment.tzColorsAuctionContract
     )
 
-    const randomNumber = Math.round(Math.random() * 100000) // TODO: Use UUID or fetch old id?
+    const randomNumber = await getRandomNumber(10)
+
     const result = await assetContract.methods
       .initial_auction(randomNumber, [tokenId])
       .toTransferParams()
@@ -148,7 +157,7 @@ export class BeaconService {
         },
         {
           kind: TezosOperationType.TRANSACTION,
-          amount: '200000',
+          amount: '1000000',
           destination: bidResult.to,
           parameters: bidResult.parameter as any,
         },
@@ -180,6 +189,10 @@ export class BeaconService {
       .times(60)
       .times(1000)
 
+    const endDate = new Date(
+      new Date().getTime() + durationInSeconds.toNumber()
+    )
+
     const contractInstance = await tezos.wallet.at(environment.tzColorsContract)
 
     const updateOperatorsResult = await contractInstance.methods
@@ -198,13 +211,13 @@ export class BeaconService {
       environment.tzColorsAuctionContract
     )
 
-    const randomNumber = Math.round(Math.random() * 100000) // TODO: Use UUID or fetch old id?
+    const randomNumber = await getRandomNumber(10)
 
     const createAuctionResult = await auctionContract.methods
       .create_auction(
         randomNumber, // auction_id
         amount.toString(), // bid_amount
-        new Date(new Date().getTime() + durationInSeconds.toNumber()), // end_timestamp (this is about 15 minutes)
+        endDate,
         environment.tzColorsContract, // token_address
         1, // token_amount (always 1)
         tokenId // token_id
