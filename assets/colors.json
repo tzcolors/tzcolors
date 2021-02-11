@@ -2314,7 +2314,7 @@
     "description": "Cinnamon",
     "symbol": "#d2691e",
     "token_id": 330,
-    "category": "legendary"
+    "category": "epic"
   },
   {
     "name": "Cinnamon Satin",
@@ -4764,7 +4764,7 @@
     "description": "Green slime",
     "symbol": "#65ff00",
     "token_id": 680,
-    "category": "standard"
+    "category": "legendary"
   },
   {
     "name": "Green tea-colored (Sencha-iro)",
@@ -10588,7 +10588,7 @@
     "description": "Terra cotta",
     "symbol": "#e2725b",
     "token_id": 1512,
-    "category": "epic"
+    "category": "standard"
   },
   {
     "name": "The color of an undried wall (Namakabe-iro)",
