@@ -264,33 +264,88 @@
       </accordion-group>
 
       <accordion-group heading="How is this project funded?">
-        This project was created on a voluntary basis during our free time. We
-        don't have any direct commercial motivation.
+        This project was created on a voluntary basis during our free time and
+        we didn't receive any funding for it.
       </accordion-group>
       <accordion-group
         heading="Who receives the rewards of the inital auctions?"
       >
         <p>
-          The reward of each initial auction go to the
-          <a href="#" target="_blank">tz1..</a> address.
+          The rewards of all initial auctions go to the
+          <a
+            href="https://tezblock.io/account/tz1RKmJwoAiaqFdjQYSbFy1j7u7UhEFsqXq7"
+            target="_blank"
+            >tz1RKmJwoAiaqFdjQYSbFy1j7u7UhEFsqXq7</a
+          >
+          address. <br />
+          Those funds will be distributed among the teams that created the
+          tooling we used to create tzcolors. The exact details will be decided
+          on at a later stage.
         </p>
         <p>
-          The rewards of all other auctions go 100% to the owner that made the
-          auction.
+          100% of the rewards of all other auctions go directly to the previous
+          owner of the token.
+        </p>
+      </accordion-group>
+      <accordion-group heading="How does it work?">
+        <p>
+          After the launch, all colors are available. If someone wants a color,
+          he can initiate an auction. The price of the inital auctions always
+          start at 1 tez and last for 5 days during which everyone can bid for
+          the color.
+        </p>
+        <p>The highest bidder at the end of an auction gets the color.</p>
+        <p>
+          After an auction, the token and the reward have to be claimed. Anyone
+          can submit the claim transaction, which will both send the token to
+          the new owner and transfer the amount to the previous owner.
+        </p>
+        <p>
+          If a bid is placed during the last 5 minutes, the countdown is
+          extended to 5 minutes.
+        </p>
+        <p>
+          Anyone can put their own colors up for auction again. For those
+          auctions, 100% of the reward goes to the owner, tzcolors does not take
+          a commission.
+        </p>
+      </accordion-group>
+      <accordion-group heading="What was your motivation to create tzcolors?">
+        <p>
+          This project is a showcase of the latest technology available in the
+          beacon ecosystem. Namely, NFTs using the FA2 standard, an Auction
+          House Contract, Beacon for dApp to Wallet communication, as well as
+          Taquito for the contract abstraction in the frontend.
         </p>
       </accordion-group>
       <accordion-group heading="Where are the contracts?">
         <p>
-          <a href="https://tzkt.io/" target="_blank">Auction Hous Contract</a>
+          <a
+            href="https://tzkt.io/KT1CpeSQKdkhWi4pinYcseCFKmDhs5M74BkU"
+            target="_blank"
+            >Auction Hous Contract</a
+          >
         </p>
-        <p><a href="https://tzkt.io/" target="_blank">NFT Token Contract</a></p>
+        <p>
+          <a
+            href="https://tzkt.io/KT1FyaDqiMQWg7Exo7VUiXAgZbd2kCzo3d4s"
+            target="_blank"
+            >NFT Token Contract</a
+          >
+        </p>
+      </accordion-group>
+      <accordion-group heading="Has the contract been audited?">
+        <p>
+          Neither the smart contract code, nor the frontend code was audited by
+          a third party. We did review the contracts interally and tested it
+          extensively over the last couple of weeks.
+        </p>
       </accordion-group>
       <accordion-group
         heading="Where can the code of the contracts and frontend be found?"
       >
         The code of both the contracts and the frontend can be found on
-        <a href="https://github.com/tzcolors/tzcolors" target="_blank">GitHub</a
-        >.
+        <a href="https://github.com/tzcolors" target="_blank">GitHub</a>.
       </accordion-group>
       <accordion-group heading="Where are the colors from?">
         The colors were taken from
