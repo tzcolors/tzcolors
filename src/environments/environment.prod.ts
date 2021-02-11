@@ -1,12 +1,12 @@
 export const environment = {
   production: true,
-  tzColorsContract: 'KT1AD1dBFQbzFAXQpFDVoBCwJ3Rmsi4MzXqD',
-  tzColorsAuctionContract: 'KT1TPNBKW9xbBjciUPzWCe8haSoYA5zLgJCB',
+  tzColorsContract: 'KT1FyaDqiMQWg7Exo7VUiXAgZbd2kCzo3d4s',
+  tzColorsAuctionContract: 'KT1CpeSQKdkhWi4pinYcseCFKmDhs5M74BkU',
   rpcUrl: 'https://testnet-tezos.giganode.io',
   appName: 'tzcolors',
   proxyUrl: 'https://cors-proxy.airgap.prod.gke.papers.tech/proxy?url=',
   colorsBigmapUrl:
-    'https://better-call.dev/v1/bigmap/delphinet/64934/keys?q=&offset=0&size=100',
+    'https://better-call.dev/v1/bigmap/mainnet/411/keys?q=&offset=0&size=100',
   auctionBigmapUrl:
-    'https://better-call.dev/v1/bigmap/delphinet/64932/keys?q=&offset=0&size=100',
+    'https://better-call.dev/v1/bigmap/mainnet/409/keys?q=&offset=0&size=100',
 }
