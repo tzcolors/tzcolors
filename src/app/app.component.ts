@@ -12,12 +12,15 @@ import { StoreService } from './services/store/store.service'
 })
 export class AppComponent implements OnInit {
   title = 'tzcolors'
-  dogvision = false;
+  dogvision = false
 
-  constructor(private readonly store$: Store<State>, private readonly store: StoreService) {}
+  constructor(
+    private readonly store$: Store<State>,
+    private readonly store: StoreService
+  ) {}
 
   ngOnInit() {
     this.store$.dispatch(actions.setupBeacon())
-    this.store.dogvision$.subscribe(dogvision => this.dogvision = dogvision)
+    this.store.dogvision$.subscribe((dogvision) => (this.dogvision = dogvision))
   }
 }

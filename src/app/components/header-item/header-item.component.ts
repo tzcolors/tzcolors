@@ -29,7 +29,9 @@ export class HeaderItemComponent implements OnInit {
     this.connectedWallet$ = this.store$.select(
       (state) => (state as any).app.connectedWallet // TODO: Fix type
     )
-    this.storeService.dogvision$.subscribe(dogVision => this.dogVision = dogVision)
+    this.storeService.dogvision$.subscribe(
+      (dogVision) => (this.dogVision = dogVision)
+    )
   }
 
   ngOnInit(): void {}
@@ -46,7 +48,7 @@ export class HeaderItemComponent implements OnInit {
     this.beaconService.openAccountLink()
   }
 
-  togglDogVision(){
+  togglDogVision() {
     this.storeService.dogvision$.next(!this.dogVision)
   }
 }
