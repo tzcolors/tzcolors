@@ -48,6 +48,13 @@
             >My Colors</a
           >
         </li>
+        <li class="nav-item">          
+          <a
+            class="nav-link text-dark"
+            (click)="togglDogVision()"
+            title="Dogvision"
+            ><fa-icon [icon]='faDog' ></fa-icon></a>
+        </li>
         <li class="nav-item ml-3">
           <button
             *ngIf="!(connectedWallet$ | async)"
