@@ -132,7 +132,11 @@
   <div *ngFor="let color of colors$ | async" class="col-12 col-md-3 py-3">
     <app-color-card-item [color]="color"></app-color-card-item></div
 ></ng-template>
-<ng-template #empty>{{ emptyText }}</ng-template>
+<ng-template #empty>
+  <div class="col-12 h-100">
+    {{ emptyText }}
+  </div>
+</ng-template>
 <div *ngIf="showMoreButton | async" class="row my-5 justify-content-center">
   <div class="col-12 col-md-3">
     <button
