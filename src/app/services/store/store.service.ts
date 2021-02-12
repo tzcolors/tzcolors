@@ -86,6 +86,8 @@ export type ColorCategory = 'all' | 'legendary' | 'epic' | 'standard'
 export type SortTypes = 'name' | 'price' | 'activity' | 'time'
 export type SortDirection = 'asc' | 'desc'
 
+const STORAGE_KEY_FAVORITES = 'tzcolor:favorites'
+
 export const isOwner = (color: Color, accountInfo?: AccountInfo) => {
   return color.owner && color.owner === accountInfo?.address
 }
@@ -343,7 +345,7 @@ export class StoreService {
   initFromStorage() {
     try {
       const storedFavorites: string =
-        localStorage.getItem('tzcolor:favorites') ?? '[]'
+        localStorage.getItem(STORAGE_KEY_FAVORITES) ?? '[]'
       const favorites: number[] = JSON.parse(storedFavorites)
       this._favorites.next(favorites)
     } catch (e) {}
@@ -390,8 +392,8 @@ export class StoreService {
     } else if (!isFavorite) {
       favorites = favorites.filter((favorite) => favorite !== token_id)
     }
-    localStorage.setItem('tzcolor:favorites', JSON.stringify(favorites))
     this._favorites.next(favorites)
+    localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(favorites))
   }
 
   async getColorOwners() {
