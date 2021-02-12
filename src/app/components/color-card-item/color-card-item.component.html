@@ -64,7 +64,12 @@
             <span class="text-primary">You</span>
             •
           </ng-container>
-          <a (click)="openAddress(color.auction?.bidder!)">
+          <a
+            class="text-dark"
+            (click)="openAddress(color.auction?.bidder!)"
+            href
+            target="_blank"
+          >
             {{ color.auction?.bidder! | shorten }}
           </a>
         </p>
