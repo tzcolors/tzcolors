@@ -96,6 +96,7 @@ export class BeaconService {
     bidAmount: string
   ): Promise<void> {
     this.storeService.setColorLoadingState(tokenId, true)
+    this.storeService.setFavorite(tokenId, true)
 
     const contractInstance = await tezos.wallet.at(
       environment.tzColorsAuctionContract
@@ -119,6 +120,7 @@ export class BeaconService {
 
   async claim(auctionId: number, tokenId: number): Promise<void> {
     this.storeService.setColorLoadingState(tokenId, true)
+    this.storeService.setFavorite(tokenId, true)
 
     const contractInstance = await tezos.wallet.at(
       environment.tzColorsAuctionContract
@@ -131,6 +133,7 @@ export class BeaconService {
 
   async createInitialAuction(tokenId: number): Promise<void> {
     this.storeService.setColorLoadingState(tokenId, true)
+    this.storeService.setFavorite(tokenId, true)
 
     const assetContract = await tezos.wallet.at(environment.tzColorsContract)
     const auctionContract = await tezos.wallet.at(
@@ -174,6 +177,7 @@ export class BeaconService {
     durationDays: string
   ): Promise<void> {
     this.storeService.setColorLoadingState(tokenId, true)
+    this.storeService.setFavorite(tokenId, true)
 
     const amount = new BigNumber(startAmount).shiftedBy(6)
     if (!startAmount || !amount.modulo(100_000).isEqualTo(0)) {
