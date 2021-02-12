@@ -68,12 +68,12 @@
           [ngClass]="sortingType === 'name' ? 'btn-dark' : 'btn-light'"
         >
           <fa-icon
-            [icon]="faSortAlphaDown"
+            [icon]="['fas', 'sort-alpha-down']"
             *ngIf="sortingType === 'name' && sortingDirection === 'asc'"
           ></fa-icon>
 
           <fa-icon
-            [icon]="faSortAlphaUp"
+            [icon]="['fas', 'sort-alpha-up']"
             *ngIf="sortingType === 'name' && sortingDirection === 'desc'"
           ></fa-icon>
           <span>Name</span>
@@ -86,12 +86,12 @@
           [ngClass]="sortingType === 'price' ? 'btn-dark' : 'btn-light'"
         >
           <fa-icon
-            [icon]="faSortAmountUp"
+            [icon]="['fas', 'sort-amount-up']"
             *ngIf="sortingType === 'price' && sortingDirection === 'asc'"
           ></fa-icon>
 
           <fa-icon
-            [icon]="faSortAmountDown"
+            [icon]="['fas', 'sort-amount-down']"
             *ngIf="sortingType === 'price' && sortingDirection === 'desc'"
           ></fa-icon>
           <span>Price</span>
@@ -104,12 +104,12 @@
           [ngClass]="sortingType === 'time' ? 'btn-dark' : 'btn-light'"
         >
           <fa-icon
-            [icon]="faSortAmountUp"
+            [icon]="['fas', 'sort-amount-up']"
             *ngIf="sortingType === 'time' && sortingDirection === 'asc'"
           ></fa-icon>
 
           <fa-icon
-            [icon]="faSortAmountDown"
+            [icon]="['fas', 'sort-amount-down']"
             *ngIf="sortingType === 'time' && sortingDirection === 'desc'"
           ></fa-icon>
           <span>Time</span>
