@@ -31,6 +31,7 @@ export interface Color {
   auction: AuctionItem | undefined
   owner: string | undefined
   loading: boolean
+  isFavorite: boolean
 }
 
 export interface Child {
@@ -78,12 +79,14 @@ export interface AuctionItem {
   bidder: string
 }
 
-export type ViewTypes = 'explore' | 'auctions' | 'my-colors'
+export type ViewTypes = 'explore' | 'auctions' | 'my-colors' | 'watchlist'
 
 export type ColorCategory = 'all' | 'legendary' | 'epic' | 'standard'
 
 export type SortTypes = 'name' | 'price' | 'activity' | 'time'
 export type SortDirection = 'asc' | 'desc'
+
+const STORAGE_KEY_FAVORITES = 'tzcolor:favorites'
 
 export const isOwner = (color: Color, accountInfo?: AccountInfo) => {
   return color.owner && color.owner === accountInfo?.address
@@ -124,8 +127,13 @@ export class StoreService {
   public dogvision$: ReplaySubject<boolean> = new ReplaySubject()
 
   public loading$: Observable<boolean>
+  public favorites$: Observable<number[]>
 
   private _colors$: ReplaySubject<Color[]> = new ReplaySubject(1)
+
+  private _favorites: BehaviorSubject<number[]> = new BehaviorSubject<number[]>(
+    []
+  )
 
   private _numberOfItems: BehaviorSubject<number> = new BehaviorSubject(12)
   private _searchTerm: BehaviorSubject<string> = new BehaviorSubject('')
@@ -178,6 +186,9 @@ export class StoreService {
     this.category$ = this._category.asObservable()
     this.view$ = this._view.asObservable()
     this.loading$ = this._loading.asObservable()
+    this.favorites$ = this._favorites.asObservable()
+
+    this.initFromStorage()
 
     let internalColors$ = combineLatest([
       this._colors$.pipe(
@@ -203,6 +214,10 @@ export class StoreService {
       this._colorStates.pipe(
         // distinctUntilChanged(),
         tap((x) => console.log('colorStates changed', x))
+      ),
+      this._favorites.pipe(
+        // distinctUntilChanged(),
+        tap((x) => console.log('favorites changed', x))
       ),
       this._accountInfo.pipe(
         distinctUntilChanged(),
@@ -234,6 +249,7 @@ export class StoreService {
           ownerInfo,
           auctionInfo,
           colorStates,
+          favorites,
           accountInfo,
           searchTerm,
           sortType,
@@ -245,6 +261,7 @@ export class StoreService {
           Map<number, string>,
           Map<number, AuctionItem>,
           Map<number, boolean>,
+          number[],
           AccountInfo | undefined,
           string,
           SortTypes,
@@ -256,10 +273,13 @@ export class StoreService {
               auction: auctionInfo.get(c.token_id),
               owner: ownerInfo.get(c.token_id),
               loading: colorStates.get(c.token_id) ?? false,
+              isFavorite: favorites.includes(c.token_id), // TODO: use map
             }))
             .filter((c) =>
               view === 'explore'
                 ? true
+                : view === 'watchlist'
+                ? c.isFavorite
                 : view === 'auctions'
                 ? isActiveAuction(c)
                 : view === 'my-colors'
@@ -322,6 +342,15 @@ export class StoreService {
     this.updateState()
   }
 
+  initFromStorage() {
+    try {
+      const storedFavorites: string =
+        localStorage.getItem(STORAGE_KEY_FAVORITES) ?? '[]'
+      const favorites: number[] = JSON.parse(storedFavorites)
+      this._favorites.next(favorites)
+    } catch (e) {}
+  }
+
   setView(view: ViewTypes) {
     this._view.next(view)
   }
@@ -354,6 +383,17 @@ export class StoreService {
   }
   resetColorLoadingStates() {
     this._colorStates.next(new Map())
+  }
+
+  setFavorite(token_id: number, isFavorite: boolean) {
+    let favorites = this._favorites.value
+    if (isFavorite && !favorites.includes(token_id)) {
+      favorites.push(token_id)
+    } else if (!isFavorite) {
+      favorites = favorites.filter((favorite) => favorite !== token_id)
+    }
+    this._favorites.next(favorites)
+    localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(favorites))
   }
 
   async getColorOwners() {

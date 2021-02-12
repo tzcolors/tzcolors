@@ -84,6 +84,12 @@ export class ColorCardItemComponent implements OnInit {
     })
   }
 
+  toggleFavorite() {
+    if (this.color) {
+      this.storeService.setFavorite(this.color.token_id, !this.color.isFavorite)
+    }
+  }
+
   async bid() {
     if (
       this.color &&
