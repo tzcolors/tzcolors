@@ -101,7 +101,7 @@
               aria-controls="dropdown-animated"
               class="btn btn-light btn-circle"
             >
-              <fa-icon [icon]="faCog"></fa-icon>
+              <fa-icon [icon]="['fas', 'cog']"></fa-icon>
             </button>
             <ul
               id="dropdown-animated"
@@ -116,19 +116,19 @@
                   (click)="togglDogVision()"
                   title="Dogvision"
                 >
-                  <fa-icon [icon]="faDog"></fa-icon
+                  <fa-icon [icon]="['fas', 'dog']"></fa-icon
                   ><span class="ml-2"> Dog Vision </span>
                 </a>
               </li>
               <li role="menuitem">
                 <a class="dropdown-item disabled">
-                  <fa-icon [icon]="faSun"></fa-icon
+                  <fa-icon [icon]="['far', 'moon']"></fa-icon
                   ><span class="ml-2">Dark Mode</span>
                 </a>
               </li>
               <li role="menuitem">
                 <a class="dropdown-item disabled">
-                  <fa-icon [icon]="faMoon"></fa-icon
+                  <fa-icon [icon]="['far', 'sun']"></fa-icon
                   ><span class="ml-2">Light Mode</span>
                 </a>
               </li>

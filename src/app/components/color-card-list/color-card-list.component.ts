@@ -10,24 +10,12 @@ import {
   ViewTypes,
 } from 'src/app/services/store/store.service'
 
-import {
-  faSortAlphaDown,
-  faSortAlphaUp,
-  faSortAmountDown,
-  faSortAmountUp,
-} from '@fortawesome/free-solid-svg-icons'
-
 @Component({
   selector: 'app-color-card-list',
   templateUrl: './color-card-list.component.html',
   styleUrls: ['./color-card-list.component.scss'],
 })
 export class ColorCardListComponent implements OnInit {
-  faSortAlphaDown = faSortAlphaDown
-  faSortAlphaUp = faSortAlphaUp
-  faSortAmountDown = faSortAmountDown
-  faSortAmountUp = faSortAmountUp
-
   @Input()
   public colors$: Observable<Color[]> = new Observable()
 
