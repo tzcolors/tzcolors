@@ -68,6 +68,10 @@ export class ColorCardItemComponent implements OnInit {
     this.updateCardState()
   }
 
+  openAddress(address: string) {
+    window.open(`https://tezblock.io/account/${address}`, '_blank')
+  }
+
   openAuctionModal() {
     if (!this.color) {
       return
