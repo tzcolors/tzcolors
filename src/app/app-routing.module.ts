@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { AuctionsComponent } from './pages/auctions/auctions.component'
 import { ExploreComponent } from './pages/explore/explore.component'
+import { HistoryComponent } from './pages/history/history.component'
 import { LandingComponent } from './pages/landing/landing.component'
 import { MyColorsComponent } from './pages/my-colors/my-colors.component'
 
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'explore', component: ExploreComponent },
   { path: 'auctions', component: AuctionsComponent },
   { path: 'my-colors', component: MyColorsComponent },
+  { path: 'history', component: HistoryComponent },
 ]
 
 @NgModule({

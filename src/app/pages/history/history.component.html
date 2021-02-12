@@ -1,0 +1,26 @@
+<p *ngFor="let item of bids$ | async">
+  Token: {{ item.storage_diff.children[0].children[1].value }}<br />Bid changed
+  from
+  {{
+    item.storage_diff.children[0].children[5].from
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}
+  to
+  {{
+    item.storage_diff.children[0].children[5].value
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}<br />Owner changed from
+  {{ item.storage_diff.children[0].children[6].from | shorten }} to
+  {{ item.storage_diff.children[0].children[6].value | shorten }}<br />
+  {{ item.timestamp }}
+</p>

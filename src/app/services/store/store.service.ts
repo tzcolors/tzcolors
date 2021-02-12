@@ -124,6 +124,8 @@ export class StoreService {
 
   public loading$: Observable<boolean>
 
+  public auctionInfo$: Observable<Map<number, AuctionItem>>
+
   private _colors$: ReplaySubject<Color[]> = new ReplaySubject(1)
 
   private _numberOfItems: BehaviorSubject<number> = new BehaviorSubject(12)
@@ -177,6 +179,8 @@ export class StoreService {
     this.category$ = this._category.asObservable()
     this.view$ = this._view.asObservable()
     this.loading$ = this._loading.asObservable()
+
+    this.auctionInfo$ = this._auctionInfo.asObservable()
 
     let internalColors$ = combineLatest([
       this._colors$.pipe(

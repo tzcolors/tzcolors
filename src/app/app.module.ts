@@ -32,6 +32,7 @@ import { ShortenPipe } from './pipes/shorten.pipe'
 import { AmountConverterPipe } from './pipes/amount.pipe'
 import { CountdownComponent } from './components/countdown/countdown.component'
 import { ColorCardListComponent } from './components/color-card-list/color-card-list.component'
+import { HistoryComponent } from './pages/history/history.component'
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ColorCardListComponent } from './components/color-card-list/color-card-
     AmountConverterPipe,
     CountdownComponent,
     ColorCardListComponent,
+    HistoryComponent,
   ],
   imports: [
     BrowserModule,
