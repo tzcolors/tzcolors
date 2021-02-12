@@ -9,6 +9,24 @@
         'card--color--type__legendary': color.category === 'legendary'
       }"
     >
+      <button
+        *ngIf="color.isFavorite"
+        type="button"
+        (click)="toggleFavorite()"
+        class="btn btn-light btn-circle"
+      >
+        <fa-icon [icon]="faStar"></fa-icon>
+      </button>
+
+      <button
+        *ngIf="!color.isFavorite"
+        type="button"
+        (click)="toggleFavorite()"
+        class="btn btn-black btn-circle"
+      >
+        <fa-icon [icon]="faStar"></fa-icon>
+      </button>
+
       <div class="card--color--type__container m-2">
         <div
           class="card-color--type--symbol d-flex justify-content-center align-items-center"
