@@ -6,7 +6,7 @@ import { Observable } from 'rxjs'
 import { State } from 'src/app/app.reducer'
 import { BeaconService } from 'src/app/services/beacon/beacon.service'
 import { StoreService } from 'src/app/services/store/store.service'
-import { faDog } from '@fortawesome/free-solid-svg-icons'
+import { faDog, faCog, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import * as actions from '../../connect-wallet.actions'
 
 @Component({
@@ -16,6 +16,10 @@ import * as actions from '../../connect-wallet.actions'
 })
 export class HeaderItemComponent implements OnInit {
   faDog = faDog
+  faCog = faCog
+  faSun = faSun
+  faMoon = faMoon
+
   connectedWallet$: Observable<AccountInfo | undefined> | undefined
 
   isCollapsed = true
