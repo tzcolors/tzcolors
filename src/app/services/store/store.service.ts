@@ -121,6 +121,7 @@ export class StoreService {
   public sortDirection$: Observable<SortDirection>
   public category$: Observable<ColorCategory>
   public view$: Observable<ViewTypes>
+  public dogvision$: ReplaySubject<boolean> = new ReplaySubject()
 
   public loading$: Observable<boolean>
 

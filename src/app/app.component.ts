@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store'
 import { State } from './app.reducer'
 
 import * as actions from './connect-wallet.actions'
+import { StoreService } from './services/store/store.service'
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,15 @@ import * as actions from './connect-wallet.actions'
 })
 export class AppComponent implements OnInit {
   title = 'tzcolors'
+  dogvision = false
 
-  constructor(private readonly store$: Store<State>) {}
+  constructor(
+    private readonly store$: Store<State>,
+    private readonly store: StoreService
+  ) {}
 
   ngOnInit() {
     this.store$.dispatch(actions.setupBeacon())
+    this.store.dogvision$.subscribe((dogvision) => (this.dogvision = dogvision))
   }
 }

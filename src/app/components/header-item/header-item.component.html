@@ -48,6 +48,7 @@
             >My Colors</a
           >
         </li>
+
         <li class="nav-item ml-3">
           <button
             *ngIf="!(connectedWallet$ | async)"
@@ -85,6 +86,50 @@
               <li role="menuitem">
                 <a class="dropdown-item" (click)="disconnectWallet()">
                   Disconnect Wallet
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item m-3">
+          <div class="btn-group" dropdown>
+            <button
+              id="button-animated"
+              dropdownToggle
+              type="button"
+              aria-controls="dropdown-animated"
+              class="btn btn-light btn-circle"
+            >
+              <fa-icon [icon]="faCog"></fa-icon>
+            </button>
+            <ul
+              id="dropdown-animated"
+              *dropdownMenu
+              class="dropdown-menu dropdown-menu-right"
+              role="menu"
+              aria-labelledby="button-animated"
+            >
+              <li role="menuitem">
+                <a
+                  class="dropdown-item"
+                  (click)="togglDogVision()"
+                  title="Dogvision"
+                >
+                  <fa-icon [icon]="faDog"></fa-icon
+                  ><span class="ml-2"> Dog Vision </span>
+                </a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item disabled">
+                  <fa-icon [icon]="faSun"></fa-icon
+                  ><span class="ml-2">Dark Mode</span>
+                </a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item disabled">
+                  <fa-icon [icon]="faMoon"></fa-icon
+                  ><span class="ml-2">Light Mode</span>
                 </a>
               </li>
             </ul>
