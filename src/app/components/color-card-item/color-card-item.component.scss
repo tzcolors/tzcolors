@@ -53,4 +53,21 @@
   .card-color--type--symbol {
     height: inherit;
   }
+
+  .btn-sm {
+    width: 40px;
+    border-radius: 16px;
+    transition: 0.5s;
+    fa-icon {
+      margin: 0;
+    }
+  }
+  .btn__favorite {
+    opacity: 0;
+  }
+  &:hover {
+    .btn__favorite {
+      opacity: 1;
+    }
+  }
 }

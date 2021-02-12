@@ -10,7 +10,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AlertModule } from 'ngx-bootstrap/alert'
 import { AccordionModule } from 'ngx-bootstrap/accordion'
 import { CollapseModule } from 'ngx-bootstrap/collapse'
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import {
+  FontAwesomeModule,
+  FaIconLibrary,
+} from '@fortawesome/angular-fontawesome'
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
+import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons'
 
 import { HeaderItemComponent } from './components/header-item/header-item.component'
 import { LandingComponent } from './pages/landing/landing.component'
@@ -72,4 +77,9 @@ import { WatchlistComponent } from './pages/watchlist/watchlist.component'
   providers: [],
   bootstrap: [AppComponent, BsModalService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(fasStar)
+    library.addIcons(farStar)
+  }
+}

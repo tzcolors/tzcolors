@@ -13,7 +13,6 @@ import {
   isOwner,
   StoreService,
 } from 'src/app/services/store/store.service'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 type ColorState = 'loading' | 'free' | 'auction' | 'claim' | 'owned' | 'own'
 
@@ -42,8 +41,6 @@ export class ColorCardItemComponent implements OnInit {
   isOver: boolean = false
 
   state: ColorState = 'loading'
-
-  faStar = faStar
 
   constructor(
     private readonly modalService: BsModalService,
