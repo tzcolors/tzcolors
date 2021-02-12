@@ -358,9 +358,7 @@ export class StoreService {
 
   async getColorOwners() {
     const data = await this.http
-      .get<RootObject[]>(
-        `${environment.proxyUrl}${environment.colorsBigmapUrl}`
-      )
+      .get<RootObject[]>(`${environment.colorsBigmapUrl}`)
       .toPromise()
 
     const ownerInfo = new Map<number, string>()
@@ -385,9 +383,7 @@ export class StoreService {
 
   async getAuctions() {
     const data = await this.http
-      .get<RootObject[]>(
-        `${environment.proxyUrl}${environment.auctionBigmapUrl}`
-      )
+      .get<RootObject[]>(`${environment.auctionBigmapUrl}`)
       .toPromise()
 
     const auctionInfo = new Map<number, AuctionItem>()
