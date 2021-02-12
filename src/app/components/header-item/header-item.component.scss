@@ -1,3 +1,18 @@
+.btn {
+  &.btn-circle {
+    border-radius: 50% !important;
+    min-width: 48px;
+  }
+  fa-icon {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 2.25;
+  }
+}
+.dropdown-item {
+  cursor: pointer;
+}
+
 @media (min-width: 576px) {
   .display--inline-table {
     display: inline-table !important;

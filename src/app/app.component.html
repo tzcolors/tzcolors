@@ -1,6 +1,6 @@
 <app-header-item></app-header-item>
 
-<div class="container">
+<div class="container" [class.dog]="dogvision" [class.normal]="!dogvision">
   <div class="my-5">
     <router-outlet></router-outlet>
   </div>

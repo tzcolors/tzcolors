@@ -64,7 +64,14 @@
             <span class="text-primary">You</span>
             •
           </ng-container>
-          {{ color.auction?.bidder! | shorten }}
+          <a
+            class="text-dark"
+            (click)="openAddress(color.auction?.bidder!)"
+            href
+            target="_blank"
+          >
+            {{ color.auction?.bidder! | shorten }}
+          </a>
         </p>
         <p class="text-muted font-weight-light m-0">Highest Bidder</p>
       </ng-container>
