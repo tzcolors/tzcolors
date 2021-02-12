@@ -14,7 +14,7 @@
   <h3 class="m-0 font-weight-light" *ngIf="shortTimeFormat">
     <ng-container *ngIf="daysToDday > 0">
       {{ daysToDday | number: '2.0' }}:</ng-container
-    ><ng-container *ngIf="hoursToDday > 0"
+    ><ng-container *ngIf="daysToDday > 0 || hoursToDday > 0"
       >{{ hoursToDday | number: '2.0' }}:</ng-container
     ><ng-container *ngIf="minutesToDday >= 0"
       >{{ minutesToDday | number: '2.0' }}:</ng-container
