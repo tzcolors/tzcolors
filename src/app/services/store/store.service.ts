@@ -79,7 +79,7 @@ export interface AuctionItem {
   bidder: string
 }
 
-export type ViewTypes = 'explore' | 'auctions' | 'my-colors'
+export type ViewTypes = 'explore' | 'auctions' | 'my-colors' | 'watchlist'
 
 export type ColorCategory = 'all' | 'legendary' | 'epic' | 'standard'
 
@@ -185,9 +185,6 @@ export class StoreService {
     this.view$ = this._view.asObservable()
     this.loading$ = this._loading.asObservable()
     this.favorites$ = this._favorites.asObservable()
-    this.favorites$.subscribe((favorites) => {
-      localStorage.setItem('tzcolor:favorites', JSON.stringify(favorites))
-    })
 
     this.initFromStorage()
 
@@ -279,6 +276,8 @@ export class StoreService {
             .filter((c) =>
               view === 'explore'
                 ? true
+                : view === 'watchlist'
+                ? c.isFavorite
                 : view === 'auctions'
                 ? isActiveAuction(c)
                 : view === 'my-colors'
@@ -391,6 +390,7 @@ export class StoreService {
     } else if (!isFavorite) {
       favorites = favorites.filter((favorite) => favorite !== token_id)
     }
+    localStorage.setItem('tzcolor:favorites', JSON.stringify(favorites))
     this._favorites.next(favorites)
   }
 
