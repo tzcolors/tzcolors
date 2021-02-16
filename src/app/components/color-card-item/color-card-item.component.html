@@ -20,6 +20,7 @@
           <fa-icon class="ml-1" [icon]="['far', 'window-restore']"></fa-icon>
         </span>
       </button>
+      <div *ngIf="isModal"></div>
       <div class="d-flex flex-column justify-content-between align-items-end">
         <button
           [ngClass]="{ btn__favorite: !color.isFavorite, '': color.isFavorite }"
