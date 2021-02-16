@@ -1,7 +1,10 @@
 <div *ngIf="color" class="modal-body">
   <div class="row">
     <div class="col-12 col-md-5 pb-3 pb-md-0">
-      <app-color-card-item [color]="color"></app-color-card-item>
+      <app-color-card-item
+        [color]="color"
+        [isModal]="true"
+      ></app-color-card-item>
     </div>
     <div class="col-12 col-md-7">
       <div class="card">
@@ -24,7 +27,16 @@
                   </h5>
                   <p class="text-muted m-0">
                     <!--TODO: add link -->
-                    <a class="text-muted" target="_blank">
+                    <a
+                      (click)="
+                        openAddress(
+                          item.storage_diff.children[0].children[6].value
+                        )
+                      "
+                      href
+                      class="text-muted"
+                      target="_blank"
+                    >
                       {{
                         item.storage_diff.children[0].children[6].value
                           | shorten

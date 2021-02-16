@@ -116,6 +116,10 @@ export class ColorHistoryModalComponent implements OnInit {
     this.getHistory()
   }
 
+  openAddress(address: string) {
+    window.open(`https://tezblock.io/account/${address}`, '_blank')
+  }
+
   public async getHistory() {
     if (this.color && this.color.auction) {
       this.history = await this.http

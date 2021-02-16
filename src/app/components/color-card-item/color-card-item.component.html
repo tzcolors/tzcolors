@@ -9,8 +9,8 @@
         'card--color--type__legendary': color.category === 'legendary'
       }"
     >
-      <!--TODO: hide button if not open in the history modal -->
       <button
+        *ngIf="!isModal"
         type="button"
         (click)="openHistoryModal()"
         class="btn btn-light btn-sm align-self-end btn__favorite m-2"

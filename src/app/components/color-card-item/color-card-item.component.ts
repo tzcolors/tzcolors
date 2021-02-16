@@ -32,6 +32,9 @@ export class ColorCardItemComponent implements OnInit {
   @Input()
   isAuction: boolean = false
 
+  @Input()
+  isModal: boolean = false
+
   ownAddress: string | undefined
 
   bidAmount: string | undefined
