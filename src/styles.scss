@@ -104,6 +104,14 @@ $link-hover-decoration: none;
   }
 }
 
+app-auction-modal {
+  app-color-card-item {
+    .h-100 {
+      height: initial !important;
+    }
+  }
+}
+
 @import '../node_modules/bootstrap/scss/bootstrap';
 
 /* Importing Bootstrap SCSS file. */

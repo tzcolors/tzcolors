@@ -1,7 +1,7 @@
 <div *ngIf="color" class="card h-100">
   <div class="card-body d-flex flex-column">
     <div
-      class="card--color__header d-flex flex-column justify-content-between align-items-end m-4"
+      class="card--color__header m-4 d-flex justify-content-between"
       [ngStyle]="{ 'background-color': color.symbol }"
       [ngClass]="{
         'card--color--type__standard': color.category === 'standard',
@@ -10,20 +10,34 @@
       }"
     >
       <button
-        [ngClass]="{ btn__favorite: !color.isFavorite, '': color.isFavorite }"
+        *ngIf="!isModal"
         type="button"
-        (click)="toggleFavorite()"
-        class="btn btn-light btn-sm m-2"
+        (click)="openHistoryModal()"
+        class="btn btn-light btn-sm align-self-end btn__favorite m-2"
       >
-        <fa-icon *ngIf="color.isFavorite" [icon]="['fas', 'star']"></fa-icon>
-        <fa-icon *ngIf="!color.isFavorite" [icon]="['far', 'star']"></fa-icon>
+        <span class="px-1">
+          Details
+          <fa-icon class="ml-1" [icon]="['far', 'window-restore']"></fa-icon>
+        </span>
       </button>
-
-      <div class="card--color--type__container m-2">
-        <div
-          class="card-color--type--symbol d-flex justify-content-center align-items-center"
+      <div *ngIf="isModal"></div>
+      <div class="d-flex flex-column justify-content-between align-items-end">
+        <button
+          [ngClass]="{ btn__favorite: !color.isFavorite, '': color.isFavorite }"
+          type="button"
+          (click)="toggleFavorite()"
+          class="btn btn-light btn-sm m-2"
         >
-          <p class="m-0">{{ color.category | slice: 0:1 | uppercase }}</p>
+          <fa-icon *ngIf="color.isFavorite" [icon]="['fas', 'star']"></fa-icon>
+          <fa-icon *ngIf="!color.isFavorite" [icon]="['far', 'star']"></fa-icon>
+        </button>
+
+        <div class="card--color--type__container m-2">
+          <div
+            class="card-color--type--symbol d-flex justify-content-center align-items-center"
+          >
+            <p class="m-0">{{ color.category | slice: 0:1 | uppercase }}</p>
+          </div>
         </div>
       </div>
     </div>

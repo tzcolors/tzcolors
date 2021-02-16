@@ -13,6 +13,7 @@ import {
   isOwner,
   StoreService,
 } from 'src/app/services/store/store.service'
+import { ColorHistoryModalComponent } from '../color-history-modal/color-history-modal.component'
 
 type ColorState =
   | 'loading'
@@ -37,6 +38,9 @@ export class ColorCardItemComponent implements OnInit {
 
   @Input()
   isAuction: boolean = false
+
+  @Input()
+  isModal: boolean = false
 
   ownAddress: string | undefined
 
@@ -84,6 +88,18 @@ export class ColorCardItemComponent implements OnInit {
       return
     }
     const modalRef = this.modalService.show(AuctionModalComponent, {
+      initialState: {
+        color: this.color,
+      },
+      class: 'modal-lg modal-dialog-centered',
+    })
+  }
+
+  openHistoryModal() {
+    if (!this.color) {
+      return
+    }
+    const modalRef = this.modalService.show(ColorHistoryModalComponent, {
       initialState: {
         color: this.color,
       },
