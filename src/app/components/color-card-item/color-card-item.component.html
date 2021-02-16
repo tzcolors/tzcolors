@@ -120,6 +120,16 @@
             <p class="text-muted font-weight-light">Bids</p>
           </div>
         </div>
+        <div
+          *ngIf="color.auction?.bidder! === color.auction?.seller!"
+          class="row py-2"
+        >
+          <div class="col">
+            <p class="font-weight-light text-muted">
+              Be the first to bid on this auction!
+            </p>
+          </div>
+        </div>
       </ng-container>
       <ng-container *ngIf="state === 'unclaimed'">
         <h3 class="m-0 font-weight-light">
