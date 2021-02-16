@@ -289,8 +289,12 @@ export class StoreService {
                 : true
             )
             .filter((c) => category === 'all' || c.category === category)
-            .filter((c) =>
-              c.name.toLowerCase().includes(searchTerm.toLowerCase())
+            .filter(
+              (c) =>
+                c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                c.owner?.toLowerCase() === searchTerm.toLowerCase() ||
+                c.auction?.bidder?.toLowerCase() === searchTerm.toLowerCase() ||
+                c.auction?.seller?.toLowerCase() === searchTerm.toLowerCase()
             )
             .sort((a_, b_) => {
               const { a, b } =
@@ -486,18 +490,20 @@ export class StoreService {
   }
 
   private getDate(value: string): Date {
-    let date = new Date(value)
+    const year = value.substring(0, 4).padStart(2, '0')
+    const month = value.substring(5, 7).padStart(2, '0')
+    const day = value.substring(8, 10).padStart(2, '0')
+    const hour = value.substring(11, 13).padStart(2, '0')
+    const minute = value.substring(14, 16).padStart(2, '0')
+    const second = value.substring(17, 19).padStart(2, '0')
+
+    const date = new Date(
+      `${year}-${month}-${day}T${hour}:${minute}:${second}.000Z`
+    )
+
     if (!isNaN(date.getTime())) {
       return date
     }
-    if (value.includes(' ')) {
-      // TODO: WTF Safari???
-      return new Date(
-        new Date(value.slice(0, 19).replace(' ', 'T')).getTime() +
-          1000 * 60 * 60
-      )
-    } else {
-      return new Date(value)
-    }
+    throw new Error('CANNOT PARSE DATE')
   }
 }

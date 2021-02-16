@@ -62,7 +62,7 @@
           </div>
           <div class="col text-right">
             <app-countdown
-              [endDate]="color.auction?.endTimestamp!.toString()"
+              [endDate]="color.auction?.endTimestamp!"
               [shortTimeFormat]="true"
               (countdownReached)="auctionOverEvent()"
             ></app-countdown>
