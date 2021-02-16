@@ -86,28 +86,26 @@
         <p class="text-muted font-weight-light m-0">Highest Bidder</p>
       </ng-container>
       <ng-container *ngIf="state === 'unclaimed'">
+        <h3 class="m-0 font-weight-light">
+          {{
+            color.auction?.bidAmount
+              | amountConverter
+                : {
+                    decimals: 6,
+                    symbol: 'tez'
+                  }
+              | async
+          }}
+        </h3>
+        <p class="text-muted font-weight-light">Final Price</p>
         <p class="m-0 font-weight-light">
           {{ color.auction?.bidder! | shorten }}
         </p>
         <p class="text-muted font-weight-light m-0">Owner</p>
-        {{
-          color.auction?.bidAmount
-            | amountConverter
-              : {
-                  decimals: 6,
-                  symbol: 'tez'
-                }
-            | async
-        }}
-        <p class="text-muted font-weight-light m-0">Bought for</p>
       </ng-container>
       <ng-container *ngIf="state === 'owned'">
-        <p class="m-0 font-weight-light">
-          {{ color?.owner! | shorten }}
-        </p>
-        <p class="text-muted font-weight-light m-0">Owner</p>
         <ng-container *ngIf="color?.previousAuction">
-          <p class="m-0 font-weight-light">
+          <h3 class="m-0 font-weight-light">
             {{
               color?.previousAuction?.bidAmount
                 | amountConverter
@@ -117,9 +115,13 @@
                     }
                 | async
             }}
-          </p>
-          <p class="text-muted font-weight-light m-0">Bought for</p>
+          </h3>
+          <p class="text-muted font-weight-light">Final Price</p>
         </ng-container>
+        <p class="m-0 font-weight-light">
+          {{ color?.owner! | shorten }}
+        </p>
+        <p class="text-muted font-weight-light m-0">Owner</p>
       </ng-container>
 
       <ng-container *ngIf="state === 'claim'">
