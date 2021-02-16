@@ -9,7 +9,7 @@ import { Subscription, interval } from 'rxjs'
 })
 export class CountdownComponent implements OnInit, OnDestroy {
   @Input()
-  public endDate: string = ''
+  public endDate: Date | string = ''
 
   @Input()
   public shortTimeFormat: boolean = false
@@ -33,10 +33,14 @@ export class CountdownComponent implements OnInit, OnDestroy {
   constructor() {}
 
   getTimeDifference() {
-    this.timeDifference = Math.max(
-      new Date(this.endDate).getTime() - new Date().getTime(),
-      0
-    )
+    let date: Date | undefined
+    if (typeof this.endDate === 'string') {
+      date = new Date(this.endDate)
+    } else {
+      date = this.endDate
+    }
+
+    this.timeDifference = Math.max(date.getTime() - new Date().getTime(), 0)
 
     if (this.timeDifference <= 0) {
       this.countdownReached.emit(true)
