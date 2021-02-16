@@ -5,7 +5,7 @@ export const environment = {
   rpcUrl: 'https://mainnet-tezos.giganode.io',
   appName: 'tzcolors',
   colorsBigmapUrl:
-    'https://api.better-call.dev/v1/bigmap/mainnet/411/keys?q=&offset=0&size=10000',
+    'https://bcd-proxy.prod.gke.papers.tech/v1/bigmap/mainnet/411/keys?q=&offset=0&size=10000',
   auctionBigmapUrl:
-    'https://api.better-call.dev/v1/bigmap/mainnet/409/keys?q=&offset=0&size=10000',
+    'https://bcd-proxy.prod.gke.papers.tech/v1/bigmap/mainnet/409/keys?q=&offset=0&size=10000',
 }
