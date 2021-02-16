@@ -12,6 +12,7 @@ export const environment = {
     'https://bcd-proxy.prod.gke.papers.tech/v1/bigmap/mainnet/411/keys?q=&offset=0&size=10000',
   auctionBigmapUrl:
     'https://bcd-proxy.prod.gke.papers.tech/v1/bigmap/mainnet/409/keys?q=&offset=0&size=10000',
+  indexerUrl: 'https://tzcolors-indexer.prod.gke.papers.tech/api/v1/',
 }
 
 /*
