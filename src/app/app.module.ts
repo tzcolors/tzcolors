@@ -50,6 +50,7 @@ import { AmountConverterPipe } from './pipes/amount.pipe'
 import { CountdownComponent } from './components/countdown/countdown.component'
 import { ColorCardListComponent } from './components/color-card-list/color-card-list.component'
 import { WatchlistComponent } from './pages/watchlist/watchlist.component'
+import { ColorHistoryModalComponent } from './components/color-history-modal/color-history-modal.component'
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { WatchlistComponent } from './pages/watchlist/watchlist.component'
     AuctionsComponent,
     MyColorsComponent,
     AuctionModalComponent,
+    ColorHistoryModalComponent,
     ShortenPipe,
     AmountConverterPipe,
     CountdownComponent,

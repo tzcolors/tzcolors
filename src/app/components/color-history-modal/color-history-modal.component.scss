@@ -1,0 +1,51 @@
+.card--color--type__standard {
+  .card--color--type__container {
+    border-radius: 50%;
+  }
+  .card--header {
+    background-color: var(--standard);
+  }
+  .card-color--type--symbol {
+    color: var(--standard);
+  }
+}
+.card--color--type__epic {
+  .card--color--type__container {
+    border-radius: 50%;
+    border-top-left-radius: 0;
+  }
+  .card--header {
+    background-color: var(--epic);
+  }
+  .card-color--type--symbol {
+    color: var(--epic);
+  }
+}
+.card--color--type__legendary {
+  .card--color--type__container {
+    border-radius: 50%;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .card--header {
+    background-color: var(--legendary);
+  }
+  .card-color--type--symbol {
+    color: var(--legendary);
+  }
+}
+.card--color__header {
+  height: 164px;
+  border-radius: 16px;
+  box-shadow: 0px 4px 12px rgb(0 0 0 / 12%);
+}
+.card--color--type__container {
+  width: 24px;
+  height: 24px;
+  background-color: #fff;
+  box-shadow: 0 40px 60px 0 rgba(0, 0, 0, 0.08),
+    0 80px 160px 0 rgba(0, 0, 0, 0.04);
+}
+.card-color--type--symbol {
+  height: inherit;
+}
