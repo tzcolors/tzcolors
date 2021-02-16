@@ -7,26 +7,37 @@
       <div class="card">
         <div class="card-body">
           <ng-container *ngIf="history">
-            <h3>Previous bids - {{ history.length }}</h3>
-            <div class="row py-4">
-              <div class="col-12 col-md-7" *ngFor="let item of history">
-                <label class="mb-0">{{
-                  item.storage_diff.children[0].children[5].value
-                    | amountConverter
-                      : {
-                          decimals: 6,
-                          symbol: 'tez'
-                        }
-                    | async
-                }}</label>
-                <small class="d-inline-block text-muted mb-2"
-                  >{{
-                    item.storage_diff.children[0].children[6].value | shorten
-                  }}
-                  - {{ item.timestamp | date }}</small
-                >
+            <h3 class="mb-3">Previous bids - {{ history.length }}</h3>
+            <ng-container *ngFor="let item of history">
+              <div class="row align-items-center">
+                <div class="col col-md-6">
+                  <h5 class="mb-0">
+                    {{
+                      item.storage_diff.children[0].children[5].value
+                        | amountConverter
+                          : {
+                              decimals: 6,
+                              symbol: 'tez'
+                            }
+                        | async
+                    }}
+                  </h5>
+                  <p class="text-muted m-0">
+                    <!--TODO: add link -->
+                    <a class="text-muted" target="_blank">
+                      {{
+                        item.storage_diff.children[0].children[6].value
+                          | shorten
+                      }}
+                    </a>
+                  </p>
+                </div>
+                <div class="col col-md-6 text-right">
+                  <p class="m-0 text-muted">{{ item.timestamp | amTimeAgo }}</p>
+                </div>
               </div>
-            </div>
+              <hr />
+            </ng-container>
           </ng-container>
         </div>
       </div>
