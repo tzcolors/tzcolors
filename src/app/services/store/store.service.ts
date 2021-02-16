@@ -505,10 +505,10 @@ export class StoreService {
   }
 
   async getPreviousAuctions() {
+    // TODO: Add response type
     const data = await this.http
-      // .get<RootObject[]>(`${environment.indexerUrl}auction/operations?entrypoints=withdraw`)
       .get<any>(
-        `https://api.better-call.dev/v1/contract/delphinet/KT1QRs3Q2vTDu6JJX1XeDJPCbkX8BHRuGs1E/operations?status=applied&entrypoints=withdraw&with_storage_diff=true`
+        `${environment.indexerUrl}auction/operations?status=applied&entrypoint=withdraw`
       )
       .toPromise()
 
@@ -517,9 +517,9 @@ export class StoreService {
 
     const previousAuctionInfo = new Map<number, PreviousAuctionItem>()
 
-    data.operations
+    data
       .filter((o: any) => o.entrypoint === 'withdraw')
-      .forEach((o: any, i: number) => {
+      .forEach((o: any) => {
         const value = o.storage_diff?.children[0]?.children
 
         if (!value) {
