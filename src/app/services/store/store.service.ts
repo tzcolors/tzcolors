@@ -335,13 +335,32 @@ export class StoreService {
                   return -1
                 }
               } else if (sortType === 'price') {
-                if (aAuction && bAuction) {
-                  return (
-                    (Number(aAuction.bidAmount) ?? 0) -
-                    (Number(bAuction.bidAmount) ?? 0)
-                  )
+                if (view === 'auctions') {
+                  if (aAuction && bAuction) {
+                    return (
+                      (Number(aAuction.bidAmount) ?? 0) -
+                      (Number(bAuction.bidAmount) ?? 0)
+                    )
+                  } else {
+                    return -1
+                  }
                 } else {
-                  return -1
+                  const aBid = Number(aAuction?.bidAmount)
+                  const aPreviousBid = Number(a.previousAuction?.bidAmount)
+                  const aPrice = !isNaN(aBid)
+                    ? aBid
+                    : !isNaN(aPreviousBid)
+                    ? aPreviousBid
+                    : 0
+                  const bBid = Number(bAuction?.bidAmount)
+                  const bPreviousBid = Number(b.previousAuction?.bidAmount)
+                  const bPrice = !isNaN(bBid)
+                    ? bBid
+                    : !isNaN(bPreviousBid)
+                    ? bPreviousBid
+                    : 0
+
+                  return aPrice - bPrice
                 }
               }
 
@@ -511,9 +530,6 @@ export class StoreService {
         `${environment.indexerUrl}auction/operations?status=applied&entrypoint=withdraw`
       )
       .toPromise()
-
-    console.log(data)
-    console.log()
 
     const previousAuctionInfo = new Map<number, PreviousAuctionItem>()
 
