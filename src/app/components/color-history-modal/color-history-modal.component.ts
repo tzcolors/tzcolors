@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { Color } from 'src/app/services/store/store.service'
+import { environment } from 'src/environments/environment'
 
 export interface Result {
   consumed_gas: number
@@ -124,7 +125,7 @@ export class ColorHistoryModalComponent implements OnInit {
     if (this.color && this.color.auction) {
       this.history = await this.http
         .get<HistoryItem[]>(
-          `https://tzcolors-indexer.prod.gke.papers.tech/api/v1/auction/operations?entrypoint=bid&parameters.value=${this.color.auction.auctionId}`
+          `${environment.indexerUrl}auction/operations?entrypoint=bid&parameters.value=${this.color.auction.auctionId}`
         )
         .toPromise()
     }

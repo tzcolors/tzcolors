@@ -32,6 +32,7 @@ export interface Color {
   owner: string | undefined
   loading: boolean
   isFavorite: boolean
+  previousAuction: PreviousAuctionItem | undefined
 }
 
 export interface Child {
@@ -69,6 +70,17 @@ export interface RootObject {
 }
 
 export interface AuctionItem {
+  auctionId: number
+  tokenAddress: string
+  tokenId: number
+  tokenAmount: number
+  endTimestamp: Date
+  seller: string
+  bidAmount: string
+  bidder: string
+}
+
+export interface PreviousAuctionItem {
   auctionId: number
   tokenAddress: string
   tokenId: number
@@ -156,6 +168,9 @@ export class StoreService {
   private _auctionInfo: BehaviorSubject<
     Map<number, AuctionItem>
   > = new BehaviorSubject(new Map())
+  private _previousAuctionInfo: BehaviorSubject<
+    Map<number, PreviousAuctionItem>
+  > = new BehaviorSubject(new Map())
   private _colorStates: BehaviorSubject<
     Map<number, boolean>
   > = new BehaviorSubject(new Map())
@@ -211,6 +226,10 @@ export class StoreService {
         // distinctUntilChanged(),
         tap((x) => console.log('auctionInfo changed', x))
       ),
+      this._previousAuctionInfo.pipe(
+        // distinctUntilChanged(),
+        tap((x) => console.log('previousAuctionInfo changed', x))
+      ),
       this._colorStates.pipe(
         // distinctUntilChanged(),
         tap((x) => console.log('colorStates changed', x))
@@ -248,6 +267,7 @@ export class StoreService {
           view,
           ownerInfo,
           auctionInfo,
+          previousAuctionInfo,
           colorStates,
           favorites,
           accountInfo,
@@ -260,6 +280,7 @@ export class StoreService {
           ViewTypes,
           Map<number, string>,
           Map<number, AuctionItem>,
+          Map<number, PreviousAuctionItem>,
           Map<number, boolean>,
           number[],
           AccountInfo | undefined,
@@ -274,6 +295,7 @@ export class StoreService {
               owner: ownerInfo.get(c.token_id),
               loading: colorStates.get(c.token_id) ?? false,
               isFavorite: favorites.includes(c.token_id), // TODO: use map
+              previousAuction: previousAuctionInfo.get(c.token_id),
             }))
             .filter((c) =>
               view === 'explore'
@@ -343,6 +365,7 @@ export class StoreService {
 
     this.getColorOwners()
     this.getAuctions()
+    this.getPreviousAuctions()
     this.updateState()
   }
 
@@ -481,11 +504,79 @@ export class StoreService {
     }
   }
 
+  async getPreviousAuctions() {
+    // TODO: Add response type
+    const data = await this.http
+      .get<any>(
+        `${environment.indexerUrl}auction/operations?status=applied&entrypoint=withdraw`
+      )
+      .toPromise()
+
+    console.log(data)
+    console.log()
+
+    const previousAuctionInfo = new Map<number, PreviousAuctionItem>()
+
+    data
+      .filter((o: any) => o.entrypoint === 'withdraw')
+      .forEach((o: any) => {
+        const value = o.storage_diff?.children[0]?.children
+
+        if (!value) {
+          return
+        }
+        const tokenAddress = value[0].value
+        const tokenId = Number(value[1].value)
+        const tokenAmount = Number(value[2].value)
+        const endTimestamp = this.getDate(value[3].value)
+        const seller = value[4].value
+        const bidAmount = value[5].value
+        const bidder = value[6].value
+
+        const auctionItem = {
+          auctionId: Number(o.parameters.value),
+          tokenAddress,
+          tokenId,
+          tokenAmount,
+          endTimestamp,
+          seller,
+          bidAmount,
+          bidder,
+        }
+
+        if (auctionItem.bidder !== auctionItem.seller) {
+          // This check is here because otherwise the owner can "fake" the previous auction price
+          previousAuctionInfo.set(tokenId, auctionItem)
+        }
+      })
+
+    // TODO: This will only update the "loading" state if the color was actually affected by the update
+    // const currentAuction = this._auctionInfo.value
+    // for (const key of currentAuction.keys()) {
+    //   console.log('KEY,', key)
+    //   if (deepEqual(currentAuction.get(key), auctionInfo.get(key))) {
+    //     continue
+    //   } else {
+    //     console.log(`TOKEN "${key}" WAS UPDATED`)
+    //     this.setColorLoadingState(key, false)
+    //   }
+    // }
+
+    if (!deepEqual(this._previousAuctionInfo.value, previousAuctionInfo)) {
+      console.log('Previous Auctions: Not equal, updating')
+      this._previousAuctionInfo.next(previousAuctionInfo)
+      this._colorStates.next(new Map())
+    } else {
+      console.log('Previous Auctions: responses are equal')
+    }
+  }
+
   updateState() {
     let subscription = interval(10_000).subscribe((x) => {
       console.log('refresh')
       this.getColorOwners()
       this.getAuctions()
+      this.getPreviousAuctions()
     })
   }
 

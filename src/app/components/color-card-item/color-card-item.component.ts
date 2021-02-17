@@ -15,7 +15,14 @@ import {
 } from 'src/app/services/store/store.service'
 import { ColorHistoryModalComponent } from '../color-history-modal/color-history-modal.component'
 
-type ColorState = 'loading' | 'free' | 'auction' | 'claim' | 'owned' | 'own'
+type ColorState =
+  | 'loading'
+  | 'free'
+  | 'auction'
+  | 'unclaimed'
+  | 'claim'
+  | 'owned'
+  | 'own'
 
 @Component({
   selector: 'app-color-card-item',
@@ -157,6 +164,9 @@ export class ColorCardItemComponent implements OnInit {
         this.state = 'free'
         if (this.color.owner) {
           this.state = 'owned'
+          if (this.color.auction) {
+            this.state = 'unclaimed'
+          }
         }
         if (isOwner(this.color, accountInfo)) {
           this.state = 'own'
