@@ -11,6 +11,9 @@
         <div class="card-body">
           <ng-container *ngIf="history">
             <h3 class="mb-3">Previous bids - {{ history.length }}</h3>
+            <p class="text-muted" *ngIf="!history.length">
+              There are no bids so far.
+            </p>
             <ng-container *ngFor="let item of history">
               <div class="row align-items-center">
                 <div class="col col-md-6">
