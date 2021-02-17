@@ -60,7 +60,7 @@
       </ng-container>
       <ng-container *ngIf="state === 'auction'">
         <div class="row py-2">
-          <div class="col">
+          <div class="col pr-0">
             <h3 class="m-0 font-weight-light">
               {{
                 color.auction?.bidAmount
@@ -116,16 +116,16 @@
             class="col text-right"
             *ngIf="color.auction?.bidder! === color.auction?.seller!"
           >
-            <h3 class="m-0 font-weight-light">0</h3>
+            <p class="m-0">0</p>
             <p class="text-muted font-weight-light">Bids</p>
           </div>
         </div>
         <div
           *ngIf="color.auction?.bidder! === color.auction?.seller!"
-          class="row py-2"
+          class="row"
         >
           <div class="col">
-            <p class="font-weight-light text-muted">
+            <p class="font-weight-light text-muted m-0">
               Be the first to bid on this auction!
             </p>
           </div>
