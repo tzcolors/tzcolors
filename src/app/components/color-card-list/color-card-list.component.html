@@ -79,7 +79,6 @@
           <span>Name</span>
         </button>
         <button
-          *ngIf="(view$ | async) === 'auctions'"
           (click)="[sortType('price'), sortDirection(sortingDirection, 'desc')]"
           type="button"
           class="btn btn-sm mr-3"

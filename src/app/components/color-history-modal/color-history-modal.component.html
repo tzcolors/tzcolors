@@ -1,0 +1,58 @@
+<div *ngIf="color" class="modal-body">
+  <div class="row">
+    <div class="col-12 col-md-5 pb-3 pb-md-0">
+      <app-color-card-item
+        [color]="color"
+        [isModal]="true"
+      ></app-color-card-item>
+    </div>
+    <div class="col-12 col-md-7">
+      <div class="card">
+        <div class="card-body">
+          <ng-container *ngIf="history">
+            <h3 class="mb-3">Previous bids - {{ history.length }}</h3>
+            <ng-container *ngFor="let item of history">
+              <div class="row align-items-center">
+                <div class="col col-md-6">
+                  <h5 class="mb-0">
+                    {{
+                      item.storage_diff.children[0].children[5].value
+                        | amountConverter
+                          : {
+                              decimals: 6,
+                              symbol: 'tez'
+                            }
+                        | async
+                    }}
+                  </h5>
+                  <p class="text-muted m-0">
+                    <a
+                      (click)="
+                        openAddress(
+                          item.storage_diff.children[0].children[6].value
+                        )
+                      "
+                      href
+                      class="text-muted"
+                      target="_blank"
+                    >
+                      {{
+                        item.storage_diff.children[0].children[6].value
+                          | shorten
+                      }}
+                    </a>
+                  </p>
+                </div>
+                <div class="col col-md-6 text-right">
+                  <p class="m-0 text-muted">{{ item.timestamp | amTimeAgo }}</p>
+                </div>
+              </div>
+              <hr />
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="!history"> No auction in progress </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

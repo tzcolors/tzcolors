@@ -18,6 +18,7 @@ import {
   faStar as farStar,
   faMoon as farMoon,
   faSun as farSun,
+  faWindowRestore,
 } from '@fortawesome/free-regular-svg-icons'
 import {
   faStar as fasStar,
@@ -28,6 +29,7 @@ import {
   faSortAlphaUp,
   faSortAlphaDown,
 } from '@fortawesome/free-solid-svg-icons'
+import { MomentModule } from 'ngx-moment'
 
 import { HeaderItemComponent } from './components/header-item/header-item.component'
 import { LandingComponent } from './pages/landing/landing.component'
@@ -50,6 +52,7 @@ import { AmountConverterPipe } from './pipes/amount.pipe'
 import { CountdownComponent } from './components/countdown/countdown.component'
 import { ColorCardListComponent } from './components/color-card-list/color-card-list.component'
 import { WatchlistComponent } from './pages/watchlist/watchlist.component'
+import { ColorHistoryModalComponent } from './components/color-history-modal/color-history-modal.component'
 
 @NgModule({
   declarations: [
@@ -62,6 +65,7 @@ import { WatchlistComponent } from './pages/watchlist/watchlist.component'
     AuctionsComponent,
     MyColorsComponent,
     AuctionModalComponent,
+    ColorHistoryModalComponent,
     ShortenPipe,
     AmountConverterPipe,
     CountdownComponent,
@@ -79,6 +83,7 @@ import { WatchlistComponent } from './pages/watchlist/watchlist.component'
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
     CollapseModule.forRoot(),
+    MomentModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),
@@ -91,7 +96,7 @@ import { WatchlistComponent } from './pages/watchlist/watchlist.component'
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
-    library.addIcons(fasStar, faCog, faDog)
+    library.addIcons(fasStar, faCog, faDog, faWindowRestore)
     library.addIcons(
       farStar,
       farMoon,
