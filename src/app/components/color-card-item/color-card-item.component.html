@@ -45,7 +45,10 @@
       <h3 class="m-0">
         {{ color.name }}
         <span
-          *ngIf="color.auction?.bidder! === color.auction?.seller!"
+          *ngIf="
+            color.auction?.bidder! === color.auction?.seller! &&
+            state == 'auction'
+          "
           class="badge badge-light align-top"
           >new</span
         >
