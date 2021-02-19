@@ -71,3 +71,9 @@
     }
   }
 }
+.badge {
+  font-size: 0.5em;
+  &.badge-light {
+    background-color: #efefef;
+  }
+}
