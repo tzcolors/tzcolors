@@ -148,18 +148,20 @@
         </div>
       </ng-container>
       <ng-container *ngIf="state === 'unclaimed'">
-        <h3 class="m-0 font-weight-light">
-          {{
-            color.auction?.bidAmount
-              | amountConverter
-                : {
-                    decimals: 6,
-                    symbol: 'tez'
-                  }
-              | async
-          }}
-        </h3>
-        <p class="text-muted font-weight-light">Final Price</p>
+        <ng-container *ngIf="color.auction?.bidder !== color.auction?.seller">
+          <h3 class="m-0 font-weight-light">
+            {{
+              color.auction?.bidAmount
+                | amountConverter
+                  : {
+                      decimals: 6,
+                      symbol: 'tez'
+                    }
+                | async
+            }}
+          </h3>
+          <p class="text-muted font-weight-light">Final Price</p>
+        </ng-container>
         <p class="m-0 font-weight-light">
           <a
             class="text-dark"
