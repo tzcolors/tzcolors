@@ -326,13 +326,31 @@ export class StoreService {
               const bAuction = b.auction
 
               if (sortType === 'time') {
+                // TODO: Improve sorting code
+                if (!aAuction) {
+                  return sortDirection === 'asc' ? 1 : -1
+                }
+                if (aAuction.endTimestamp.getTime() < new Date().getTime()) {
+                  return sortDirection === 'asc' ? 1 : -1
+                }
+                if (!bAuction) {
+                  return sortDirection === 'asc' ? -1 : 1
+                }
+                if (bAuction.endTimestamp.getTime() < new Date().getTime()) {
+                  return sortDirection === 'asc' ? -1 : 1
+                }
                 if (aAuction && bAuction) {
                   return (
                     (aAuction.endTimestamp?.getTime() ?? 0) -
                     (bAuction.endTimestamp?.getTime() ?? 0)
                   )
                 } else {
-                  return -1
+                  if (aAuction?.endTimestamp && !bAuction?.endTimestamp) {
+                    return 1
+                  }
+                  if (!aAuction?.endTimestamp && bAuction?.endTimestamp) {
+                    return -1
+                  }
                 }
               } else if (sortType === 'price') {
                 if (view === 'auctions') {
