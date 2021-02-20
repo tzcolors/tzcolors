@@ -42,11 +42,23 @@
       </div>
     </div>
     <div class="px-4 d-flex flex-column">
-      <h3 class="m-0">{{ color.name }}</h3>
+      <h3 class="m-0">
+        {{ color.name }}
+        <span
+          *ngIf="
+            color.auction?.bidder! === color.auction?.seller! &&
+            state == 'auction'
+          "
+          class="badge badge-light align-top"
+          >new</span
+        >
+      </h3>
+
       <p class="text-muted font-weight-light">
         #{{ color.token_id }} • {{ color.category | titlecase }}
       </p>
-      <ng-container *ngIf="state === 'free'">
+      <ng-container *ngIf="state === 'free'"
+        >ß
         <div class="row py-2">
           <div class="col">
             <p class="font-weight-light text-muted">
@@ -72,7 +84,11 @@
                   | async
               }}
             </h3>
-            <p class="text-muted font-weight-light">Price</p>
+            <p class="text-muted font-weight-light">
+              <span *ngIf="color.auction?.bidder! === color.auction?.seller!"
+                >Starting&nbsp;</span
+              >Price
+            </p>
           </div>
           <div class="col text-right">
             <app-countdown
