@@ -14,6 +14,7 @@
             <p class="text-muted" *ngIf="!history.length">
               There are no bids so far.
             </p>
+            <!--TDOO: show up to 5 then display load more button-->
             <ng-container *ngFor="let item of history">
               <div class="row align-items-center">
                 <div class="col col-md-6">
@@ -59,39 +60,52 @@
       <!--TODO: display if previous auctions-->
       <div class="card">
         <div class="card-body">
-          <h3 class="mb-4">Previous Auctions</h3>
-          <accordion>
-            <!--TODO: show all previous auctions-->
-            <accordion-group>
-              <button
-                class="btn btn-link btn-block clearfix px-0"
-                accordion-heading
-              >
-                <div class="pull-left float-left text-left">
-                  <!--TODO: previous auction price -->
-                  <h5 class="mb-0">10 tez</h5>
-                  <!-- TODO: previous auction highest bidder-->
-                  <p class="text-muted m-0">tz..</p>
-                </div>
-                <!--TODO: previous auction completion time-->
-                <p class="m-0 text-muted float-right pull-right">10 mins ago</p>
-              </button>
-              <h5 class="mb-3">Bids</h5>
-              <!--TODO: show all bids of previous auction -->
-              <div class="row align-items-center">
-                <div class="col col-md-6">
-                  <h5 class="mb-0">14 tez</h5>
-                  <p class="text-muted m-0">
-                    <a href class="text-muted" target="_blank"> tz1.. </a>
+          <h3 class="mb-5">Previous Auctions</h3>
+          <div class="chart__container" #containerRef>
+            <ngx-charts-line-chart
+              [results]="previousAuctions"
+              [view]="[containerRef.offsetWidth, 96]"
+              [scheme]="colorScheme"
+              [xAxis]="true"
+            >
+            </ngx-charts-line-chart>
+          </div>
+          <div class="pt-5">
+            <accordion>
+              <!--TODO: show all previous auctions-->
+              <accordion-group>
+                <button
+                  class="btn btn-link btn-block clearfix px-0"
+                  accordion-heading
+                >
+                  <div class="pull-left float-left text-left">
+                    <!--TODO: previous auction price -->
+                    <h5 class="mb-0">10 tez</h5>
+                    <!-- TODO: previous auction highest bidder-->
+                    <p class="text-muted m-0">tz..</p>
+                  </div>
+                  <!--TODO: previous auction completion time-->
+                  <p class="m-0 text-muted float-right pull-right">
+                    10 mins ago
                   </p>
+                </button>
+                <h5 class="mb-3">Bids</h5>
+                <!--TODO: show all bids of previous auction -->
+                <div class="row align-items-center">
+                  <div class="col col-md-6">
+                    <h5 class="mb-0">14 tez</h5>
+                    <p class="text-muted m-0">
+                      <a href class="text-muted" target="_blank"> tz1.. </a>
+                    </p>
+                  </div>
+                  <div class="col col-md-6 text-right">
+                    <p class="m-0 text-muted">12 mins ago</p>
+                  </div>
                 </div>
-                <div class="col col-md-6 text-right">
-                  <p class="m-0 text-muted">12 mins ago</p>
-                </div>
-              </div>
-              <hr />
-            </accordion-group>
-          </accordion>
+                <hr />
+              </accordion-group>
+            </accordion>
+          </div>
         </div>
       </div>
     </div>

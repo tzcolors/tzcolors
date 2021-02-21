@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewContainerRef } from '@angular/core'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
+import { NgxChartsModule } from '@swimlane/ngx-charts'
+
 import { Color } from 'src/app/services/store/store.service'
 import { environment } from 'src/environments/environment'
 
@@ -106,6 +108,30 @@ export class ColorHistoryModalComponent implements OnInit {
   color: Color | undefined
 
   history: HistoryItem[] | undefined
+
+  previousAuctions = [
+    {
+      name: 'Previous Auctions',
+      series: [
+        {
+          name: 'initial',
+          value: 10,
+        },
+        {
+          name: '1st Auction',
+          value: 150,
+        },
+        {
+          name: '2nd Auction',
+          value: 300,
+        },
+      ],
+    },
+  ]
+
+  colorScheme = {
+    domain: ['#000000'],
+  }
 
   constructor(
     public bsModalRef: BsModalRef,

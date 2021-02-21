@@ -30,6 +30,7 @@ import {
   faSortAlphaDown,
 } from '@fortawesome/free-solid-svg-icons'
 import { MomentModule } from 'ngx-moment'
+import { NgxChartsModule } from '@swimlane/ngx-charts'
 
 import { HeaderItemComponent } from './components/header-item/header-item.component'
 import { LandingComponent } from './pages/landing/landing.component'
@@ -81,6 +82,7 @@ import { ColorHistoryModalComponent } from './components/color-history-modal/col
     FontAwesomeModule,
     AlertModule.forRoot(),
     ModalModule.forRoot(),
+    NgxChartsModule,
     AccordionModule.forRoot(),
     CollapseModule.forRoot(),
     MomentModule,
