@@ -111,19 +111,31 @@ export class ColorHistoryModalComponent implements OnInit {
 
   previousAuctions = [
     {
-      name: 'Previous Auctions',
+      name: '',
       series: [
         {
           name: 'initial',
           value: 10,
         },
         {
-          name: '1st Auction',
+          name: '1st',
           value: 150,
         },
         {
-          name: '2nd Auction',
+          name: '2nd',
           value: 300,
+        },
+        {
+          name: '4th ',
+          value: 10,
+        },
+        {
+          name: '5th ',
+          value: 150,
+        },
+        {
+          name: '6th ',
+          value: 1000,
         },
       ],
     },
