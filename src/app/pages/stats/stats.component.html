@@ -1,0 +1,68 @@
+<div class="pt-md-5 my-5">
+  <div class="row my-3 align-items-center">
+    <div class="col-12 pb-3 pb-md-0">
+      <h3 class="m-md-0 mr-md-3 pb-3 pb-md-0">Stats</h3>
+    </div>
+  </div>
+</div>
+<div class="row py-5">
+  <div class="col-12 col-md-5">
+    <h1>
+      tzcolors users spent <strong>15 tez</strong>
+      <small class="text-muted font-weight-light">&nbsp;$30.12</small> on
+      <strong>22,038</strong> transactions.
+    </h1>
+  </div>
+</div>
+<div class="row py-5">
+  <div class="col-12 col-md-5">
+    <h3 class="m-0">22,038</h3>
+    <p class="text-muted font-weight-light pb-3">
+      Total Auction House Transactions
+    </p>
+    <div class="row align-items-center pb-3">
+      <div class="col-6">
+        <p class="text-muted font-weight-light m-0">
+          Auction House Transactions
+        </p>
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <button type="button" class="btn btn-light btn-sm mr-1">7 days</button>
+        <button type="button" class="btn btn-light btn-sm mr-1">30 days</button>
+        <button type="button" class="btn btn-light btn-sm">All</button>
+      </div>
+    </div>
+    <div class="chart__container" #txRef>
+      <ngx-charts-line-chart
+        [results]="totalTransactions"
+        [view]="[txRef.offsetWidth, 300]"
+        [scheme]="colorScheme"
+        [xAxis]="true"
+      >
+      </ngx-charts-line-chart>
+    </div>
+  </div>
+  <div class="col-12 col-md-5 offset-md-2">
+    <h3 class="m-0">22,038</h3>
+    <p class="text-muted font-weight-light pb-3">Total Volume</p>
+    <div class="row align-items-center pb-3">
+      <div class="col-6">
+        <p class="text-muted font-weight-light m-0">Auction House Volume</p>
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <button type="button" class="btn btn-light btn-sm mr-1">7 days</button>
+        <button type="button" class="btn btn-light btn-sm mr-1">30 days</button>
+        <button type="button" class="btn btn-light btn-sm">All</button>
+      </div>
+    </div>
+    <div class="chart__container" #txRef>
+      <ngx-charts-line-chart
+        [results]="totalVolume"
+        [view]="[txRef.offsetWidth, 300]"
+        [scheme]="colorScheme"
+        [xAxis]="true"
+      >
+      </ngx-charts-line-chart>
+    </div>
+  </div>
+</div>
