@@ -89,7 +89,6 @@
                           | async
                       }}
                     </h5>
-                    <!-- TODO: previous auction highest bidder-->
                     <p class="text-muted m-0">
                       Ask:
                       {{
@@ -103,12 +102,13 @@
                       }}
                     </p>
                   </div>
-                  <!--TODO: previous auction completion time-->
                   <p class="m-0 text-muted float-right pull-right">
                     {{ auction.estimatedEndDate | amTimeAgo }}
                   </p>
                 </button>
-                <h5 class="mb-3">Bids</h5>
+                <h5 class="mb-3">
+                  Bids - {{ auction.bids ? auction.bids.length : 0 }}
+                </h5>
                 <ng-container
                   *ngIf="!auction.bids || auction.bids.length === 0"
                 >
