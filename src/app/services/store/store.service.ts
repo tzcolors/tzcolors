@@ -402,7 +402,7 @@ export class StoreService {
                 }
               }
 
-              return a.name.localeCompare(b.name)
+              return a.token_id - b.token_id
             })
       ),
       shareReplay(1)
