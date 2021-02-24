@@ -99,11 +99,11 @@
           </div>
         </div>
         <div class="row py-2">
-          <div
-            class="col"
-            *ngIf="color.auction?.bidder! !== color.auction?.seller!"
-          >
+          <div class="col">
             <p class="m-0 font-weight-light">
+              <ng-container *ngIf="color.auction?.numberOfBids === 0">
+                No Bids Yet
+              </ng-container>
               <ng-container *ngIf="color.auction?.bidder! === ownAddress">
                 <span class="text-primary">You</span>
                 •
@@ -113,6 +113,7 @@
                 (click)="openAddress(color.auction?.bidder!)"
                 href
                 target="_blank"
+                *ngIf="color.auction?.bidder! !== color.auction?.seller!"
               >
                 {{ color.auction?.bidder! | shorten }}
               </a>
@@ -128,7 +129,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col text-right">
+          <div class="col">
             <p class="m-0">
               <a
                 class="text-dark"
