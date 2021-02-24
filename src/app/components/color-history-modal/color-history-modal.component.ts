@@ -84,7 +84,7 @@ export class ColorHistoryModalComponent implements OnInit {
 
       this.previousAuctionGraph = [
         {
-          name: '',
+          name: 'Price',
           series: series,
         },
       ] as any

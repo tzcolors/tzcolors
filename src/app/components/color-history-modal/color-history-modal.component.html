@@ -78,19 +78,26 @@
                 >
                   <div class="pull-left float-left text-left">
                     <h5 class="mb-0">
-                      Bid:
-                      {{
-                        auction.maxBid
-                          | amountConverter
-                            : {
-                                decimals: 6,
-                                symbol: 'tez'
-                              }
-                          | async
-                      }}
+                      <ng-container
+                        *ngIf="!auction.bids || auction.bids.length > 0"
+                      >
+                        {{
+                          auction.maxBid
+                            | amountConverter
+                              : {
+                                  decimals: 6,
+                                  symbol: 'tez'
+                                }
+                            | async
+                        }}
+                      </ng-container>
+
+                      <ng-container
+                        *ngIf="!auction.bids || auction.bids.length === 0"
+                        >Not Sold</ng-container
+                      >
                     </h5>
                     <p class="text-muted m-0">
-                      Ask:
                       {{
                         auction.ask
                           | amountConverter
@@ -106,7 +113,7 @@
                     {{ auction.estimatedEndDate | amTimeAgo }}
                   </p>
                 </button>
-                <h5 class="mb-3">
+                <h5 class="mb-4">
                   Bids - {{ auction.bids ? auction.bids.length : 0 }}
                 </h5>
                 <ng-container
@@ -117,7 +124,7 @@
                 <ng-container *ngIf="auction.bids && auction.bids.length > 0">
                   <div
                     *ngFor="let bid of auction.bids"
-                    class="row align-items-center"
+                    class="row align-items-center pb-4"
                   >
                     <div class="col col-md-6">
                       <h5 class="mb-0">
@@ -151,7 +158,6 @@
                     </div>
                   </div>
                 </ng-container>
-                <hr />
               </accordion-group>
             </accordion>
           </div>
