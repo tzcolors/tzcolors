@@ -77,7 +77,6 @@
                   accordion-heading
                 >
                   <div class="pull-left float-left text-left">
-                    <!--TODO: previous auction price -->
                     <h5 class="mb-0">
                       Bid:
                       {{
@@ -110,18 +109,48 @@
                   </p>
                 </button>
                 <h5 class="mb-3">Bids</h5>
-                <!--TODO: show all bids of previous auction -->
-                <div class="row align-items-center">
-                  <div class="col col-md-6">
-                    <h5 class="mb-0">14 tez</h5>
-                    <p class="text-muted m-0">
-                      <a href class="text-muted" target="_blank"> tz1.. </a>
-                    </p>
+                <ng-container
+                  *ngIf="!auction.bids || auction.bids.length === 0"
+                >
+                  No bids
+                </ng-container>
+                <ng-container *ngIf="auction.bids && auction.bids.length > 0">
+                  <div
+                    *ngFor="let bid of auction.bids"
+                    class="row align-items-center"
+                  >
+                    <div class="col col-md-6">
+                      <h5 class="mb-0">
+                        {{
+                          bid.amount
+                            | amountConverter
+                              : {
+                                  decimals: 6,
+                                  symbol: 'tez'
+                                }
+                            | async
+                        }}
+                      </h5>
+                      <p class="text-muted m-0">
+                        <a href class="text-muted" target="_blank">
+                          <a
+                            (click)="openAddress(bid.source)"
+                            href
+                            class="text-muted"
+                            target="_blank"
+                          >
+                            {{ bid.source | shorten }}
+                          </a>
+                        </a>
+                      </p>
+                    </div>
+                    <div class="col col-md-6 text-right">
+                      <p class="m-0 text-muted">
+                        {{ bid.timestamp | amTimeAgo }}
+                      </p>
+                    </div>
                   </div>
-                  <div class="col col-md-6 text-right">
-                    <p class="m-0 text-muted">12 mins ago</p>
-                  </div>
-                </div>
+                </ng-container>
                 <hr />
               </accordion-group>
             </accordion>
