@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 
 import { Color } from 'src/app/services/store/store.service'
 import { ApiService, HistoryItem } from 'src/app/services/api/api.service'
+import { parseDate } from 'src/app/utils'
 
 @Component({
   selector: 'app-auction-modal',
@@ -58,6 +59,7 @@ export class ColorHistoryModalComponent implements OnInit {
       this.previousAuctions = auctions.map((a: any) => {
         a.maxBid = maxBids[a.parameters.children[0].value] ?? 0
         a.ask = a.parameters.children[1].value
+        a.estimatedEndDate = parseDate(a.parameters.children[2].value)
         return a
       })
 
@@ -78,6 +80,7 @@ export class ColorHistoryModalComponent implements OnInit {
             value: (maxBids[a] ?? 0) / 1_000_000,
           }
         })
+        .filter((a: any) => a.value !== 0)
 
       this.previousAuctionGraph = [
         {

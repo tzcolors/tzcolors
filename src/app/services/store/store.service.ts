@@ -19,6 +19,7 @@ import {
 } from 'rxjs/operators'
 import { AccountInfo } from '@airgap/beacon-sdk'
 import { ApiService } from '../api/api.service'
+import { parseDate } from 'src/app/utils'
 var deepEqual = require('fast-deep-equal/es6')
 
 const colorsFromStorage: Color[] = require('../../../assets/colors.json')
@@ -517,7 +518,7 @@ export class StoreService {
       const tokenAddress = value.children[0].value
       const tokenId = Number(value.children[1].value)
       const tokenAmount = Number(value.children[2].value)
-      const endTimestamp = this.getDate(value.children[3].value)
+      const endTimestamp = parseDate(value.children[3].value)
       const seller = value.children[4].value
       const bidAmount = value.children[5].value
       const bidder = value.children[6].value
@@ -578,7 +579,7 @@ export class StoreService {
         const tokenAddress = value[0].value
         const tokenId = Number(value[1].value)
         const tokenAmount = Number(value[2].value)
-        const endTimestamp = this.getDate(value[3].value)
+        const endTimestamp = parseDate(value[3].value)
         const seller = value[4].value
         const bidAmount = value[5].value
         const bidder = value[6].value
@@ -671,23 +672,5 @@ export class StoreService {
       this.getPreviousAuctions()
       this.getAuctionBids()
     })
-  }
-
-  private getDate(value: string): Date {
-    const year = value.substring(0, 4).padStart(2, '0')
-    const month = value.substring(5, 7).padStart(2, '0')
-    const day = value.substring(8, 10).padStart(2, '0')
-    const hour = value.substring(11, 13).padStart(2, '0')
-    const minute = value.substring(14, 16).padStart(2, '0')
-    const second = value.substring(17, 19).padStart(2, '0')
-
-    const date = new Date(
-      `${year}-${month}-${day}T${hour}:${minute}:${second}.000Z`
-    )
-
-    if (!isNaN(date.getTime())) {
-      return date
-    }
-    throw new Error('CANNOT PARSE DATE')
   }
 }
