@@ -5,6 +5,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts'
 
 import { Color } from 'src/app/services/store/store.service'
 import { environment } from 'src/environments/environment'
+import { ApiService } from 'src/app/services/api/api.service'
 
 export interface Result {
   consumed_gas: number
@@ -109,37 +110,8 @@ export class ColorHistoryModalComponent implements OnInit {
 
   history: HistoryItem[] | undefined
 
-  previousAuctions = [
-    {
-      name: '',
-      series: [
-        {
-          name: 'initial',
-          value: 10,
-        },
-        {
-          name: '1st',
-          value: 150,
-        },
-        {
-          name: '2nd',
-          value: 300,
-        },
-        {
-          name: '4th ',
-          value: 10,
-        },
-        {
-          name: '5th ',
-          value: 150,
-        },
-        {
-          name: '6th ',
-          value: 1000,
-        },
-      ],
-    },
-  ]
+  previousAuctionGraph = []
+  previousAuctions: any[] = []
 
   colorScheme = {
     domain: ['#000000'],
@@ -148,11 +120,13 @@ export class ColorHistoryModalComponent implements OnInit {
   constructor(
     public bsModalRef: BsModalRef,
     public modalService: BsModalService,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly api: ApiService
   ) {}
 
   ngOnInit(): void {
     this.getHistory()
+    this.getAuctions()
   }
 
   openAddress(address: string) {
@@ -166,6 +140,44 @@ export class ColorHistoryModalComponent implements OnInit {
           `${environment.indexerUrl}auction/operations?entrypoint=bid&parameters.value=${this.color.auction.auctionId}`
         )
         .toPromise()
+    }
+  }
+
+  public async getAuctions() {
+    if (this.color) {
+      const auctions: any = await this.api.getAllAuctionsForToken(
+        this.color.token_id
+      )
+      const maxBids: any = await this.api.getMaxBidForAllAuctions()
+
+      if (auctions.length === 0) {
+        return
+      }
+
+      this.previousAuctions = auctions.map((a: any) => {
+        a.maxBid = maxBids[a.parameters.children[0].value] ?? 0
+        a.ask = a.parameters.children[1].value
+        return a
+      })
+
+      const series = auctions
+        .reverse()
+        .map((a: any) => {
+          return a.parameters.children[0].value
+        })
+        .map((a: any, index: number) => {
+          return {
+            name: index === 0 ? 'initial' : `${index}.`,
+            value: (maxBids[a] ?? 0) / 1_000_000,
+          }
+        })
+
+      this.previousAuctionGraph = [
+        {
+          name: '',
+          series: series,
+        },
+      ] as any
     }
   }
 }
