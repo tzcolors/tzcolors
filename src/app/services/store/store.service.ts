@@ -606,7 +606,7 @@ export class StoreService {
   }
 
   updateState() {
-    let subscription = interval(10_000).subscribe((x) => {
+    let subscription = interval(20_000).subscribe((x) => {
       console.log('refresh')
       this.getColorOwners()
       this.getAuctions()
