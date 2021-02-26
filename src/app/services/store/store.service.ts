@@ -24,6 +24,9 @@ var deepEqual = require('fast-deep-equal/es6')
 
 const colorsFromStorage: Color[] = require('../../../assets/colors.json')
 
+let hasInitialAuctionState = false
+let hasInitialColorState = false
+
 export interface Color {
   name: string
   description: string
@@ -478,11 +481,16 @@ export class StoreService {
   }
 
   async getColorOwners() {
-    const data = await this.http
-      .get<RootObject[]>(`${environment.colorsBigmapUrl}`)
-      .toPromise()
+    const url =
+      hasInitialColorState === false
+        ? `${environment.colorsBigmapUrl}?size=10000`
+        : `${environment.colorsBigmapUrl}?size=20`
 
-    const ownerInfo = new Map<number, string>()
+    const data = await this.http.get<RootObject[]>(url).toPromise()
+
+    hasInitialColorState = true
+
+    const ownerInfo = this._ownerInfo.value
 
     data
       .filter((d) => d.data.value !== null)
@@ -503,11 +511,15 @@ export class StoreService {
   }
 
   async getAuctions() {
-    const data = await this.http
-      .get<RootObject[]>(`${environment.auctionBigmapUrl}`)
-      .toPromise()
+    const url =
+      hasInitialAuctionState === false
+        ? `${environment.auctionBigmapUrl}?size=10000`
+        : `${environment.auctionBigmapUrl}?size=20`
+    const data = await this.http.get<RootObject[]>(url).toPromise()
 
-    const auctionInfo = new Map<number, AuctionItem>()
+    hasInitialAuctionState = true
+
+    const auctionInfo = this._auctionInfo.value
 
     data.forEach((d) => {
       const value = d.data.value
