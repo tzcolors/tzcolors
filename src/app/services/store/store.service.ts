@@ -490,7 +490,7 @@ export class StoreService {
 
     hasInitialColorState = true
 
-    const ownerInfo = this._ownerInfo.value
+    const ownerInfo = new Map(this._ownerInfo.value)
 
     data
       .filter((d) => d.data.value !== null)
@@ -502,11 +502,19 @@ export class StoreService {
       })
 
     if (!deepEqual(this._ownerInfo.value, ownerInfo)) {
-      console.log('Owners: Not equal, updating')
+      console.log(
+        'Owners: Not equal, updating',
+        this._ownerInfo.value.size,
+        ownerInfo.size
+      )
       this._ownerInfo.next(ownerInfo)
       this._colorStates.next(new Map())
     } else {
-      console.log('Owners: responses are equal')
+      console.log(
+        'Owners: responses are equal',
+        this._ownerInfo.value.size,
+        ownerInfo.size
+      )
     }
   }
 
@@ -519,7 +527,7 @@ export class StoreService {
 
     hasInitialAuctionState = true
 
-    const auctionInfo = this._auctionInfo.value
+    const auctionInfo = new Map(this._auctionInfo.value)
 
     data.forEach((d) => {
       const value = d.data.value
@@ -562,11 +570,19 @@ export class StoreService {
     // }
 
     if (!deepEqual(this._auctionInfo.value, auctionInfo)) {
-      console.log('Auctions: Not equal, updating')
+      console.log(
+        'Auctions: Not equal, updating',
+        this._auctionInfo.value.size,
+        auctionInfo.size
+      )
       this._auctionInfo.next(auctionInfo)
       this._colorStates.next(new Map())
     } else {
-      console.log('Auctions: responses are equal')
+      console.log(
+        'Auctions: responses are equal',
+        this._auctionInfo.value.size,
+        auctionInfo.size
+      )
     }
   }
 
@@ -626,11 +642,19 @@ export class StoreService {
     // }
 
     if (!deepEqual(this._previousAuctionInfo.value, previousAuctionInfo)) {
-      console.log('Previous Auctions: Not equal, updating')
+      console.log(
+        'Previous Auctions: Not equal, updating',
+        this._previousAuctionInfo.value.size,
+        previousAuctionInfo.size
+      )
       this._previousAuctionInfo.next(previousAuctionInfo)
       this._colorStates.next(new Map())
     } else {
-      console.log('Previous Auctions: responses are equal')
+      console.log(
+        'Previous Auctions: responses are equal',
+        this._previousAuctionInfo.value.size,
+        previousAuctionInfo.size
+      )
     }
   }
 
@@ -664,10 +688,18 @@ export class StoreService {
     // }
 
     if (!deepEqual(this._auctionBids.value, auctionBids)) {
-      console.log('Auction Bids: Not equal, updating')
+      console.log(
+        'Auction Bids: Not equal, updating',
+        this._auctionBids.value.size,
+        auctionBids.size
+      )
       this._auctionBids.next(auctionBids)
     } else {
-      console.log('Auction Bids: responses are equal')
+      console.log(
+        'Auction Bids: responses are equal',
+        this._auctionBids.value.size,
+        auctionBids.size
+      )
     }
   }
 
