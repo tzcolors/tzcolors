@@ -7,13 +7,14 @@
       ></app-color-card-item>
     </div>
     <div class="col-12 col-md-7">
-      <div class="card">
+      <div class="card mb-3" *ngIf="history">
         <div class="card-body">
-          <ng-container *ngIf="history">
-            <h3 class="mb-3">Previous bids - {{ history.length }}</h3>
+          <ng-container>
+            <h3 class="mb-3">Bids - {{ history.length }}</h3>
             <p class="text-muted" *ngIf="!history.length">
               There are no bids so far.
             </p>
+            <!--TDOO: show up to 5 then display load more button-->
             <ng-container *ngFor="let item of history">
               <div class="row align-items-center">
                 <div class="col col-md-6">
@@ -54,6 +55,112 @@
             </ng-container>
           </ng-container>
           <ng-container *ngIf="!history"> No auction in progress </ng-container>
+        </div>
+      </div>
+      <div *ngIf="previousAuctionGraph.length > 0" class="card">
+        <div class="card-body">
+          <h3 class="mb-5">Previous Auctions</h3>
+          <div class="chart__container" #containerRef>
+            <ngx-charts-line-chart
+              [results]="previousAuctionGraph"
+              [view]="[containerRef.offsetWidth, 96]"
+              [scheme]="colorScheme"
+              [xAxis]="true"
+            >
+            </ngx-charts-line-chart>
+          </div>
+          <div class="pt-5">
+            <accordion>
+              <accordion-group *ngFor="let auction of previousAuctions">
+                <button
+                  class="btn btn-link btn-block clearfix px-0"
+                  accordion-heading
+                >
+                  <div class="pull-left float-left text-left">
+                    <h5 class="mb-0">
+                      <ng-container
+                        *ngIf="!auction.bids || auction.bids.length > 0"
+                      >
+                        {{
+                          auction.maxBid
+                            | amountConverter
+                              : {
+                                  decimals: 6,
+                                  symbol: 'tez'
+                                }
+                            | async
+                        }}
+                      </ng-container>
+
+                      <ng-container
+                        *ngIf="!auction.bids || auction.bids.length === 0"
+                        >Not Sold</ng-container
+                      >
+                    </h5>
+                    <p class="text-muted m-0">
+                      {{
+                        auction.ask
+                          | amountConverter
+                            : {
+                                decimals: 6,
+                                symbol: 'tez'
+                              }
+                          | async
+                      }}
+                    </p>
+                  </div>
+                  <p class="m-0 text-muted float-right pull-right">
+                    {{ auction.estimatedEndDate | amTimeAgo }}
+                  </p>
+                </button>
+                <h5 class="mb-4">
+                  Bids - {{ auction.bids ? auction.bids.length : 0 }}
+                </h5>
+                <ng-container
+                  *ngIf="!auction.bids || auction.bids.length === 0"
+                >
+                  No bids
+                </ng-container>
+                <ng-container *ngIf="auction.bids && auction.bids.length > 0">
+                  <div
+                    *ngFor="let bid of auction.bids"
+                    class="row align-items-center pb-4"
+                  >
+                    <div class="col col-md-6">
+                      <h5 class="mb-0">
+                        {{
+                          bid.amount
+                            | amountConverter
+                              : {
+                                  decimals: 6,
+                                  symbol: 'tez'
+                                }
+                            | async
+                        }}
+                      </h5>
+                      <p class="text-muted m-0">
+                        <a href class="text-muted" target="_blank">
+                          <a
+                            (click)="openAddress(bid.source)"
+                            href
+                            class="text-muted"
+                            target="_blank"
+                          >
+                            {{ bid.source | shorten }}
+                          </a>
+                        </a>
+                      </p>
+                    </div>
+                    <div class="col col-md-6 text-right">
+                      <p class="m-0 text-muted">
+                        {{ bid.timestamp | amTimeAgo }}
+                      </p>
+                    </div>
+                  </div>
+                </ng-container>
+              </accordion-group>
+            </accordion>
+          </div>
         </div>
       </div>
     </div>
