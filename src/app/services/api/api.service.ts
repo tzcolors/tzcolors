@@ -143,4 +143,11 @@ export class ApiService {
       )
       .toPromise()
   }
+
+  getOperationCount(entrypoint?: string) {
+    const params = entrypoint ? `?entrypoint=${entrypoint}` : ``
+    return this.http
+      .get<number>(`${environment.indexerUrl}auction/operations/count${params}`)
+      .toPromise()
+  }
 }

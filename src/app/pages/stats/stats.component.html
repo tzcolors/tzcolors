@@ -8,12 +8,150 @@
 <div class="row py-5">
   <div class="col-12 col-md-5">
     <h1>
-      tzcolors users spent <strong>15 tez</strong>
+      <!-- tzcolors users spent <strong>15 tez</strong>
       <small class="text-muted font-weight-light">&nbsp;$30.12</small> on
-      <strong>22,038</strong> transactions.
+      <strong>{{ stats.count.total }}</strong> transactions. -->
+      tzcolors users created a total of
+      <strong>{{ stats.count.total }}</strong> transactions
     </h1>
   </div>
 </div>
+
+Create auctions: {{ stats.count.create_auction }} Bids:
+{{ stats.count.bid }} Claims: {{ stats.count.withdraw }}
+
+<br /><br />The most expensive color sold:
+
+<br />Overall:
+<ng-container *ngIf="stats.highestSale.total">
+  {{ stats.highestSale.total.name }}
+  {{
+    stats.highestSale.total.bidAmount
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}
+</ng-container>
+<br />Legendary:
+<ng-container *ngIf="stats.highestSale.legendary">
+  {{ stats.highestSale.legendary.name }}
+  {{
+    stats.highestSale.legendary.bidAmount
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}
+</ng-container>
+<br />Epic:
+<ng-container *ngIf="stats.highestSale.epic">
+  {{ stats.highestSale.epic.name }}
+  {{
+    stats.highestSale.epic.bidAmount
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}
+</ng-container>
+<br />Standard:
+<ng-container *ngIf="stats.highestSale.standard">
+  {{ stats.highestSale.standard.name }}
+  {{
+    stats.highestSale.standard.bidAmount
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}
+</ng-container>
+
+<br />
+<br />The cheapest color sold: <br />Overall:
+<ng-container *ngIf="stats.lowestSale.total">
+  {{ stats.lowestSale.total.name }}
+  {{
+    stats.lowestSale.total.bidAmount
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}
+</ng-container>
+<br />Legendary:
+<ng-container *ngIf="stats.lowestSale.legendary">
+  {{ stats.lowestSale.legendary.name }}
+  {{
+    stats.lowestSale.legendary.bidAmount
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}
+</ng-container>
+<br />Epic:
+<ng-container *ngIf="stats.lowestSale.epic">
+  {{ stats.lowestSale.epic.name }}
+  {{
+    stats.lowestSale.epic.bidAmount
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}
+</ng-container>
+<br />Standard:
+<ng-container *ngIf="stats.lowestSale.standard">
+  {{ stats.lowestSale.standard.name }}
+  {{
+    stats.lowestSale.standard.bidAmount
+      | amountConverter
+        : {
+            decimals: 6,
+            symbol: 'tez'
+          }
+      | async
+  }}
+</ng-container>
+
+<br /><br />The colors with the most bids:
+
+<br />Overall:
+<ng-container *ngIf="stats.maxNumberOfBids.total">
+  {{ stats.maxNumberOfBids.total.name }}
+  {{ stats.maxNumberOfBids.total.bidCount }}
+</ng-container>
+<br />Legendary:
+<ng-container *ngIf="stats.maxNumberOfBids.legendary">
+  {{ stats.maxNumberOfBids.legendary.name }}
+  {{ stats.maxNumberOfBids.legendary.bidCount }}
+</ng-container>
+<br />Epic:
+<ng-container *ngIf="stats.maxNumberOfBids.epic">
+  {{ stats.maxNumberOfBids.epic.name }}
+  {{ stats.maxNumberOfBids.epic.bidCount }}
+</ng-container>
+<br />Standard:
+<ng-container *ngIf="stats.maxNumberOfBids.standard">
+  {{ stats.maxNumberOfBids.standard.name }}
+  {{ stats.maxNumberOfBids.standard.bidCount }}
+</ng-container>
+
 <div class="row py-5">
   <div class="col-12 col-md-5">
     <h3 class="m-0">22,038</h3>
