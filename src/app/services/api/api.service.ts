@@ -143,4 +143,18 @@ export class ApiService {
       )
       .toPromise()
   }
+
+  getOperationCount(entrypoint?: string) {
+    const params = entrypoint ? `?entrypoint=${entrypoint}` : ``
+    return this.http
+      .get<number>(`${environment.indexerUrl}auction/operations/count${params}`)
+      .toPromise()
+  }
+
+  getSum(field?: string) {
+    const params = field ? `?aggregate=${field}` : ``
+    return this.http
+      .get<number>(`${environment.indexerUrl}auction/operations/sum${params}`)
+      .toPromise()
+  }
 }
