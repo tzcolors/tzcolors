@@ -598,6 +598,7 @@ export class StoreService {
 
     data
       .filter((o: any) => o.entrypoint === 'withdraw')
+      .reverse()
       .forEach((o: any) => {
         const value = o.storage_diff?.children[0]?.children
 
