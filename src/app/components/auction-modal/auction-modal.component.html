@@ -30,61 +30,87 @@
     <div class="col-12 col-md-7">
       <div class="card">
         <div class="card-body">
-          <h3>Create Auction</h3>
-          <div class="row py-4">
-            <div class="col-12 col-md-7">
-              <label class="mb-0">Minimum Price</label>
-              <small class="d-inline-block text-muted mb-2"
-                >Minimum price is 0.1 tez</small
-              >
-              <div class="input-group mb-4">
-                <input
-                  type="number"
-                  [(ngModel)]="bidAmount"
-                  (keydown)="validate()"
-                  (change)="validate()"
-                  class="form-control"
-                  placeholder="1"
-                  aria-label="minimum price"
-                  step="0.1"
-                  min="0.1"
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text">tez</span>
+          <!-- TODO: if send -->
+          <ng-container>
+            <h3>Send Color</h3>
+            <div class="row py-4">
+              <div class="col-12">
+                <label>Receiving address</label>
+
+                <div class="input-group mb-4">
+                  <input
+                    class="form-control"
+                    placeholder="tz.."
+                    aria-label="receiving address"
+                  />
                 </div>
-              </div>
-              <div class="d-inline-block text-muted mb-2">
-                {{ amountError }}
-              </div>
-              <label class="mb-0">Auction Duration</label>
-              <small class="d-inline-block text-muted mb-2"
-                >Minimum duration is half a day</small
-              >
-              <div class="input-group mb-4">
-                <input
-                  type="number"
-                  [(ngModel)]="durationDays"
-                  (keydown)="validate()"
-                  (change)="validate()"
-                  class="form-control"
-                  placeholder="1"
-                  aria-label="auction duration"
-                  step="0.1"
-                  min="0.5"
-                  max="7"
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text">days</span>
-                </div>
-              </div>
-              <div class="d-inline-block text-muted mb-2">
-                {{ durationError }}
               </div>
             </div>
-          </div>
-          <button (click)="createAuction()" type="button" class="btn btn-light">
-            Create Auction
-          </button>
+            <button type="button" class="btn btn-light">Send</button>
+          </ng-container>
+
+          <!-- TODO: if auction -->
+          <ng-container>
+            <h3>Create Auction</h3>
+            <div class="row py-4">
+              <div class="col-12 col-md-7">
+                <label class="mb-0">Minimum Price</label>
+                <small class="d-inline-block text-muted mb-2"
+                  >Minimum price is 0.1 tez</small
+                >
+                <div class="input-group mb-4">
+                  <input
+                    type="number"
+                    [(ngModel)]="bidAmount"
+                    (keydown)="validate()"
+                    (change)="validate()"
+                    class="form-control"
+                    placeholder="1"
+                    aria-label="minimum price"
+                    step="0.1"
+                    min="0.1"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text">tez</span>
+                  </div>
+                </div>
+                <div class="d-inline-block text-muted mb-2">
+                  {{ amountError }}
+                </div>
+                <label class="mb-0">Auction Duration</label>
+                <small class="d-inline-block text-muted mb-2"
+                  >Minimum duration is half a day</small
+                >
+                <div class="input-group mb-4">
+                  <input
+                    type="number"
+                    [(ngModel)]="durationDays"
+                    (keydown)="validate()"
+                    (change)="validate()"
+                    class="form-control"
+                    placeholder="1"
+                    aria-label="auction duration"
+                    step="0.1"
+                    min="0.5"
+                    max="7"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text">days</span>
+                  </div>
+                </div>
+                <div class="d-inline-block text-muted mb-2">
+                  {{ durationError }}
+                </div>
+              </div>
+            </div>
+            <button
+              (click)="createAuction()"
+              type="button"
+              class="btn btn-light"
+            >
+              Create Auction
+            </button>
+          </ng-container>
         </div>
       </div>
     </div>
