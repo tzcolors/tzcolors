@@ -131,6 +131,29 @@ export class BeaconService {
     console.log(result)
   }
 
+  async sendColor(from: string, to: string, tokenId: number): Promise<void> {
+    this.storeService.setColorLoadingState(tokenId, true)
+
+    const contractInstance = await tezos.wallet.at(environment.tzColorsContract)
+
+    const result = await contractInstance.methods
+      .transfer([
+        {
+          from_: from,
+          txs: [
+            {
+              to_: to,
+              token_id: tokenId, // token_id
+              amount: 1, // token_amount (always 1)
+            },
+          ],
+        },
+      ])
+      .send()
+
+    console.log('send', result)
+  }
+
   async createInitialAuction(tokenId: number): Promise<void> {
     this.storeService.setColorLoadingState(tokenId, true)
     this.storeService.setFavorite(tokenId, true)
