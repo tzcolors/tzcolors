@@ -352,21 +352,36 @@
         </ng-container>
         <ng-container *ngIf="state === 'own'">
           <button
-            [disabled]="color.loading"
-            (click)="openAuctionModal()"
+            *ngIf="color.loading"
+            disabled
             type="button"
             class="btn btn-block btn-light"
           >
             <span
-              *ngIf="color.loading"
               class="spinner-border spinner-border-sm mr-1"
               role="status"
               aria-hidden="true"
-            ></span>
-            {{
-              color.loading ? 'Waiting for confirmation...' : 'Create Auction'
-            }}
+            ></span
+            >Waiting for confirmation...
           </button>
+          <ng-container *ngIf="!color.loading">
+            <div class="btn-group w-100">
+              <button
+                (click)="openAuctionModal()"
+                type="button"
+                class="btn btn-light"
+              >
+                Create Auction
+              </button>
+              <button
+                (click)="openSendModal()"
+                type="button"
+                class="btn btn-light ml-1"
+              >
+                Send
+              </button>
+            </div>
+          </ng-container>
         </ng-container>
 
         <ng-container *ngIf="state === 'free'">

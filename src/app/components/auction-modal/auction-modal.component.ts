@@ -3,6 +3,21 @@ import BigNumber from 'bignumber.js'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { BeaconService } from 'src/app/services/beacon/beacon.service'
 import { Color } from 'src/app/services/store/store.service'
+import * as bs58check from 'bs58check'
+
+function getDecoded(address: string) {
+  try {
+    return bs58check.decode(address)
+  } catch (e) {
+    // if decoding fails, assume invalid address
+    return null
+  }
+}
+
+export enum AuctionModalType {
+  AUCTION,
+  SEND,
+}
 
 @Component({
   selector: 'app-auction-modal',
@@ -19,6 +34,13 @@ export class AuctionModalComponent implements OnInit {
   amountError: string = ''
   durationError: string = ''
 
+  addressError: string = ''
+
+  sendingRecipient: string = ''
+  modalType: typeof AuctionModalType = AuctionModalType
+
+  type: AuctionModalType = AuctionModalType.AUCTION
+
   constructor(
     public bsModalRef: BsModalRef,
     public modalService: BsModalService,
@@ -28,7 +50,7 @@ export class AuctionModalComponent implements OnInit {
   ngOnInit(): void {}
 
   async createAuction() {
-    if ((await this.validate()) && this.color && this.color.owner) {
+    if ((await this.validateAuction()) && this.color && this.color.owner) {
       this.beaconService.createAuction(
         this.color.owner,
         this.color.token_id,
@@ -39,7 +61,50 @@ export class AuctionModalComponent implements OnInit {
     }
   }
 
-  async validate(): Promise<boolean> {
+  async send() {
+    if ((await this.validateSend()) && this.color && this.color.owner) {
+      this.beaconService.sendColor(
+        this.color.owner,
+        this.sendingRecipient,
+        this.color.token_id
+      )
+      this.modalService.hide()
+    }
+  }
+
+  async validateSend(): Promise<boolean> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const address = this.sendingRecipient
+
+        const prefixes = ['tz1', 'tz2', 'tz3']
+
+        var decoded = getDecoded(address)
+
+        if (
+          !prefixes.some((p) =>
+            address.toLowerCase().startsWith(p.toLowerCase())
+          )
+        ) {
+          this.addressError = 'Address needs to start with tz..'
+          return resolve(false)
+        }
+        if (!decoded) {
+          this.addressError = 'Address seems to be invalid.'
+          return resolve(false)
+        }
+        if (decoded.length !== 23) {
+          this.addressError = 'Address is either too long or too short.'
+          return resolve(false)
+        }
+
+        this.addressError = ''
+        return resolve(true)
+      }, 0)
+    })
+  }
+
+  async validateAuction(): Promise<boolean> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const amount = new BigNumber(this.bidAmount)
