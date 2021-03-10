@@ -86,15 +86,15 @@ export class AuctionModalComponent implements OnInit {
             address.toLowerCase().startsWith(p.toLowerCase())
           )
         ) {
-          this.addressError = 'Address needs to start with tz...!'
+          this.addressError = 'Address needs to start with tz..'
           return resolve(false)
         }
         if (!decoded) {
-          this.addressError = 'Could not decode address!'
+          this.addressError = 'Address seems to be invalid.'
           return resolve(false)
         }
         if (decoded.length !== 23) {
-          this.addressError = 'Decoded address length is invalid!'
+          this.addressError = 'Address is either too long or too short.'
           return resolve(false)
         }
 
