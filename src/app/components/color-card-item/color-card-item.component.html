@@ -57,8 +57,7 @@
       <p class="text-muted font-weight-light">
         #{{ color.token_id }} • {{ color.category | titlecase }}
       </p>
-      <ng-container *ngIf="state === 'free'"
-        >ß
+      <ng-container *ngIf="state === 'free'">
         <div class="row py-2">
           <div class="col">
             <p class="font-weight-light text-muted">
@@ -102,6 +101,9 @@
         <div class="row py-2">
           <div class="col">
             <p class="m-0 font-weight-light">
+              <ng-container *ngIf="color.auction?.numberOfBids === 0">
+                No Bids Yet
+              </ng-container>
               <ng-container *ngIf="color.auction?.bidder! === ownAddress">
                 <span class="text-primary">You</span>
                 •
@@ -111,29 +113,49 @@
                 (click)="openAddress(color.auction?.bidder!)"
                 href
                 target="_blank"
+                *ngIf="color.auction?.bidder! !== color.auction?.seller!"
               >
                 {{ color.auction?.bidder! | shorten }}
               </a>
             </p>
-            <p class="text-muted font-weight-light m-0">
-              <ng-container
-                *ngIf="color.auction?.bidder! === color.auction?.seller!"
-              >
-                Seller
-              </ng-container>
-              <ng-container
-                *ngIf="color.auction?.bidder! !== color.auction?.seller!"
-              >
-                Highest Bidder
-              </ng-container>
-            </p>
+            <p class="text-muted font-weight-light m-0">Highest Bidder</p>
           </div>
           <div
             class="col text-right"
-            *ngIf="color.auction?.bidder! === color.auction?.seller!"
+            *ngIf="color.auction?.numberOfBids !== undefined"
           >
-            <p class="m-0">0</p>
+            <p class="m-0">{{ color.auction?.numberOfBids }}</p>
             <p class="text-muted font-weight-light">Bids</p>
+          </div>
+        </div>
+        <div class="row" *ngIf="isModal">
+          <div class="col">
+            <p class="m-0">
+              <a
+                class="text-dark"
+                (click)="openAddress(color.auction?.seller!)"
+                href
+                target="_blank"
+              >
+                <ng-container
+                  *ngIf="
+                    color.auction?.seller! !==
+                    'KT1FyaDqiMQWg7Exo7VUiXAgZbd2kCzo3d4s'
+                  "
+                >
+                  {{ color.auction?.seller! | shorten }}
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    color.auction?.seller! ===
+                    'KT1FyaDqiMQWg7Exo7VUiXAgZbd2kCzo3d4s'
+                  "
+                >
+                  tzcolors
+                </ng-container>
+              </a>
+            </p>
+            <p class="text-muted font-weight-light">Seller</p>
           </div>
         </div>
         <div
@@ -161,6 +183,22 @@
             }}
           </h3>
           <p class="text-muted font-weight-light">Final Price</p>
+        </ng-container>
+        <ng-container *ngIf="color.auction?.bidder === color.auction?.seller">
+          <ng-container *ngIf="color?.previousAuction">
+            <h3 class="m-0 font-weight-light">
+              {{
+                color?.previousAuction?.bidAmount
+                  | amountConverter
+                    : {
+                        decimals: 6,
+                        symbol: 'tez'
+                      }
+                  | async
+              }}
+            </h3>
+            <p class="text-muted font-weight-light">Final Price</p>
+          </ng-container>
         </ng-container>
         <p class="m-0 font-weight-light">
           <a

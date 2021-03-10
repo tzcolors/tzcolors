@@ -30,6 +30,7 @@ import {
   faSortAlphaDown,
 } from '@fortawesome/free-solid-svg-icons'
 import { MomentModule } from 'ngx-moment'
+import { NgxChartsModule } from '@swimlane/ngx-charts'
 
 import { HeaderItemComponent } from './components/header-item/header-item.component'
 import { LandingComponent } from './pages/landing/landing.component'
@@ -53,6 +54,7 @@ import { CountdownComponent } from './components/countdown/countdown.component'
 import { ColorCardListComponent } from './components/color-card-list/color-card-list.component'
 import { WatchlistComponent } from './pages/watchlist/watchlist.component'
 import { ColorHistoryModalComponent } from './components/color-history-modal/color-history-modal.component'
+import { StatsComponent } from './pages/stats/stats.component'
 
 @NgModule({
   declarations: [
@@ -71,6 +73,7 @@ import { ColorHistoryModalComponent } from './components/color-history-modal/col
     CountdownComponent,
     ColorCardListComponent,
     WatchlistComponent,
+    StatsComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,6 +84,7 @@ import { ColorHistoryModalComponent } from './components/color-history-modal/col
     FontAwesomeModule,
     AlertModule.forRoot(),
     ModalModule.forRoot(),
+    NgxChartsModule,
     AccordionModule.forRoot(),
     CollapseModule.forRoot(),
     MomentModule,
