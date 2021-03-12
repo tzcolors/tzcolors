@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
+import { ActivityComponent } from './pages/activity/activity.component'
 import { AuctionsComponent } from './pages/auctions/auctions.component'
 import { ExploreComponent } from './pages/explore/explore.component'
 import { LandingComponent } from './pages/landing/landing.component'
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'auctions', component: AuctionsComponent },
   { path: 'my-colors', component: MyColorsComponent },
   { path: 'watchlist', component: WatchlistComponent },
+  { path: 'activity', component: ActivityComponent },
 ]
 
 @NgModule({

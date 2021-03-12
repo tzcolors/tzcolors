@@ -53,6 +53,7 @@ import { CountdownComponent } from './components/countdown/countdown.component'
 import { ColorCardListComponent } from './components/color-card-list/color-card-list.component'
 import { WatchlistComponent } from './pages/watchlist/watchlist.component'
 import { ColorHistoryModalComponent } from './components/color-history-modal/color-history-modal.component'
+import { ActivityComponent } from './pages/activity/activity.component'
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { ColorHistoryModalComponent } from './components/color-history-modal/col
     CountdownComponent,
     ColorCardListComponent,
     WatchlistComponent,
+    ActivityComponent,
   ],
   imports: [
     BrowserModule,
