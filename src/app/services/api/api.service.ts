@@ -157,4 +157,13 @@ export class ApiService {
       .get<number>(`${environment.indexerUrl}auction/operations/sum${params}`)
       .toPromise()
   }
+
+  getOperationsSince(from: number) {
+    const params = from ? `?from=${from}` : `?`
+    return this.http
+      .get<any>(
+        `https://api.better-call.dev/v1/contract/mainnet/${environment.tzColorsAuctionContract}/operations${params}&with_storage_diff=true&status=applied&size=20`
+      )
+      .toPromise()
+  }
 }

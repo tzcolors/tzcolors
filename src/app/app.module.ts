@@ -56,6 +56,8 @@ import { WatchlistComponent } from './pages/watchlist/watchlist.component'
 import { ColorHistoryModalComponent } from './components/color-history-modal/color-history-modal.component'
 import { StatsComponent } from './pages/stats/stats.component'
 
+import { ToastrModule } from 'ngx-toastr'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,6 +96,7 @@ import { StatsComponent } from './pages/stats/stats.component'
     EffectsModule.forRoot([AppEffects, ConnectWalletEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     FormsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent, BsModalService],
