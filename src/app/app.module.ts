@@ -54,6 +54,7 @@ import { CountdownComponent } from './components/countdown/countdown.component'
 import { ColorCardListComponent } from './components/color-card-list/color-card-list.component'
 import { WatchlistComponent } from './pages/watchlist/watchlist.component'
 import { ColorHistoryModalComponent } from './components/color-history-modal/color-history-modal.component'
+import { ActivityComponent } from './pages/activity/activity.component'
 import { StatsComponent } from './pages/stats/stats.component'
 
 @NgModule({
@@ -73,6 +74,7 @@ import { StatsComponent } from './pages/stats/stats.component'
     CountdownComponent,
     ColorCardListComponent,
     WatchlistComponent,
+    ActivityComponent,
     StatsComponent,
   ],
   imports: [

@@ -1,0 +1,66 @@
+<div class="pt-md-5 my-5">
+  <h3 class="m-md-0 mr-md-3 pb-3 pb-md-0">Activity</h3>
+</div>
+<div class="my-5 row">
+  <div class="col col-md-10">
+    <p *ngIf="activities.length === 0">Loading...</p>
+    <div class="card mb-3" *ngFor="let item of activities">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div
+            class="col-12 col-md-4 pb-3 pb-md-0 d-flex align-items-center"
+            (click)="openHistoryModal(item.color)"
+          >
+            <div
+              class="color--container d-inline-block"
+              [ngStyle]="{ 'background-color': item.color.symbol }"
+            ></div>
+            <div class="pl-3">
+              <h5 class="m-0">{{ item.color.name }}</h5>
+              <small class="text-muted font-weight-light m-0"
+                >#{{ item.color.token_id }} •
+                {{ item.color.category | titlecase }}</small
+              >
+            </div>
+          </div>
+          <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <h6 class="m-0">
+              <a
+                (click)="openAddress(item.source)"
+                href
+                class="text-dark"
+                target="_blank"
+              >
+                {{ item.source | shorten }}
+              </a>
+              <ng-container *ngIf="item.entrypoint === 'bid'">
+                <strong>bid</strong>
+              </ng-container>
+              <ng-container *ngIf="item.entrypoint === 'create_auction'">
+                created a
+                <strong>new auction</strong>
+                with the starting price of
+              </ng-container>
+              <ng-container *ngIf="item.entrypoint === 'withdraw'">
+                <strong>claimed</strong> a color for
+              </ng-container>
+              {{
+                item.amount
+                  | amountConverter
+                    : {
+                        decimals: 6,
+                        symbol: 'tez'
+                      }
+                  | async
+              }}
+              <p *ngIf="item.endDate">Ends {{ item.endDate | amTimeAgo }}</p>
+            </h6>
+          </div>
+          <div class="col-12 col-md-2 text-md-right">
+            <p class="text-muted m-0">{{ item.timestamp | amTimeAgo }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
