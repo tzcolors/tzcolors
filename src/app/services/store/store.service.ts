@@ -101,7 +101,7 @@ export type ViewTypes = 'explore' | 'auctions' | 'my-colors' | 'watchlist'
 
 export type ColorCategory = 'all' | 'legendary' | 'epic' | 'standard'
 
-export type SortTypes = 'name' | 'price' | 'activity' | 'time'
+export type SortTypes = 'name' | 'price' | 'activity' | 'time' | 'bids'
 export type SortDirection = 'asc' | 'desc'
 
 const STORAGE_KEY_FAVORITES = 'tzcolor:favorites'
@@ -374,6 +374,15 @@ export class StoreService {
                   if (!aAuction?.endTimestamp && bAuction?.endTimestamp) {
                     return -1
                   }
+                }
+              } else if (sortType === 'bids') {
+                if (aAuction && bAuction) {
+                  return (
+                    (Number(aAuction.numberOfBids) ?? 0) -
+                    (Number(bAuction.numberOfBids) ?? 0)
+                  )
+                } else {
+                  return -1
                 }
               } else if (sortType === 'price') {
                 if (view === 'auctions') {
