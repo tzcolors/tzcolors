@@ -3,10 +3,14 @@
 </div>
 <div class="my-5 row">
   <div class="col col-md-10">
+    <p *ngIf="activities.length === 0">Loading...</p>
     <div class="card mb-3" *ngFor="let item of activities">
       <div class="card-body">
         <div class="row align-items-center">
-          <div class="col-12 col-md-4 pb-3 pb-md-0 d-flex align-items-center">
+          <div
+            class="col-12 col-md-4 pb-3 pb-md-0 d-flex align-items-center"
+            (click)="openHistoryModal(item.color)"
+          >
             <div
               class="color--container d-inline-block"
               [ngStyle]="{ 'background-color': item.color.symbol }"
@@ -49,6 +53,7 @@
                       }
                   | async
               }}
+              <p *ngIf="item.endDate">Ends {{ item.endDate | amTimeAgo }}</p>
             </h6>
           </div>
           <div class="col-12 col-md-2 text-md-right">
