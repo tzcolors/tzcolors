@@ -30,8 +30,7 @@
     <div class="col-12 col-md-7">
       <div class="card">
         <div class="card-body">
-          <!-- TODO: if send -->
-          <ng-container>
+          <ng-container *ngIf="type === modalType.SEND">
             <h3>Send Color</h3>
             <div class="row py-4">
               <div class="col-12">
@@ -42,15 +41,27 @@
                     class="form-control"
                     placeholder="tz.."
                     aria-label="receiving address"
+                    [(ngModel)]="sendingRecipient"
+                    (keyup)="validateSend()"
+                    (change)="validateSend()"
                   />
+                </div>
+                <div class="d-inline-block text-muted mb-2">
+                  {{ addressError }}
                 </div>
               </div>
             </div>
-            <button type="button" class="btn btn-light">Send</button>
+            <button
+              [disabled]="addressError.length > 0"
+              (click)="send()"
+              type="button"
+              class="btn btn-light"
+            >
+              Send
+            </button>
           </ng-container>
 
-          <!-- TODO: if auction -->
-          <ng-container>
+          <ng-container *ngIf="type === modalType.AUCTION">
             <h3>Create Auction</h3>
             <div class="row py-4">
               <div class="col-12 col-md-7">
@@ -62,8 +73,8 @@
                   <input
                     type="number"
                     [(ngModel)]="bidAmount"
-                    (keydown)="validate()"
-                    (change)="validate()"
+                    (keydown)="validateAuction()"
+                    (change)="validateAuction()"
                     class="form-control"
                     placeholder="1"
                     aria-label="minimum price"
@@ -85,8 +96,8 @@
                   <input
                     type="number"
                     [(ngModel)]="durationDays"
-                    (keydown)="validate()"
-                    (change)="validate()"
+                    (keydown)="validateAuction()"
+                    (change)="validateAuction()"
                     class="form-control"
                     placeholder="1"
                     aria-label="auction duration"

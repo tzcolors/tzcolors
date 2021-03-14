@@ -8,10 +8,8 @@ export const environment = {
   tzColorsAuctionContract: 'KT1CpeSQKdkhWi4pinYcseCFKmDhs5M74BkU',
   rpcUrl: 'https://mainnet-tezos.giganode.io',
   appName: 'tzcolors',
-  colorsBigmapUrl:
-    'https://bcd-proxy.prod.gke.papers.tech/v1/bigmap/mainnet/411/keys?q=&offset=0&size=10000',
-  auctionBigmapUrl:
-    'https://bcd-proxy.prod.gke.papers.tech/v1/bigmap/mainnet/409/keys?q=&offset=0&size=10000',
+  colorsBigmapUrl: 'https://api.better-call.dev/v1/bigmap/mainnet/411/keys',
+  auctionBigmapUrl: 'https://api.better-call.dev/v1/bigmap/mainnet/409/keys',
   indexerUrl: 'https://tzcolors-indexer.prod.gke.papers.tech/api/v1/',
 }
 

@@ -6,6 +6,7 @@ import { ExploreComponent } from './pages/explore/explore.component'
 import { LandingComponent } from './pages/landing/landing.component'
 import { MyColorsComponent } from './pages/my-colors/my-colors.component'
 import { WatchlistComponent } from './pages/watchlist/watchlist.component'
+import { StatsComponent } from './pages/stats/stats.component'
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'my-colors', component: MyColorsComponent },
   { path: 'watchlist', component: WatchlistComponent },
   { path: 'activity', component: ActivityComponent },
+  { path: 'stats', component: StatsComponent },
 ]
 
 @NgModule({

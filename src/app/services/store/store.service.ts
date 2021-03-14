@@ -18,9 +18,14 @@ import {
   tap,
 } from 'rxjs/operators'
 import { AccountInfo } from '@airgap/beacon-sdk'
+import { ApiService } from '../api/api.service'
+import { parseDate } from 'src/app/utils'
 var deepEqual = require('fast-deep-equal/es6')
 
 const colorsFromStorage: Color[] = require('../../../assets/colors.json')
+
+let hasInitialAuctionState = false
+let hasInitialColorState = false
 
 export interface Color {
   name: string
@@ -77,6 +82,7 @@ export interface AuctionItem {
   endTimestamp: Date
   seller: string
   bidAmount: string
+  numberOfBids?: number | undefined
   bidder: string
 }
 
@@ -171,6 +177,9 @@ export class StoreService {
   private _previousAuctionInfo: BehaviorSubject<
     Map<number, PreviousAuctionItem>
   > = new BehaviorSubject(new Map())
+  private _auctionBids: BehaviorSubject<
+    Map<number, number>
+  > = new BehaviorSubject(new Map())
   private _colorStates: BehaviorSubject<
     Map<number, boolean>
   > = new BehaviorSubject(new Map())
@@ -185,7 +194,8 @@ export class StoreService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly store$: Store<State>
+    private readonly store$: Store<State>,
+    private readonly api: ApiService
   ) {
     this.store$
       .select(
@@ -230,6 +240,10 @@ export class StoreService {
         // distinctUntilChanged(),
         tap((x) => console.log('previousAuctionInfo changed', x))
       ),
+      this._auctionBids.pipe(
+        // distinctUntilChanged(),
+        tap((x) => console.log('auctionBids changed', x))
+      ),
       this._colorStates.pipe(
         // distinctUntilChanged(),
         tap((x) => console.log('colorStates changed', x))
@@ -268,6 +282,7 @@ export class StoreService {
           ownerInfo,
           auctionInfo,
           previousAuctionInfo,
+          auctionBids,
           colorStates,
           favorites,
           accountInfo,
@@ -281,6 +296,7 @@ export class StoreService {
           Map<number, string>,
           Map<number, AuctionItem>,
           Map<number, PreviousAuctionItem>,
+          Map<number, number>,
           Map<number, boolean>,
           number[],
           AccountInfo | undefined,
@@ -289,14 +305,21 @@ export class StoreService {
           SortDirection
         ]) =>
           colors
-            .map((c) => ({
-              ...c,
-              auction: auctionInfo.get(c.token_id),
-              owner: ownerInfo.get(c.token_id),
-              loading: colorStates.get(c.token_id) ?? false,
-              isFavorite: favorites.includes(c.token_id), // TODO: use map
-              previousAuction: previousAuctionInfo.get(c.token_id),
-            }))
+            .map((c) => {
+              const auction = auctionInfo.get(c.token_id)
+              const auctionBidSize = auctionBids.size // If size > 0, we know that we have the API response and can assume all non existent ones are 0
+              if (auctionBidSize > 0 && auction) {
+                auction.numberOfBids = auctionBids.get(auction.auctionId) ?? 0
+              }
+              return {
+                ...c,
+                auction,
+                owner: ownerInfo.get(c.token_id),
+                loading: colorStates.get(c.token_id) ?? false,
+                isFavorite: favorites.includes(c.token_id), // TODO: use map
+                previousAuction: previousAuctionInfo.get(c.token_id),
+              }
+            })
             .filter((c) =>
               view === 'explore'
                 ? true
@@ -382,7 +405,7 @@ export class StoreService {
                 }
               }
 
-              return a.name.localeCompare(b.name)
+              return a.token_id - b.token_id
             })
       ),
       shareReplay(1)
@@ -400,9 +423,6 @@ export class StoreService {
 
     this._colors$.next(colorsFromStorage)
 
-    this.getColorOwners()
-    this.getAuctions()
-    this.getPreviousAuctions()
     this.updateState()
   }
 
@@ -461,11 +481,16 @@ export class StoreService {
   }
 
   async getColorOwners() {
-    const data = await this.http
-      .get<RootObject[]>(`${environment.colorsBigmapUrl}`)
-      .toPromise()
+    const url =
+      hasInitialColorState === false
+        ? `${environment.colorsBigmapUrl}?size=10000`
+        : `${environment.colorsBigmapUrl}?size=20`
 
-    const ownerInfo = new Map<number, string>()
+    const data = await this.http.get<RootObject[]>(url).toPromise()
+
+    hasInitialColorState = true
+
+    const ownerInfo = new Map(this._ownerInfo.value)
 
     data
       .filter((d) => d.data.value !== null)
@@ -477,20 +502,32 @@ export class StoreService {
       })
 
     if (!deepEqual(this._ownerInfo.value, ownerInfo)) {
-      console.log('Owners: Not equal, updating')
+      console.log(
+        'Owners: Not equal, updating',
+        this._ownerInfo.value.size,
+        ownerInfo.size
+      )
       this._ownerInfo.next(ownerInfo)
       this._colorStates.next(new Map())
     } else {
-      console.log('Owners: responses are equal')
+      console.log(
+        'Owners: responses are equal',
+        this._ownerInfo.value.size,
+        ownerInfo.size
+      )
     }
   }
 
   async getAuctions() {
-    const data = await this.http
-      .get<RootObject[]>(`${environment.auctionBigmapUrl}`)
-      .toPromise()
+    const url =
+      hasInitialAuctionState === false
+        ? `${environment.auctionBigmapUrl}?size=10000`
+        : `${environment.auctionBigmapUrl}?size=20`
+    const data = await this.http.get<RootObject[]>(url).toPromise()
 
-    const auctionInfo = new Map<number, AuctionItem>()
+    hasInitialAuctionState = true
+
+    const auctionInfo = new Map(this._auctionInfo.value)
 
     data.forEach((d) => {
       const value = d.data.value
@@ -501,7 +538,7 @@ export class StoreService {
       const tokenAddress = value.children[0].value
       const tokenId = Number(value.children[1].value)
       const tokenAmount = Number(value.children[2].value)
-      const endTimestamp = this.getDate(value.children[3].value)
+      const endTimestamp = parseDate(value.children[3].value)
       const seller = value.children[4].value
       const bidAmount = value.children[5].value
       const bidder = value.children[6].value
@@ -533,11 +570,19 @@ export class StoreService {
     // }
 
     if (!deepEqual(this._auctionInfo.value, auctionInfo)) {
-      console.log('Auctions: Not equal, updating')
+      console.log(
+        'Auctions: Not equal, updating',
+        this._auctionInfo.value.size,
+        auctionInfo.size
+      )
       this._auctionInfo.next(auctionInfo)
       this._colorStates.next(new Map())
     } else {
-      console.log('Auctions: responses are equal')
+      console.log(
+        'Auctions: responses are equal',
+        this._auctionInfo.value.size,
+        auctionInfo.size
+      )
     }
   }
 
@@ -553,6 +598,7 @@ export class StoreService {
 
     data
       .filter((o: any) => o.entrypoint === 'withdraw')
+      .reverse()
       .forEach((o: any) => {
         const value = o.storage_diff?.children[0]?.children
 
@@ -562,7 +608,7 @@ export class StoreService {
         const tokenAddress = value[0].value
         const tokenId = Number(value[1].value)
         const tokenAmount = Number(value[2].value)
-        const endTimestamp = this.getDate(value[3].value)
+        const endTimestamp = parseDate(value[3].value)
         const seller = value[4].value
         const bidAmount = value[5].value
         const bidder = value[6].value
@@ -597,38 +643,79 @@ export class StoreService {
     // }
 
     if (!deepEqual(this._previousAuctionInfo.value, previousAuctionInfo)) {
-      console.log('Previous Auctions: Not equal, updating')
+      console.log(
+        'Previous Auctions: Not equal, updating',
+        this._previousAuctionInfo.value.size,
+        previousAuctionInfo.size
+      )
       this._previousAuctionInfo.next(previousAuctionInfo)
       this._colorStates.next(new Map())
     } else {
-      console.log('Previous Auctions: responses are equal')
+      console.log(
+        'Previous Auctions: responses are equal',
+        this._previousAuctionInfo.value.size,
+        previousAuctionInfo.size
+      )
+    }
+  }
+
+  async getAuctionBids() {
+    // TODO: Add response type
+    const data = await this.api.getAllBidsForAllAuctions()
+
+    const auctionBids = new Map<number, number>()
+
+    Object.entries(data).forEach((o) => {
+      const auctionInfo = this._auctionInfo.value
+      if (auctionInfo) {
+        const auction = auctionInfo.get(Number(o[0]))
+        if (auction) {
+          auction.numberOfBids = o[1]
+        }
+      }
+      auctionBids.set(Number(o[0]), o[1])
+    })
+
+    // TODO: This will only update the "loading" state if the color was actually affected by the update
+    // const currentAuction = this._auctionInfo.value
+    // for (const key of currentAuction.keys()) {
+    //   console.log('KEY,', key)
+    //   if (deepEqual(currentAuction.get(key), auctionInfo.get(key))) {
+    //     continue
+    //   } else {
+    //     console.log(`TOKEN "${key}" WAS UPDATED`)
+    //     this.setColorLoadingState(key, false)
+    //   }
+    // }
+
+    if (!deepEqual(this._auctionBids.value, auctionBids)) {
+      console.log(
+        'Auction Bids: Not equal, updating',
+        this._auctionBids.value.size,
+        auctionBids.size
+      )
+      this._auctionBids.next(auctionBids)
+    } else {
+      console.log(
+        'Auction Bids: responses are equal',
+        this._auctionBids.value.size,
+        auctionBids.size
+      )
     }
   }
 
   updateState() {
+    this.getColorOwners()
+    this.getAuctions()
+    this.getPreviousAuctions()
+    this.getAuctionBids()
+
     let subscription = interval(10_000).subscribe((x) => {
       console.log('refresh')
       this.getColorOwners()
       this.getAuctions()
       this.getPreviousAuctions()
+      this.getAuctionBids()
     })
-  }
-
-  private getDate(value: string): Date {
-    const year = value.substring(0, 4).padStart(2, '0')
-    const month = value.substring(5, 7).padStart(2, '0')
-    const day = value.substring(8, 10).padStart(2, '0')
-    const hour = value.substring(11, 13).padStart(2, '0')
-    const minute = value.substring(14, 16).padStart(2, '0')
-    const second = value.substring(17, 19).padStart(2, '0')
-
-    const date = new Date(
-      `${year}-${month}-${day}T${hour}:${minute}:${second}.000Z`
-    )
-
-    if (!isNaN(date.getTime())) {
-      return date
-    }
-    throw new Error('CANNOT PARSE DATE')
   }
 }

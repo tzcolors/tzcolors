@@ -4,7 +4,10 @@ import BigNumber from 'bignumber.js'
 
 import { BsModalService } from 'ngx-bootstrap/modal'
 import { first } from 'rxjs/operators'
-import { AuctionModalComponent } from 'src/app/components/auction-modal/auction-modal.component'
+import {
+  AuctionModalComponent,
+  AuctionModalType,
+} from 'src/app/components/auction-modal/auction-modal.component'
 import { BeaconService } from 'src/app/services/beacon/beacon.service'
 import {
   Color,
@@ -83,16 +86,21 @@ export class ColorCardItemComponent implements OnInit {
     window.open(`https://tezblock.io/account/${address}`, '_blank')
   }
 
-  openAuctionModal() {
+  openAuctionModal(type: AuctionModalType = AuctionModalType.AUCTION) {
     if (!this.color) {
       return
     }
     const modalRef = this.modalService.show(AuctionModalComponent, {
       initialState: {
         color: this.color,
+        type,
       },
       class: 'modal-lg modal-dialog-centered',
     })
+  }
+
+  openSendModal() {
+    this.openAuctionModal(AuctionModalType.SEND)
   }
 
   openHistoryModal() {
