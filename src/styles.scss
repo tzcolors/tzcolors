@@ -115,6 +115,16 @@ app-auction-modal {
   }
 }
 
+app-header-item {
+  .profile--container {
+    .btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+    .btn-group > .btn-group:not(:last-child) > .btn {
+      border-top-right-radius: $border-radius !important;
+      border-bottom-right-radius: $border-radius !important;
+    }
+  }
+}
+
 @import '../node_modules/bootstrap/scss/bootstrap';
 
 /* Importing Bootstrap SCSS file. */
