@@ -44,8 +44,8 @@ const mapOps = (
           c.token_id ===
           parseInt(operation.storage_diff.children[0].children[1].value)
       )
-      amount = operation.parameters.children[1].value
-      endDate = parseDate(operation.parameters.children[2].value)
+      amount = operation.parameters[0].children[1].value
+      endDate = parseDate(operation.parameters[0].children[2].value)
     }
 
     if (!color) {
