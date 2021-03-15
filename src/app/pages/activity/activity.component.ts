@@ -100,7 +100,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     })
 
     this.subscription.add(
-      interval(20_000).subscribe((x) => {
+      interval(60_000).subscribe((x) => {
         wrapApiRequest('fetchOperations', () => {
           return this.fetchOperations()
         })
