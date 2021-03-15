@@ -786,7 +786,7 @@ export class StoreService {
       return this.getAuctionBids()
     })
 
-    let subscription = interval(10_000).subscribe((x) => {
+    let subscription = interval(30_000).subscribe((x) => {
       console.log('refresh')
       wrapApiRequest('getColorOwners', () => {
         return this.getColorOwners()
