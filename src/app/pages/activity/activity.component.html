@@ -3,12 +3,16 @@
 </div>
 <div class="my-5 row">
   <div class="col col-md-10">
-    <p *ngIf="activities.length === 0">Loading...</p>
+    <div class="card mb-3" *ngIf="activities.length === 0">
+      <div class="card-body">
+        <p>Loading...</p>
+      </div>
+    </div>
     <div class="card mb-3" *ngFor="let item of activities">
       <div class="card-body">
         <div class="row align-items-center">
           <div
-            class="col-12 col-md-4 pb-3 pb-md-0 d-flex align-items-center"
+            class="col-12 col-md-4 pb-3 pb-md-0 d-flex align-items-center color--details__container"
             (click)="openHistoryModal(item.color)"
           >
             <div
@@ -52,8 +56,9 @@
                         symbol: 'tez'
                       }
                   | async
-              }}
-              <p *ngIf="item.endDate">Ends {{ item.endDate | amTimeAgo }}</p>
+              }}<span *ngIf="item.endDate"
+                >, with auction ending {{ item.endDate | amTimeAgo }}</span
+              >
             </h6>
           </div>
           <div class="col-12 col-md-2 text-md-right">
