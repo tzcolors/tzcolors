@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators'
 import { ColorHistoryModalComponent } from 'src/app/components/color-history-modal/color-history-modal.component'
 import { ApiService } from 'src/app/services/api/api.service'
 import { Color, StoreService } from 'src/app/services/store/store.service'
-import { parseDate } from 'src/app/utils'
+import { parseDate, wrapApiRequest } from 'src/app/utils'
 
 export interface ActivityItem {
   color: Color
@@ -95,10 +95,15 @@ export class ActivityComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    this.fetchOperations()
+    wrapApiRequest('fetchOperations', () => {
+      return this.fetchOperations()
+    })
+
     this.subscription.add(
-      interval(20_000).subscribe((x) => {
-        this.fetchOperations()
+      interval(60_000).subscribe((x) => {
+        wrapApiRequest('fetchOperations', () => {
+          return this.fetchOperations()
+        })
       })
     )
   }
@@ -110,14 +115,14 @@ export class ActivityComponent implements OnInit, OnDestroy {
   }
 
   async fetchOperations() {
-    const result = await this.api.getOperationsSince(this.fromTime)
-    const ops = result.operations
+    const ops = await this.api.getLatestOperations(50)
 
-    if (ops.length !== 0) {
-      this.fromTime = new Date(ops[0].timestamp).getTime() + 1
+    // if (ops.length !== 0) {
+    //   this.fromTime = new Date(ops[0].timestamp).getTime() + 1
 
-      this.rawOperations.unshift(...result.operations)
-    }
+    //   this.rawOperations.unshift(...result.operations)
+    // }
+    this.rawOperations = ops
     // Continue even if no updates happened. It's possible the indexer is lagging behind and we need to update the colors to reflect new/ending auctions.
 
     this.storeService.colors$.pipe(first()).subscribe((colors) => {
