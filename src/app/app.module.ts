@@ -57,6 +57,8 @@ import { ColorHistoryModalComponent } from './components/color-history-modal/col
 import { ActivityComponent } from './pages/activity/activity.component'
 import { StatsComponent } from './pages/stats/stats.component'
 
+import { ToastrModule } from 'ngx-toastr'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,6 +98,7 @@ import { StatsComponent } from './pages/stats/stats.component'
     EffectsModule.forRoot([AppEffects, ConnectWalletEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     FormsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent, BsModalService],
