@@ -19,7 +19,7 @@ import {
 } from 'rxjs/operators'
 import { AccountInfo } from '@airgap/beacon-sdk'
 import { ApiService } from '../api/api.service'
-import { parseDate, wrapApiRequest } from 'src/app/utils'
+import { parseAddress, parseDate, wrapApiRequest } from 'src/app/utils'
 var deepEqual = require('fast-deep-equal/es6')
 
 const colorsFromStorage: Color[] = require('../../../assets/colors.json')
@@ -490,25 +490,41 @@ export class StoreService {
   }
 
   async getColorOwners() {
-    const url =
-      hasInitialColorState === false
-        ? `${environment.colorsBigmapUrl}?size=10000`
-        : `${environment.colorsBigmapUrl}?size=20`
+    const x = await this.api.getBigmapFromConseil('411')
+    console.log('OWNERS', x)
 
-    const data = await this.http.get<RootObject[]>(url).toPromise()
-
-    hasInitialColorState = true
-
+    const info = x.map((el) => {
+      const split = el.key.split(' ')
+      return {
+        tokenId: split[1],
+        address: parseAddress(split[2]),
+      }
+    })
     const ownerInfo = new Map(this._ownerInfo.value)
 
-    data
-      .filter((d) => d.data.value !== null)
-      .forEach((d) => {
-        ownerInfo.set(
-          Number(d.data.key.children[0].value),
-          d.data.key.children[1].value
-        )
-      })
+    info.forEach((d) => {
+      ownerInfo.set(Number(d.tokenId), d.address)
+    })
+
+    // const url =
+    //   hasInitialColorState === false
+    //     ? `${environment.colorsBigmapUrl}?size=10000`
+    //     : `${environment.colorsBigmapUrl}?size=20`
+
+    // const data = await this.http.get<RootObject[]>(url).toPromise()
+
+    // hasInitialColorState = true
+
+    // const ownerInfo = new Map(this._ownerInfo.value)
+
+    // data
+    //   .filter((d) => d.data.value !== null)
+    //   .forEach((d) => {
+    //     ownerInfo.set(
+    //       Number(d.data.key.children[0].value),
+    //       d.data.key.children[1].value
+    //     )
+    //   })
 
     if (!deepEqual(this._ownerInfo.value, ownerInfo)) {
       console.log(
@@ -528,32 +544,35 @@ export class StoreService {
   }
 
   async getAuctions() {
-    const url =
-      hasInitialAuctionState === false
-        ? `${environment.auctionBigmapUrl}?size=10000`
-        : `${environment.auctionBigmapUrl}?size=20`
-    const data = await this.http.get<RootObject[]>(url).toPromise()
+    const x = await this.api.getBigmapFromConseil('409')
+    console.log('Auctions', x)
 
-    hasInitialAuctionState = true
-
+    const info = x.map((el) => {
+      const split = el.value.slice(2).slice(0, -2).split(' ; ')
+      return {
+        key: el.key,
+        tokenAddress: parseAddress(split[0]),
+        tokenId: Number(split[1]),
+        tokenAmount: Number(split[2]),
+        endTimestamp: new Date(parseInt(split[3]) * 1000),
+        seller: parseAddress(split[4]),
+        bidAmount: split[5],
+        bidder: parseAddress(split[6]),
+      }
+    })
     const auctionInfo = new Map(this._auctionInfo.value)
 
-    data.forEach((d) => {
-      const value = d.data.value
-
-      if (!value) {
-        return
-      }
-      const tokenAddress = value.children[0].value
-      const tokenId = Number(value.children[1].value)
-      const tokenAmount = Number(value.children[2].value)
-      const endTimestamp = parseDate(value.children[3].value)
-      const seller = value.children[4].value
-      const bidAmount = value.children[5].value
-      const bidder = value.children[6].value
+    info.forEach((d) => {
+      const tokenAddress = d.tokenAddress
+      const tokenId = d.tokenId
+      const tokenAmount = d.tokenAmount
+      const endTimestamp = d.endTimestamp
+      const seller = d.seller
+      const bidAmount = d.bidAmount
+      const bidder = d.seller
 
       const auctionItem = {
-        auctionId: Number(d.data.key_string),
+        auctionId: Number(d.key),
         tokenAddress,
         tokenId,
         tokenAmount,
@@ -563,8 +582,48 @@ export class StoreService {
         bidder,
       }
 
+      console.log('auctionItem', auctionItem)
+
       auctionInfo.set(tokenId, auctionItem)
     })
+
+    // const url =
+    //   hasInitialAuctionState === false
+    //     ? `${environment.auctionBigmapUrl}?size=10000`
+    //     : `${environment.auctionBigmapUrl}?size=20`
+    // const data = await this.http.get<RootObject[]>(url).toPromise()
+
+    // hasInitialAuctionState = true
+
+    // const auctionInfo = new Map(this._auctionInfo.value)
+
+    // data.forEach((d) => {
+    //   const value = d.data.value
+
+    //   if (!value) {
+    //     return
+    //   }
+    //   const tokenAddress = value.children[0].value
+    //   const tokenId = Number(value.children[1].value)
+    //   const tokenAmount = Number(value.children[2].value)
+    //   const endTimestamp = parseDate(value.children[3].value)
+    //   const seller = value.children[4].value
+    //   const bidAmount = value.children[5].value
+    //   const bidder = value.children[6].value
+
+    //   const auctionItem = {
+    //     auctionId: Number(d.data.key_string),
+    //     tokenAddress,
+    //     tokenId,
+    //     tokenAmount,
+    //     endTimestamp,
+    //     seller,
+    //     bidAmount,
+    //     bidder,
+    //   }
+
+    //   auctionInfo.set(tokenId, auctionItem)
+    // })
 
     // TODO: This will only update the "loading" state if the color was actually affected by the update
     // const currentAuction = this._auctionInfo.value

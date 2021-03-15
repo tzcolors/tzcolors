@@ -166,4 +166,38 @@ export class ApiService {
       )
       .toPromise()
   }
+
+  getBigmapFromConseil(mapId: string) {
+    return this.http
+      .post<any[]>(
+        'https://tezos-mainnet-conseil.prod.gke.papers.tech/v2/data/tezos/mainnet/big_map_contents',
+        {
+          fields: [
+            'key',
+            'key_hash',
+            'operation_group_id',
+            'big_map_id',
+            'value',
+          ],
+          predicates: [
+            {
+              field: 'big_map_id',
+              operation: 'eq',
+              set: [mapId],
+              inverse: false,
+            },
+            { field: 'value', operation: 'isnull', set: [''], inverse: true },
+          ],
+          orderBy: [{ field: 'key', direction: 'desc' }],
+          aggregation: [],
+          limit: 2000,
+        },
+        {
+          headers: {
+            apiKey: 'airgap00391',
+          },
+        }
+      )
+      .toPromise()
+  }
 }
