@@ -158,6 +158,13 @@ export class ApiService {
       .toPromise()
   }
 
+  getLatestOperations(limit: number) {
+    const params = limit ? `?limit=${limit}` : ``
+    return this.http
+      .get<any>(`${environment.indexerUrl}auction/operations${params}`)
+      .toPromise()
+  }
+
   getOperationsSince(from: number) {
     const params = from ? `?from=${from}` : `?`
     return this.http
