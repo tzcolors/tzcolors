@@ -44,8 +44,8 @@ const mapOps = (
           c.token_id ===
           parseInt(operation.storage_diff.children[0].children[1].value)
       )
-      amount = operation.parameters[0].children[1].value
-      endDate = parseDate(operation.parameters[0].children[2].value)
+      amount = operation.parameters.children[1].value
+      endDate = parseDate(operation.parameters.children[2].value)
     }
 
     if (!color) {
@@ -115,14 +115,14 @@ export class ActivityComponent implements OnInit, OnDestroy {
   }
 
   async fetchOperations() {
-    const result = await this.api.getOperationsSince(this.fromTime)
-    const ops = result.operations
+    const ops = await this.api.getLatestOperations(50)
 
-    if (ops.length !== 0) {
-      this.fromTime = new Date(ops[0].timestamp).getTime() + 1
+    // if (ops.length !== 0) {
+    //   this.fromTime = new Date(ops[0].timestamp).getTime() + 1
 
-      this.rawOperations.unshift(...result.operations)
-    }
+    //   this.rawOperations.unshift(...result.operations)
+    // }
+    this.rawOperations = ops
     // Continue even if no updates happened. It's possible the indexer is lagging behind and we need to update the colors to reflect new/ending auctions.
 
     this.storeService.colors$.pipe(first()).subscribe((colors) => {
