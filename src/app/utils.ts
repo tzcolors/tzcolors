@@ -15,3 +15,27 @@ export const parseDate = (value: string): Date => {
   }
   throw new Error('CANNOT PARSE DATE')
 }
+
+const pendingRequests = new Map()
+export const wrapApiRequest = async (
+  name: string,
+  fn: () => Promise<void>
+): Promise<void> => {
+  if (pendingRequests.has(name)) {
+    console.warn(`Request "${name}" is already pending, skipping`)
+    return
+  }
+
+  pendingRequests.set(name, true)
+
+  let res
+  try {
+    res = await fn()
+  } catch (e) {
+    console.error('API ERROR', e)
+  }
+
+  pendingRequests.delete(name)
+
+  return res
+}
