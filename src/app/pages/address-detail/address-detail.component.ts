@@ -31,4 +31,8 @@ export class AddressDetailComponent implements OnInit {
       this.storeService.setSearchString(this.address)
     })
   }
+
+  openAddress(address: string) {
+    window.open(`https://tezblock.io/account/${address}`, '_blank')
+  }
 }

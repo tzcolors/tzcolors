@@ -1,4 +1,7 @@
-{{ address }}
+<a href target="_blank" class="text-dark" (click)="openAddress(address)">
+  <h3>{{ address }}</h3>
+</a>
+<p class="m-0">Owner</p>
 <app-color-card-list
   [title]="'Collection'"
   [count$]="colorsCount$"

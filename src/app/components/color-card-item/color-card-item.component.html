@@ -55,10 +55,10 @@
       </h3>
 
       <p class="text-muted font-weight-light">
-        #<a
-          class="nav-link text-dark"
+        <a
+          class="text-muted font-weight-light"
           [routerLink]="'/color/' + color.token_id"
-          >{{ color.token_id }}</a
+          >#{{ color.token_id }}</a
         >
         • {{ color.category | titlecase }}
       </p>
