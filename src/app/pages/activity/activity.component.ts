@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators'
 import { ColorHistoryModalComponent } from 'src/app/components/color-history-modal/color-history-modal.component'
 import { ApiService } from 'src/app/services/api/api.service'
 import { Color, StoreService } from 'src/app/services/store/store.service'
-import { parseDate } from 'src/app/utils'
+import { parseDate, wrapApiRequest } from 'src/app/utils'
 
 export interface ActivityItem {
   color: Color
@@ -95,10 +95,15 @@ export class ActivityComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    this.fetchOperations()
+    wrapApiRequest('fetchOperations', () => {
+      return this.fetchOperations()
+    })
+
     this.subscription.add(
       interval(20_000).subscribe((x) => {
-        this.fetchOperations()
+        wrapApiRequest('fetchOperations', () => {
+          return this.fetchOperations()
+        })
       })
     )
   }

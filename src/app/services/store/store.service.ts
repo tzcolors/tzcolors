@@ -19,7 +19,7 @@ import {
 } from 'rxjs/operators'
 import { AccountInfo } from '@airgap/beacon-sdk'
 import { ApiService } from '../api/api.service'
-import { parseDate } from 'src/app/utils'
+import { parseDate, wrapApiRequest } from 'src/app/utils'
 var deepEqual = require('fast-deep-equal/es6')
 
 const colorsFromStorage: Color[] = require('../../../assets/colors.json')
@@ -714,17 +714,33 @@ export class StoreService {
   }
 
   updateState() {
-    this.getColorOwners()
-    this.getAuctions()
-    this.getPreviousAuctions()
-    this.getAuctionBids()
+    wrapApiRequest('getColorOwners', () => {
+      return this.getColorOwners()
+    })
+    wrapApiRequest('getAuctions', () => {
+      return this.getAuctions()
+    })
+    wrapApiRequest('getPreviousAuctions', () => {
+      return this.getPreviousAuctions()
+    })
+    wrapApiRequest('getAuctionBids', () => {
+      return this.getAuctionBids()
+    })
 
     let subscription = interval(10_000).subscribe((x) => {
       console.log('refresh')
-      this.getColorOwners()
-      this.getAuctions()
-      this.getPreviousAuctions()
-      this.getAuctionBids()
+      wrapApiRequest('getColorOwners', () => {
+        return this.getColorOwners()
+      })
+      wrapApiRequest('getAuctions', () => {
+        return this.getAuctions()
+      })
+      wrapApiRequest('getPreviousAuctions', () => {
+        return this.getPreviousAuctions()
+      })
+      wrapApiRequest('getAuctionBids', () => {
+        return this.getAuctionBids()
+      })
     })
   }
 }
