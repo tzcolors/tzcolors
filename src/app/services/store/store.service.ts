@@ -569,7 +569,7 @@ export class StoreService {
       const endTimestamp = d.endTimestamp
       const seller = d.seller
       const bidAmount = d.bidAmount
-      const bidder = d.seller
+      const bidder = d.bidder
 
       const auctionItem = {
         auctionId: Number(d.key),
@@ -581,8 +581,6 @@ export class StoreService {
         bidAmount,
         bidder,
       }
-
-      console.log('auctionItem', auctionItem)
 
       auctionInfo.set(tokenId, auctionItem)
     })
