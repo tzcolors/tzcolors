@@ -6,7 +6,7 @@ import { ApiService, HistoryItem } from 'src/app/services/api/api.service'
 import { parseDate } from 'src/app/utils'
 
 @Component({
-  selector: 'app-auction-modal',
+  selector: 'app-history-modal',
   templateUrl: './color-history-modal.component.html',
   styleUrls: ['./color-history-modal.component.scss'],
 })
