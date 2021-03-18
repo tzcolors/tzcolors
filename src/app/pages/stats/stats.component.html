@@ -8,11 +8,18 @@
 <div class="row py-5">
   <div class="col-12 col-md-5">
     <h1>
-      <!-- tzcolors users spent <strong>15 tez</strong>
-      <small class="text-muted font-weight-light">&nbsp;$30.12</small> on
-      <strong>{{ stats.count.total }}</strong> transactions. -->
       tzcolors users created a total of
-      <strong>{{ stats.count.total }}</strong> transactions
+      <strong>{{ stats.count.total }}</strong> transactions and spent
+      <strong>{{
+        stats.fee.total
+          | amountConverter
+            : {
+                decimals: 6,
+                symbol: 'tez'
+              }
+          | async
+      }}</strong>
+      on fees.
     </h1>
   </div>
 </div>
@@ -154,6 +161,11 @@ Create auctions: {{ stats.count.create_auction }} Bids:
 
 <div class="row py-5">
   <div class="col-12 col-md-5">
+    <p>More stats coming soon...</p>
+  </div>
+</div>
+<!-- <div class="row py-5">
+  <div class="col-12 col-md-5">
     <h3 class="m-0">22,038</h3>
     <p class="text-muted font-weight-light pb-3">
       Total Auction House Transactions
@@ -203,4 +215,4 @@ Create auctions: {{ stats.count.create_auction }} Bids:
       </ngx-charts-line-chart>
     </div>
   </div>
-</div>
+</div> -->

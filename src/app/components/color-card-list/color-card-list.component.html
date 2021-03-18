@@ -96,6 +96,7 @@
           <span>Price</span>
         </button>
         <button
+          *ngIf="(view$ | async) !== 'explore'"
           (click)="[sortType('time'), sortDirection(sortingDirection, 'asc')]"
           type="button"
           class="btn btn-sm mr-3"
@@ -111,6 +112,25 @@
             *ngIf="sortingType === 'time' && sortingDirection === 'desc'"
           ></fa-icon>
           <span>Time</span>
+        </button>
+
+        <button
+          *ngIf="(view$ | async) !== 'explore'"
+          (click)="[sortType('bids'), sortDirection(sortingDirection, 'asc')]"
+          type="button"
+          class="btn btn-sm mr-3"
+          [ngClass]="sortingType === 'bids' ? 'btn-dark' : 'btn-light'"
+        >
+          <fa-icon
+            [icon]="['fas', 'sort-amount-up']"
+            *ngIf="sortingType === 'bids' && sortingDirection === 'asc'"
+          ></fa-icon>
+
+          <fa-icon
+            [icon]="['fas', 'sort-amount-down']"
+            *ngIf="sortingType === 'bids' && sortingDirection === 'desc'"
+          ></fa-icon>
+          <span>Bids</span>
         </button>
         <button
           (click)="clearFilters()"

@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core'
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
+import { Component, Input, OnInit } from '@angular/core'
 
 import { Color } from 'src/app/services/store/store.service'
 import { ApiService, HistoryItem } from 'src/app/services/api/api.service'
 import { parseDate } from 'src/app/utils'
 
 @Component({
-  selector: 'app-auction-modal',
+  selector: 'app-history-modal',
   templateUrl: './color-history-modal.component.html',
   styleUrls: ['./color-history-modal.component.scss'],
 })
 export class ColorHistoryModalComponent implements OnInit {
+  @Input()
   color: Color | undefined
 
   history: HistoryItem[] | undefined
@@ -22,11 +22,7 @@ export class ColorHistoryModalComponent implements OnInit {
     domain: ['#000000'],
   }
 
-  constructor(
-    public bsModalRef: BsModalRef,
-    public modalService: BsModalService,
-    private readonly api: ApiService
-  ) {}
+  constructor(private readonly api: ApiService) {}
 
   ngOnInit(): void {
     this.getHistory()

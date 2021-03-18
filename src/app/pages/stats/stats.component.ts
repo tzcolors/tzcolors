@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { first } from 'rxjs/operators'
+import BigNumber from 'bignumber.js'
 import { ApiService } from 'src/app/services/api/api.service'
 import { StoreService } from 'src/app/services/store/store.service'
-import BigNumber from 'bignumber.js'
 
 @Component({
   selector: 'app-stats',
@@ -74,7 +74,13 @@ export class StatsComponent implements OnInit {
     },
   ]
 
+  colorScheme = {
+    domain: ['#000000'],
+  }
+
   public stats: any = {
+    amount: { total: 0 },
+    fee: { total: 0 },
     count: {
       total: 0,
       create_auction: 0,
@@ -101,9 +107,6 @@ export class StatsComponent implements OnInit {
     },
   }
 
-  colorScheme = {
-    domain: ['#000000'],
-  }
   constructor(
     private readonly store: StoreService,
     private readonly api: ApiService
@@ -204,6 +207,10 @@ export class StatsComponent implements OnInit {
         })
       })
     }, 2000)
+
+    this.api.getOperationCount().then((res) => (this.stats.count.total = res))
+    this.api.getSum('amount').then((res) => (this.stats.amount.total = res))
+    this.api.getSum('fee').then((res) => (this.stats.fee.total = res))
   }
 
   ngOnInit(): void {}

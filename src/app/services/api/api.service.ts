@@ -150,4 +150,61 @@ export class ApiService {
       .get<number>(`${environment.indexerUrl}auction/operations/count${params}`)
       .toPromise()
   }
+
+  getSum(field?: string) {
+    const params = field ? `?aggregate=${field}` : ``
+    return this.http
+      .get<number>(`${environment.indexerUrl}auction/operations/sum${params}`)
+      .toPromise()
+  }
+
+  getLatestOperations(limit: number) {
+    const params = limit ? `?limit=${limit}` : ``
+    return this.http
+      .get<any>(`${environment.indexerUrl}auction/operations${params}`)
+      .toPromise()
+  }
+
+  getOperationsSince(from: number) {
+    const params = from ? `?from=${from}` : `?`
+    return this.http
+      .get<any>(
+        `https://api.better-call.dev/v1/contract/mainnet/${environment.tzColorsAuctionContract}/operations${params}&with_storage_diff=true&status=applied&size=20`
+      )
+      .toPromise()
+  }
+
+  getBigmapFromConseil(mapId: string) {
+    return this.http
+      .post<any[]>(
+        'https://tezos-mainnet-conseil.prod.gke.papers.tech/v2/data/tezos/mainnet/big_map_contents',
+        {
+          fields: [
+            'key',
+            'key_hash',
+            'operation_group_id',
+            'big_map_id',
+            'value',
+          ],
+          predicates: [
+            {
+              field: 'big_map_id',
+              operation: 'eq',
+              set: [mapId],
+              inverse: false,
+            },
+            { field: 'value', operation: 'isnull', set: [''], inverse: true },
+          ],
+          orderBy: [{ field: 'key', direction: 'desc' }],
+          aggregation: [],
+          limit: 2000,
+        },
+        {
+          headers: {
+            apiKey: 'airgap00391',
+          },
+        }
+      )
+      .toPromise()
+  }
 }
