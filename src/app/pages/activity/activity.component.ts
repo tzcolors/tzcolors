@@ -1,10 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { BsModalService } from 'ngx-bootstrap/modal'
-import { interval, Subscription } from 'rxjs'
-import { first } from 'rxjs/operators'
+import {
+  combineLatest,
+  interval,
+  Observable,
+  ReplaySubject,
+  Subscription,
+} from 'rxjs'
 import { ColorHistoryModalComponent } from 'src/app/components/color-history-modal/color-history-modal.component'
 import { ApiService } from 'src/app/services/api/api.service'
-import { Color, StoreService } from 'src/app/services/store/store.service'
+import {
+  Color,
+  ColorCategory,
+  StoreService,
+} from 'src/app/services/store/store.service'
 import { parseDate, wrapApiRequest } from 'src/app/utils'
 
 export interface ActivityItem {
@@ -76,11 +85,13 @@ const isActivityItem = (
 export class ActivityComponent implements OnInit, OnDestroy {
   public activities: ActivityItem[] = []
 
-  private fromTime = 0
-
-  private rawOperations: any[] = []
+  public hasLoaded: boolean = false
 
   private subscription = new Subscription()
+
+  category$: Observable<ColorCategory>
+
+  private operations: ReplaySubject<any[]> = new ReplaySubject(1)
 
   constructor(
     private readonly modalService: BsModalService,
@@ -92,12 +103,22 @@ export class ActivityComponent implements OnInit, OnDestroy {
     this.storeService.setSortDirection('asc')
     this.storeService.setSearchString('')
     this.storeService.setNumberOfItems(2000)
+    this.category$ = this.storeService.category$
   }
 
   async ngOnInit(): Promise<void> {
     wrapApiRequest('fetchOperations', () => {
       return this.fetchOperations()
     })
+
+    this.subscription.add(
+      combineLatest([this.storeService.colors$, this.operations]).subscribe(
+        ([colors, operations]) => {
+          const mapColors = mapOps(colors)
+          this.activities = operations.map(mapColors).filter(isActivityItem)
+        }
+      )
+    )
 
     this.subscription.add(
       interval(60_000).subscribe((x) => {
@@ -115,20 +136,11 @@ export class ActivityComponent implements OnInit, OnDestroy {
   }
 
   async fetchOperations() {
-    const ops = await this.api.getLatestOperations(50)
+    const ops = await this.api.getLatestOperations(100)
 
-    // if (ops.length !== 0) {
-    //   this.fromTime = new Date(ops[0].timestamp).getTime() + 1
+    this.hasLoaded = true
 
-    //   this.rawOperations.unshift(...result.operations)
-    // }
-    this.rawOperations = ops
-    // Continue even if no updates happened. It's possible the indexer is lagging behind and we need to update the colors to reflect new/ending auctions.
-
-    this.storeService.colors$.pipe(first()).subscribe((colors) => {
-      const mapColors = mapOps(colors)
-      this.activities = this.rawOperations.map(mapColors).filter(isActivityItem)
-    })
+    this.operations.next(ops)
   }
 
   openHistoryModal(color: Color) {
@@ -145,5 +157,13 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
   openAddress(address: string) {
     window.open(`https://tezblock.io/account/${address}`, '_blank')
+  }
+
+  setCategory(oldCategory: ColorCategory, category: ColorCategory): void {
+    if (oldCategory === category) {
+      this.storeService.setCategory('all')
+    } else {
+      this.storeService.setCategory(category)
+    }
   }
 }
