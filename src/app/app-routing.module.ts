@@ -7,6 +7,8 @@ import { LandingComponent } from './pages/landing/landing.component'
 import { MyColorsComponent } from './pages/my-colors/my-colors.component'
 import { WatchlistComponent } from './pages/watchlist/watchlist.component'
 import { StatsComponent } from './pages/stats/stats.component'
+import { TokenDetailComponent } from './pages/token-detail/token-detail.component'
+import { AddressDetailComponent } from './pages/address-detail/address-detail.component'
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'watchlist', component: WatchlistComponent },
   { path: 'activity', component: ActivityComponent },
   { path: 'stats', component: StatsComponent },
+  { path: 'address/:id', component: AddressDetailComponent },
+  { path: 'color/:id', component: TokenDetailComponent },
 ]
 
 @NgModule({
