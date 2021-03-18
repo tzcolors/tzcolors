@@ -56,6 +56,7 @@
 
       <p class="text-muted font-weight-light">
         <a
+          href
           class="text-muted font-weight-light"
           [routerLink]="'/color/' + color.token_id"
           >#{{ color.token_id }}</a
@@ -114,6 +115,7 @@
                 •
               </ng-container>
               <a
+                href
                 class="text-dark"
                 [routerLink]="'/address/' + color.auction?.bidder!"
                 *ngIf="color.auction?.bidder! !== color.auction?.seller!"
@@ -135,6 +137,7 @@
           <div class="col">
             <p class="m-0">
               <a
+                href
                 class="text-dark"
                 [routerLink]="'/address/' + color.auction?.seller!"
               >
@@ -203,6 +206,7 @@
         </ng-container>
         <p class="m-0 font-weight-light">
           <a
+            href
             class="text-dark"
             [routerLink]="'/address/' + color.auction?.bidder!"
           >
@@ -227,7 +231,7 @@
           <p class="text-muted font-weight-light">Final Price</p>
         </ng-container>
         <p class="m-0 font-weight-light">
-          <a class="text-dark" [routerLink]="'/address/' + color?.owner!">
+          <a href class="text-dark" [routerLink]="'/address/' + color?.owner!">
             {{ color?.owner! | shorten }}
           </a>
         </p>
