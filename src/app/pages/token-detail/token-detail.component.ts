@@ -36,10 +36,18 @@ export class TokenDetailComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.tokenId = parseInt(params['id'])
     })
+    let timeout: NodeJS.Timeout
     this.colors$.subscribe((colors) => {
-      this.color = colors.find((c) => c.token_id === this.tokenId)
-      console.log('asdasd', this.color)
-      this.ref.detectChanges()
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+      timeout = setTimeout(() => {
+        let color = colors.find((c) => c.token_id === this.tokenId)
+        if (color && !color.owner) {
+          return
+        }
+        this.color = color
+      }, 500) // TODO: Get rid of this delay. It looks like the last state is not always emitted?
     })
   }
 }
