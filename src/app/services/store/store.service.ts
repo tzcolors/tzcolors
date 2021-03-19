@@ -97,7 +97,12 @@ export interface PreviousAuctionItem {
   bidder: string
 }
 
-export type ViewTypes = 'explore' | 'auctions' | 'my-colors' | 'watchlist'
+export type ViewTypes =
+  | 'explore'
+  | 'auctions'
+  | 'my-colors'
+  | 'watchlist'
+  | 'address'
 
 export type ColorCategory = 'all' | 'legendary' | 'epic' | 'standard'
 
@@ -321,7 +326,7 @@ export class StoreService {
               }
             })
             .filter((c) =>
-              view === 'explore'
+              view === 'explore' || view === 'address'
                 ? true
                 : view === 'watchlist'
                 ? c.isFavorite

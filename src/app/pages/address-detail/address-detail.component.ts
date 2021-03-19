@@ -18,7 +18,7 @@ export class AddressDetailComponent implements OnInit {
     private readonly storeService: StoreService,
     private readonly route: ActivatedRoute
   ) {
-    this.storeService.setView('explore')
+    this.storeService.setView('address')
     this.storeService.setSortType('name')
     this.storeService.setSortDirection('asc')
     this.colors$ = this.storeService.colors$
