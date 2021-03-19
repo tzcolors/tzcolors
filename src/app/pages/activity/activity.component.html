@@ -1,14 +1,59 @@
 <div class="pt-md-5 my-5">
-  <h3 class="m-md-0 mr-md-3 pb-3 pb-md-0">Activity</h3>
+  <div class="row my-3 align-items-center">
+    <div
+      class="col-12 col-md-6 d-flex flex-column flex-md-row align-items-center pb-3 pb-md-0"
+    >
+      <h3 class="m-md-0 mr-md-3 pb-3 pb-md-0">Activity</h3>
+      <div *ngIf="category$ | async as category">
+        <button
+          (click)="setCategory(category, 'all')"
+          type="button"
+          class="btn btn-sm mr-3"
+          [ngClass]="category === 'all' ? 'btn-dark' : 'btn-light'"
+        >
+          All
+        </button>
+        <button
+          (click)="setCategory(category, 'standard')"
+          type="button"
+          class="btn btn-sm mr-3"
+          [ngClass]="category === 'standard' ? 'btn-dark' : 'btn-light'"
+        >
+          Standard
+        </button>
+        <button
+          (click)="setCategory(category, 'epic')"
+          type="button"
+          class="btn btn-sm mr-3"
+          [ngClass]="category === 'epic' ? 'btn-dark' : 'btn-light'"
+        >
+          Epic
+        </button>
+        <button
+          (click)="setCategory(category, 'legendary')"
+          type="button"
+          class="btn btn-sm mr-3"
+          [ngClass]="category === 'legendary' ? 'btn-dark' : 'btn-light'"
+        >
+          Legendary
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="my-5 row">
   <div class="col col-md-10">
-    <p *ngIf="activities.length === 0">Loading...</p>
+    <div class="card mb-3" *ngIf="activities.length === 0">
+      <div class="card-body">
+        <p *ngIf="!hasLoaded">Loading...</p>
+        <p *ngIf="hasLoaded">No recent activity that match your filters.</p>
+      </div>
+    </div>
     <div class="card mb-3" *ngFor="let item of activities">
       <div class="card-body">
         <div class="row align-items-center">
           <div
-            class="col-12 col-md-4 pb-3 pb-md-0 d-flex align-items-center"
+            class="col-12 col-md-4 pb-3 pb-md-0 d-flex align-items-center color--details__container"
             (click)="openHistoryModal(item.color)"
           >
             <div
@@ -52,8 +97,9 @@
                         symbol: 'tez'
                       }
                   | async
-              }}
-              <p *ngIf="item.endDate">Ends {{ item.endDate | amTimeAgo }}</p>
+              }}<span *ngIf="item.endDate"
+                >, with auction ending {{ item.endDate | amTimeAgo }}</span
+              >
             </h6>
           </div>
           <div class="col-12 col-md-2 text-md-right">

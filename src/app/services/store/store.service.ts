@@ -661,7 +661,7 @@ export class StoreService {
     // TODO: Add response type
     const data = await this.http
       .get<any>(
-        `${environment.indexerUrl}auction/operations?status=applied&entrypoint=withdraw`
+        `${environment.indexerUrl}auction/operations?status=applied&entrypoint=withdraw&limit=100000`
       )
       .toPromise()
 
