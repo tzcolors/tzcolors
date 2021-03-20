@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store'
 import { State } from './app.reducer'
 
 import * as actions from './connect-wallet.actions'
+import { PushService } from './services/push/push.service'
 import { StoreService } from './services/store/store.service'
 
 @Component({
@@ -16,8 +17,11 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly store$: Store<State>,
-    private readonly store: StoreService
-  ) {}
+    private readonly store: StoreService,
+    private readonly push: PushService
+  ) {
+    this.push.subscribeToNotifications()
+  }
 
   ngOnInit() {
     this.store$.dispatch(actions.setupBeacon())
