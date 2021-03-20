@@ -58,6 +58,7 @@ import { ActivityComponent } from './pages/activity/activity.component'
 import { StatsComponent } from './pages/stats/stats.component'
 import { TokenDetailComponent } from './pages/token-detail/token-detail.component'
 import { AddressDetailComponent } from './pages/address-detail/address-detail.component'
+import { ServiceWorkerModule } from '@angular/service-worker'
 
 @NgModule({
   declarations: [
@@ -100,6 +101,9 @@ import { AddressDetailComponent } from './pages/address-detail/address-detail.co
     EffectsModule.forRoot([AppEffects, ConnectWalletEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     FormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent, BsModalService],
