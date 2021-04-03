@@ -19,7 +19,12 @@ import {
 } from 'rxjs/operators'
 import { AccountInfo } from '@airgap/beacon-sdk'
 import { ApiService } from '../api/api.service'
-import { parseAddress, parseDate, wrapApiRequest } from 'src/app/utils'
+import {
+  handleBCDBreakingChange,
+  parseAddress,
+  parseDate,
+  wrapApiRequest,
+} from 'src/app/utils'
 var deepEqual = require('fast-deep-equal/es6')
 
 const colorsFromStorage: Color[] = require('../../../assets/colors.json')
@@ -685,7 +690,7 @@ export class StoreService {
         const bidder = value[6].value
 
         const auctionItem = {
-          auctionId: Number(o.parameters.value),
+          auctionId: Number(handleBCDBreakingChange(o.parameters).value),
           tokenAddress,
           tokenId,
           tokenAmount,

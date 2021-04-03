@@ -122,3 +122,10 @@ const splitAndReturnRest = (
 
   return { result, rest }
 }
+
+/**
+ * Better Call Dev introduced a breaking change, so we have to handle 2 different cases for all "parameters"
+ */
+export const handleBCDBreakingChange = (parameters: any): any => {
+  return Array.isArray(parameters) ? parameters[0] : parameters
+}

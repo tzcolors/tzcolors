@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 
 import { Color } from 'src/app/services/store/store.service'
 import { ApiService, HistoryItem } from 'src/app/services/api/api.service'
-import { parseDate } from 'src/app/utils'
+import { handleBCDBreakingChange, parseDate } from 'src/app/utils'
 
 @Component({
   selector: 'app-history-modal',
@@ -53,22 +53,25 @@ export class ColorHistoryModalComponent implements OnInit {
       }
 
       this.previousAuctions = auctions.map((a: any) => {
-        a.maxBid = maxBids[a.parameters.children[0].value] ?? 0
-        a.ask = a.parameters.children[1].value
-        a.estimatedEndDate = parseDate(a.parameters.children[2].value)
+        a.maxBid =
+          maxBids[handleBCDBreakingChange(a.parameters).children[0].value] ?? 0
+        a.ask = handleBCDBreakingChange(a.parameters).children[1].value
+        a.estimatedEndDate = parseDate(
+          handleBCDBreakingChange(a.parameters).children[2].value
+        )
         return a
       })
 
       auctions.forEach(async (a: any) => {
         a.bids = await this.api.getBidsForAuction(
-          a.parameters.children[0].value
+          handleBCDBreakingChange(a.parameters).children[0].value
         )
       })
 
       const series = auctions
         .reverse()
         .map((a: any) => {
-          return a.parameters.children[0].value
+          return handleBCDBreakingChange(a.parameters).children[0].value
         })
         .map((a: any, index: number) => {
           return {
