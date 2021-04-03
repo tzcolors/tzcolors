@@ -132,14 +132,14 @@ export class ApiService {
   getAllAuctionsForToken(tokenId: number) {
     return this.http
       .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations?entrypoint=create_auction&parameters.children.5.value=${tokenId}`
+        `${environment.indexerUrl}auction/operations?entrypoint=create_auction&parameters.0.children.5.value=${tokenId}`
       )
       .toPromise()
   }
   getBidsForAuction(auctionId: number) {
     return this.http
       .get<HistoryItem[]>(
-        `${environment.indexerUrl}auction/operations?entrypoint=bid&parameters.value=${auctionId}`
+        `${environment.indexerUrl}auction/operations?entrypoint=bid&parameters.0.value=${auctionId}`
       )
       .toPromise()
   }

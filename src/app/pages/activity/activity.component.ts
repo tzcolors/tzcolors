@@ -14,7 +14,11 @@ import {
   ColorCategory,
   StoreService,
 } from 'src/app/services/store/store.service'
-import { parseDate, wrapApiRequest } from 'src/app/utils'
+import {
+  handleBCDBreakingChange,
+  parseDate,
+  wrapApiRequest,
+} from 'src/app/utils'
 
 export interface ActivityItem {
   color: Color
@@ -53,8 +57,10 @@ const mapOps = (
           c.token_id ===
           parseInt(operation.storage_diff.children[0].children[1].value)
       )
-      amount = operation.parameters.children[1].value
-      endDate = parseDate(operation.parameters.children[2].value)
+      amount = handleBCDBreakingChange(operation.parameters).children[1].value
+      endDate = parseDate(
+        handleBCDBreakingChange(operation.parameters).children[2].value
+      )
     }
 
     if (!color) {
