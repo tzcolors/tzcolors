@@ -9,6 +9,7 @@ import { WatchlistComponent } from './pages/watchlist/watchlist.component'
 import { StatsComponent } from './pages/stats/stats.component'
 import { TokenDetailComponent } from './pages/token-detail/token-detail.component'
 import { AddressDetailComponent } from './pages/address-detail/address-detail.component'
+import { StakingComponent } from './pages/staking/staking.component'
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'stats', component: StatsComponent },
   { path: 'address/:id', component: AddressDetailComponent },
   { path: 'color/:id', component: TokenDetailComponent },
+  { path: 'staking', component: StakingComponent },
 ]
 
 @NgModule({

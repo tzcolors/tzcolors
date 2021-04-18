@@ -17,6 +17,7 @@ import {
   StoreService,
 } from 'src/app/services/store/store.service'
 import { ColorHistoryModalComponent } from '../color-history-modal/color-history-modal.component'
+import { StakingModalComponent } from '../staking-modal/staking-modal.component'
 
 type ColorState =
   | 'loading'
@@ -101,6 +102,18 @@ export class ColorCardItemComponent implements OnInit {
 
   openSendModal() {
     this.openAuctionModal(AuctionModalType.SEND)
+  }
+
+  openStakingModal() {
+    if (!this.color) {
+      return
+    }
+    const modalRef = this.modalService.show(StakingModalComponent, {
+      initialState: {
+        color: this.color,
+      },
+      class: 'modal-lg modal-dialog-centered',
+    })
   }
 
   openHistoryModal() {

@@ -1,0 +1,160 @@
+<div *ngIf="color" class="modal-body">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="mb-5">Staking</h3>
+          <div class="row align-items-center">
+            <div
+              class="col-12 col-md-5 pb-3 pb-md-0 d-flex align-items-center color--details__container"
+            >
+              <div
+                class="color--container d-inline-block"
+                [ngStyle]="{ 'background-color': color.symbol }"
+              ></div>
+              <div class="pl-3">
+                <h5 class="m-0">{{ color.name }}</h5>
+                <small class="text-muted font-weight-light m-0"
+                  >#{{ color.token_id }} •
+                  {{ color.category | titlecase }}</small
+                >
+              </div>
+            </div>
+            <div class="col-12 col-md-4 pb-3 pb-md-0">
+              <h6 class="m-0">4.1 PRISM</h6>
+              <small class="m-0 text-muted">Current weekly rewards</small>
+            </div>
+            <div class="col-12 col-md-3 justify-content-end d-flex">
+              <!--TODO: toggle unstake or stake for operation -->
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-light btn-sm active">
+                  <input type="radio" name="options" id="option2" /> Stake
+                </label>
+                <label class="btn btn-light btn-sm">
+                  <input type="radio" name="options" id="option3" /> Unstake
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row pt-5 pb-4">
+            <div class="col">
+              <!--TODO: count of colors -->
+              <p class="m-0"><strong>My colors - 61</strong></p>
+            </div>
+            <div class="col text-right">
+              <!--TODO: toggle all that were unstaked before to stake and include in operation, ignore the once that are already staked -->
+              <a class="text-dark mr-3" href="#">Stake All</a>
+              <!--TODO: toggle all that were staked before to stake and include in operation, ignore the once that are already unstaked -->
+              <a class="text-dark" href="#">Unstake All</a>
+            </div>
+          </div>
+
+          <div class="row align-items-center pb-3">
+            <!--TODO: show first 3 or 5 colors, hide the rest and nly show them on "Show" all -->
+            <div
+              class="col-12 col-md-5 pb-3 pb-md-0 d-flex align-items-center color--details__container"
+            >
+              <div
+                class="color--container d-inline-block"
+                [ngStyle]="{ 'background-color': color.symbol }"
+              ></div>
+              <div class="pl-3">
+                <h5 class="m-0">{{ color.name }}</h5>
+                <small class="text-muted font-weight-light m-0"
+                  >#{{ color.token_id }} •
+                  {{ color.category | titlecase }}</small
+                >
+              </div>
+            </div>
+            <div class="col-12 col-md-4 pb-3 pb-md-0">
+              <h6 class="m-0">4.1 PRISM</h6>
+              <small class="m-0 text-muted">Current weekly rewards</small>
+            </div>
+            <div class="col-12 col-md-3 text-md-right">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-light btn-sm">
+                  <input type="radio" name="options" disabled id="option2" />
+                  Stake
+                </label>
+                <label class="btn btn-light btn-sm active">
+                  <input type="radio" name="options" id="option3" /> Unstaked
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-center pb-3">
+            <div
+              class="col-12 col-md-5 pb-3 pb-md-0 d-flex align-items-center color--details__container"
+            >
+              <div
+                class="color--container d-inline-block"
+                [ngStyle]="{ 'background-color': color.symbol }"
+              ></div>
+              <div class="pl-3">
+                <h5 class="m-0">{{ color.name }}</h5>
+                <small class="text-muted font-weight-light m-0"
+                  >#{{ color.token_id }} •
+                  {{ color.category | titlecase }}</small
+                >
+              </div>
+            </div>
+            <div class="col-12 col-md-4 pb-3 pb-md-0">
+              <h6 class="m-0">4.1 PRISM</h6>
+              <small class="m-0 text-muted">Current weekly rewards</small>
+            </div>
+            <div class="col-12 col-md-3 text-md-right">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-sm btn-light active">
+                  <input type="radio" name="options" id="option2" /> Staked
+                </label>
+                <label class="btn btn-sm btn-light">
+                  <input type="radio" name="options" id="option3" /> Unstake
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-center pb-3">
+            <div
+              class="col-12 col-md-5 pb-3 pb-md-0 d-flex align-items-center color--details__container"
+            >
+              <div
+                class="color--container d-inline-block"
+                [ngStyle]="{ 'background-color': color.symbol }"
+              ></div>
+              <div class="pl-3">
+                <h5 class="m-0">{{ color.name }}</h5>
+                <small class="text-muted font-weight-light m-0"
+                  >#{{ color.token_id }} •
+                  {{ color.category | titlecase }}</small
+                >
+              </div>
+            </div>
+            <div class="col-12 col-md-4 pb-3 pb-md-0">
+              <h6 class="m-0">4.1 PRISM</h6>
+              <small class="m-0 text-muted">Current weekly rewards</small>
+            </div>
+            <div class="col-12 col-md-3 text-md-right">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-light btn-sm active">
+                  <input type="radio" name="options" id="option2" /> Staked
+                </label>
+                <label class="btn btn-light btn-sm">
+                  <input type="radio" name="options" id="option3" /> Unstake
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="pt-2">
+            <!--TODO: Show all colors owned if more than 3 or 5, otherwise hide button -->
+            <a class="text-dark" href="#">Show All</a>
+          </div>
+          <div class="mt-5">
+            <!--TODO: trigger operation -->
+            <button type="button" class="btn btn-light">Update Staking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
