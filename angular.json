@@ -133,6 +133,7 @@
   },
   "defaultProject": "tzcolors",
   "cli": {
+    "analytics": "138c8968-3a2a-4aaa-9b5d-4cdd58df0ed0",
     "defaultCollection": "@ngrx/schematics"
   }
 }

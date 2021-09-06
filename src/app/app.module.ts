@@ -58,6 +58,7 @@ import { ActivityComponent } from './pages/activity/activity.component'
 import { StatsComponent } from './pages/stats/stats.component'
 import { TokenDetailComponent } from './pages/token-detail/token-detail.component'
 import { AddressDetailComponent } from './pages/address-detail/address-detail.component'
+import { StakingModalComponent } from './components/staking-modal/staking-modal.component'
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { AddressDetailComponent } from './pages/address-detail/address-detail.co
     AuctionsComponent,
     MyColorsComponent,
     AuctionModalComponent,
+    StakingModalComponent,
     ColorHistoryModalComponent,
     ShortenPipe,
     AmountConverterPipe,
