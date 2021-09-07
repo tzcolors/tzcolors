@@ -18,7 +18,7 @@
   },
   "private": true,
   "dependencies": {
-    "@airgap/beacon-sdk": "2.2.9",
+    "@airgap/beacon-sdk": "2.3.1",
     "@angular/animations": "~11.1.2",
     "@angular/cdk": "^11.2.1",
     "@angular/common": "~11.1.2",
@@ -35,7 +35,7 @@
     "@ngrx/effects": "^10.1.2",
     "@ngrx/store": "^10.1.2",
     "@swimlane/ngx-charts": "^17.0.0",
-    "@taquito/beacon-wallet": "^8.0.1-beta.1",
+    "@taquito/beacon-wallet": "10.1.0",
     "bignumber.js": "^9.0.1",
     "bootstrap": "^4.5.3",
     "bs58check": "^2.1.2",
