@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
+import { map } from 'rxjs/operators'
 
 export interface Result {
   consumed_gas: number
@@ -101,41 +102,136 @@ export interface HistoryItem {
 export class ApiService {
   constructor(private readonly http: HttpClient) {}
 
-  getAllBidsForAllAuctions() {
+  getAllBidsForAllAuctions(): Promise<{ [key: string]: number }> {
     return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations/count?entrypoint=bid&groupBy=storage_diff.children.0.name`
+      .post<{
+        data: {
+          auctions: {
+            id: number
+            bids_aggregate: {
+              aggregate: {
+                count: number
+              }
+            }
+          }[]
+        }
+      }>(
+        environment.dipdupUrl,
+        `{
+          auctions {
+            id
+            bids_aggregate {
+              aggregate {
+                count
+              }
+            }
+          }
+        }
+        `
+      )
+      .pipe(
+        map((res) => {
+          const x: { [key: string]: number } = {}
+          res.data.auctions.forEach((auction) => {
+            x[auction.id] = auction.bids_aggregate.aggregate.count
+          })
+          return x
+        })
       )
       .toPromise()
   }
-  getMaxBidForAllAuctions() {
+  getMaxBidForAllAuctions(): Promise<{ [key: string]: number }> {
     return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations/max?entrypoint=bid&groupBy=storage_diff.children.0.name`
+      .post<{
+        data: {
+          auctions: {
+            id: number
+            bids_aggregate: {
+              aggregate: {
+                max: { bid_amount: number }
+              }
+            }
+          }[]
+        }
+      }>(
+        environment.dipdupUrl,
+        `
+        {
+          auctions {
+            id
+            bids_aggregate {
+              aggregate {
+                max {
+                  bid_amount
+                }
+              }
+            }
+          }
+        }        
+        `
+      )
+      .pipe(
+        map((res) => {
+          const x: { [key: string]: number } = {}
+          res.data.auctions.forEach((auction) => {
+            x[auction.id] = auction.bids_aggregate.aggregate.max.bid_amount
+          })
+          return x
+        })
       )
       .toPromise()
   }
-  getMaxBidForAllTokens() {
-    return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations/max?entrypoint=bid&groupBy=storage_diff.children.0.children.1.value`
-      )
-      .toPromise()
-  }
-  getBidCountForAllTokens() {
-    return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations/count?entrypoint=bid&groupBy=storage_diff.children.0.children.1.value`
-      )
-      .toPromise()
-  }
+
+  // TODO
   getAllAuctionsForToken(tokenId: number) {
+    return this.http
+      .post<{
+        data: {
+          auctions: {
+            id: number
+            bids_aggregate: {
+              aggregate: {
+                max: { bid_amount: number }
+              }
+            }
+          }[]
+        }
+      }>(
+        environment.dipdupUrl,
+        `
+      {
+        auctions {
+          id
+          bids_aggregate {
+            aggregate {
+              max {
+                bid_amount
+              }
+            }
+          }
+        }
+      }        
+      `
+      )
+      .pipe(
+        map((res) => {
+          const x: { [key: string]: number } = {}
+          res.data.auctions.forEach((auction) => {
+            x[auction.id] = auction.bids_aggregate.aggregate.max.bid_amount
+          })
+          return x
+        })
+      )
+      .toPromise()
+
     return this.http
       .get<{ [key: string]: number }>(
         `${environment.indexerUrl}auction/operations?entrypoint=create_auction&parameters.0.children.5.value=${tokenId}`
       )
       .toPromise()
   }
+
+  // TODO
   getBidsForAuction(auctionId: number) {
     return this.http
       .get<HistoryItem[]>(
@@ -174,36 +270,70 @@ export class ApiService {
       .toPromise()
   }
 
-  getBigmapFromConseil(mapId: string) {
+  getAllHolders() {
     return this.http
-      .post<any[]>(
-        'https://tezos-mainnet-conseil.prod.gke.papers.tech/v2/data/tezos/mainnet/big_map_contents',
-        {
-          fields: [
-            'key',
-            'key_hash',
-            'operation_group_id',
-            'big_map_id',
-            'value',
-          ],
-          predicates: [
-            {
-              field: 'big_map_id',
-              operation: 'eq',
-              set: [mapId],
-              inverse: false,
-            },
-            { field: 'value', operation: 'isnull', set: [''], inverse: true },
-          ],
-          orderBy: [{ field: 'key', direction: 'desc' }],
-          aggregation: [],
-          limit: 2000,
-        },
-        {
-          headers: {
-            apiKey: 'airgap00391',
-          },
+      .post<{
+        data: {
+          tokens: {
+            id: number
+            holder: {
+              address: string
+            }
+          }[]
         }
+      }>(
+        environment.dipdupUrl,
+        `
+        {
+          tokens {
+            id
+            holder {
+              address
+            }
+          }
+        }
+        `
+      )
+      .toPromise()
+  }
+
+  getAllAuctions() {
+    return this.http
+      .post<{
+        data: {
+          auctions: {
+            id: number
+            end_timestamp: string
+            seller: {
+              address: string
+            }
+            bidder: {
+              address: string
+            }
+            bid_amount: number
+            status: number
+            token_id: number
+          }[]
+        }
+      }>(
+        environment.dipdupUrl,
+        `
+        {
+          auctions {
+            id
+            end_timestamp
+            seller {
+              address
+            }
+            bidder {
+              address
+            }
+            bid_amount
+            status,
+            token_id
+          }
+        }
+        `
       )
       .toPromise()
   }

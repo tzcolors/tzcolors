@@ -165,38 +165,30 @@ export class StoreService {
 
   private _numberOfItems: BehaviorSubject<number> = new BehaviorSubject(12)
   private _searchTerm: BehaviorSubject<string> = new BehaviorSubject('')
-  private _sortType: BehaviorSubject<SortTypes> = new BehaviorSubject<SortTypes>(
-    'time'
-  )
-  private _sortDirection: BehaviorSubject<SortDirection> = new BehaviorSubject<SortDirection>(
-    'desc'
-  )
-  private _category: BehaviorSubject<ColorCategory> = new BehaviorSubject<ColorCategory>(
-    'all'
-  )
+  private _sortType: BehaviorSubject<SortTypes> =
+    new BehaviorSubject<SortTypes>('time')
+  private _sortDirection: BehaviorSubject<SortDirection> =
+    new BehaviorSubject<SortDirection>('desc')
+  private _category: BehaviorSubject<ColorCategory> =
+    new BehaviorSubject<ColorCategory>('all')
   private _view: BehaviorSubject<ViewTypes> = new BehaviorSubject<ViewTypes>(
     'explore'
   )
 
-  private _ownerInfo: BehaviorSubject<
-    Map<number, string>
-  > = new BehaviorSubject(new Map())
-  private _auctionInfo: BehaviorSubject<
-    Map<number, AuctionItem>
-  > = new BehaviorSubject(new Map())
+  private _ownerInfo: BehaviorSubject<Map<number, string>> =
+    new BehaviorSubject(new Map())
+  private _auctionInfo: BehaviorSubject<Map<number, AuctionItem>> =
+    new BehaviorSubject(new Map())
   private _previousAuctionInfo: BehaviorSubject<
     Map<number, PreviousAuctionItem>
   > = new BehaviorSubject(new Map())
-  private _auctionBids: BehaviorSubject<
-    Map<number, number>
-  > = new BehaviorSubject(new Map())
-  private _colorStates: BehaviorSubject<
-    Map<number, boolean>
-  > = new BehaviorSubject(new Map())
+  private _auctionBids: BehaviorSubject<Map<number, number>> =
+    new BehaviorSubject(new Map())
+  private _colorStates: BehaviorSubject<Map<number, boolean>> =
+    new BehaviorSubject(new Map())
 
-  private _accountInfo: BehaviorSubject<
-    AccountInfo | undefined
-  > = new BehaviorSubject<AccountInfo | undefined>(undefined)
+  private _accountInfo: BehaviorSubject<AccountInfo | undefined> =
+    new BehaviorSubject<AccountInfo | undefined>(undefined)
 
   private _loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     true
@@ -500,14 +492,13 @@ export class StoreService {
   }
 
   async getColorOwners() {
-    const x = await this.api.getBigmapFromConseil('411')
-    console.log('OWNERS', x)
+    const holders = await this.api.getAllHolders()
+    console.log('OWNERS', holders)
 
-    const info = x.map((el) => {
-      const split = el.key.split(' ')
+    const info = holders.data.tokens.map((el) => {
       return {
-        tokenId: split[1],
-        address: parseAddress(split[2]),
+        tokenId: el.id,
+        address: el.holder.address,
       }
     })
     const ownerInfo = new Map(this._ownerInfo.value)
@@ -554,20 +545,19 @@ export class StoreService {
   }
 
   async getAuctions() {
-    const x = await this.api.getBigmapFromConseil('409')
-    console.log('Auctions', x)
+    const auctions = await this.api.getAllAuctions()
+    console.log('Auctions', auctions)
 
-    const info = x.map((el) => {
-      const split = el.value.slice(2).slice(0, -2).split(' ; ')
+    const info = auctions.data.auctions.map((el) => {
       return {
-        key: el.key,
-        tokenAddress: parseAddress(split[0]),
-        tokenId: Number(split[1]),
-        tokenAmount: Number(split[2]),
-        endTimestamp: new Date(parseInt(split[3]) * 1000),
-        seller: parseAddress(split[4]),
-        bidAmount: split[5],
-        bidder: parseAddress(split[6]),
+        key: el.id,
+        tokenAddress: 'tz1...',
+        tokenId: el.token_id,
+        tokenAmount: Number(1),
+        endTimestamp: new Date(el.end_timestamp),
+        seller: el.seller.address,
+        bidAmount: el.bid_amount.toString(),
+        bidder: el.bidder.address,
       }
     })
     const auctionInfo = new Map(this._auctionInfo.value)
