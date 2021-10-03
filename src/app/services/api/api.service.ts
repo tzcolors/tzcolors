@@ -1,7 +1,36 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
 import { map } from 'rxjs/operators'
+
+const headers = new HttpHeaders().set(
+  'Content-Type',
+  'application/json; charset=utf-8'
+)
+
+export interface AllAuctionsForTokenResponse {
+  data: {
+    auctions: {
+      id: number
+      end_timestamp: string
+      seller: {
+        address: string
+      }
+      status: string
+      bids: {
+        id: string
+        bid_amount: string
+        bidder_id: string
+        timestamp: string
+      }[]
+      bids_aggregate: {
+        aggregate: {
+          max: { bid_amount: number }
+        }
+      }
+    }[]
+  }
+}
 
 export interface Result {
   consumed_gas: number
@@ -117,7 +146,8 @@ export class ApiService {
         }
       }>(
         environment.dipdupUrl,
-        `{
+        {
+          query: `{
           auctions {
             id
             bids_aggregate {
@@ -126,8 +156,9 @@ export class ApiService {
               }
             }
           }
-        }
-        `
+        }`,
+        },
+        { headers }
       )
       .pipe(
         map((res) => {
@@ -153,9 +184,8 @@ export class ApiService {
             }
           }[]
         }
-      }>(
-        environment.dipdupUrl,
-        `
+      }>(environment.dipdupUrl, {
+        query: `
         {
           auctions {
             id
@@ -168,12 +198,14 @@ export class ApiService {
             }
           }
         }        
-        `
-      )
+        `,
+      })
       .pipe(
         map((res) => {
           const x: { [key: string]: number } = {}
+          console.log('res', res)
           res.data.auctions.forEach((auction) => {
+            console.log('auction', auction)
             x[auction.id] = auction.bids_aggregate.aggregate.max.bid_amount
           })
           return x
@@ -185,10 +217,46 @@ export class ApiService {
   // TODO
   getAllAuctionsForToken(tokenId: number) {
     return this.http
+      .post<AllAuctionsForTokenResponse>(environment.dipdupUrl, {
+        query: `
+        {
+          auctions(order_by: {end_timestamp: desc} where: {token_id: {_eq: ${tokenId}}}) {
+            id
+            end_timestamp
+            seller {
+              address
+            }
+            status
+            bids(order_by: {timestamp: desc}) {
+              id
+              bid_amount
+              bidder_id
+              timestamp
+            }
+            bids_aggregate {
+              aggregate {
+                count
+              }
+            }
+          }
+        }
+              `,
+      })
+      .toPromise()
+  }
+
+  getBidsForAuction(auctionId: number) {
+    return this.http
       .post<{
         data: {
           auctions: {
             id: number
+            bids: {
+              id: string
+              bid_amount: string
+              bidder_id: string
+              timestamp: string
+            }[]
             bids_aggregate: {
               aggregate: {
                 max: { bid_amount: number }
@@ -196,47 +264,26 @@ export class ApiService {
             }
           }[]
         }
-      }>(
-        environment.dipdupUrl,
-        `
-      {
-        auctions {
-          id
-          bids_aggregate {
-            aggregate {
-              max {
-                bid_amount
-              }
+      }>(environment.dipdupUrl, {
+        query: `
+        {
+          auctions(where: {id: {_eq: ${auctionId}}}) {
+            id
+            end_timestamp
+            seller {
+              address
+            }
+            status
+            bids(order_by: {timestamp: desc}) {
+              id
+              bid_amount
+              bidder_id
+              timestamp
             }
           }
         }
-      }        
-      `
-      )
-      .pipe(
-        map((res) => {
-          const x: { [key: string]: number } = {}
-          res.data.auctions.forEach((auction) => {
-            x[auction.id] = auction.bids_aggregate.aggregate.max.bid_amount
-          })
-          return x
-        })
-      )
-      .toPromise()
-
-    return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations?entrypoint=create_auction&parameters.0.children.5.value=${tokenId}`
-      )
-      .toPromise()
-  }
-
-  // TODO
-  getBidsForAuction(auctionId: number) {
-    return this.http
-      .get<HistoryItem[]>(
-        `${environment.indexerUrl}auction/operations?entrypoint=bid&parameters.0.value=${auctionId}`
-      )
+              `,
+      })
       .toPromise()
   }
 
@@ -281,19 +328,28 @@ export class ApiService {
             }
           }[]
         }
-      }>(
-        environment.dipdupUrl,
-        `
+      }>(environment.dipdupUrl, {
+        query: `
         {
           tokens {
             id
             holder {
               address
             }
+            auctions {
+              id
+              bid_amount
+              end_timestamp
+              bids_aggregate {
+                aggregate {
+                  count
+                }
+              }
+            }
           }
-        }
-        `
-      )
+        }        
+        `,
+      })
       .toPromise()
   }
 
@@ -315,9 +371,8 @@ export class ApiService {
             token_id: number
           }[]
         }
-      }>(
-        environment.dipdupUrl,
-        `
+      }>(environment.dipdupUrl, {
+        query: `
         {
           auctions {
             id
@@ -329,12 +384,12 @@ export class ApiService {
               address
             }
             bid_amount
-            status,
             token_id
+            status
           }
         }
-        `
-      )
+                `,
+      })
       .toPromise()
   }
 }

@@ -653,76 +653,69 @@ export class StoreService {
   }
 
   async getPreviousAuctions() {
-    // TODO: Add response type
-    const data = await this.http
-      .get<any>(
-        `${environment.indexerUrl}auction/operations?status=applied&entrypoint=withdraw&limit=100000`
-      )
-      .toPromise()
-
-    const previousAuctionInfo = new Map<number, PreviousAuctionItem>()
-
-    data
-      .filter((o: any) => o.entrypoint === 'withdraw')
-      .reverse()
-      .forEach((o: any) => {
-        const value = o.storage_diff?.children[0]?.children
-
-        if (!value) {
-          return
-        }
-        const tokenAddress = value[0].value
-        const tokenId = Number(value[1].value)
-        const tokenAmount = Number(value[2].value)
-        const endTimestamp = parseDate(value[3].value)
-        const seller = value[4].value
-        const bidAmount = value[5].value
-        const bidder = value[6].value
-
-        const auctionItem = {
-          auctionId: Number(handleBCDBreakingChange(o.parameters).value),
-          tokenAddress,
-          tokenId,
-          tokenAmount,
-          endTimestamp,
-          seller,
-          bidAmount,
-          bidder,
-        }
-
-        if (auctionItem.bidder !== auctionItem.seller) {
-          // This check is here because otherwise the owner can "fake" the previous auction price
-          previousAuctionInfo.set(tokenId, auctionItem)
-        }
-      })
-
-    // TODO: This will only update the "loading" state if the color was actually affected by the update
-    // const currentAuction = this._auctionInfo.value
-    // for (const key of currentAuction.keys()) {
-    //   console.log('KEY,', key)
-    //   if (deepEqual(currentAuction.get(key), auctionInfo.get(key))) {
-    //     continue
-    //   } else {
-    //     console.log(`TOKEN "${key}" WAS UPDATED`)
-    //     this.setColorLoadingState(key, false)
-    //   }
+    // // TODO: Add response type
+    // const data = await this.http
+    //   .get<any>(
+    //     `${environment.indexerUrl}auction/operations?status=applied&entrypoint=withdraw&limit=100000`
+    //   )
+    //   .toPromise()
+    // const previousAuctionInfo = new Map<number, PreviousAuctionItem>()
+    // data
+    //   .filter((o: any) => o.entrypoint === 'withdraw')
+    //   .reverse()
+    //   .forEach((o: any) => {
+    //     const value = o.storage_diff?.children[0]?.children
+    //     if (!value) {
+    //       return
+    //     }
+    //     const tokenAddress = value[0].value
+    //     const tokenId = Number(value[1].value)
+    //     const tokenAmount = Number(value[2].value)
+    //     const endTimestamp = parseDate(value[3].value)
+    //     const seller = value[4].value
+    //     const bidAmount = value[5].value
+    //     const bidder = value[6].value
+    //     const auctionItem = {
+    //       auctionId: Number(handleBCDBreakingChange(o.parameters).value),
+    //       tokenAddress,
+    //       tokenId,
+    //       tokenAmount,
+    //       endTimestamp,
+    //       seller,
+    //       bidAmount,
+    //       bidder,
+    //     }
+    //     if (auctionItem.bidder !== auctionItem.seller) {
+    //       // This check is here because otherwise the owner can "fake" the previous auction price
+    //       previousAuctionInfo.set(tokenId, auctionItem)
+    //     }
+    //   })
+    // // TODO: This will only update the "loading" state if the color was actually affected by the update
+    // // const currentAuction = this._auctionInfo.value
+    // // for (const key of currentAuction.keys()) {
+    // //   console.log('KEY,', key)
+    // //   if (deepEqual(currentAuction.get(key), auctionInfo.get(key))) {
+    // //     continue
+    // //   } else {
+    // //     console.log(`TOKEN "${key}" WAS UPDATED`)
+    // //     this.setColorLoadingState(key, false)
+    // //   }
+    // // }
+    // if (!deepEqual(this._previousAuctionInfo.value, previousAuctionInfo)) {
+    //   console.log(
+    //     'Previous Auctions: Not equal, updating',
+    //     this._previousAuctionInfo.value.size,
+    //     previousAuctionInfo.size
+    //   )
+    //   this._previousAuctionInfo.next(previousAuctionInfo)
+    //   this._colorStates.next(new Map())
+    // } else {
+    //   console.log(
+    //     'Previous Auctions: responses are equal',
+    //     this._previousAuctionInfo.value.size,
+    //     previousAuctionInfo.size
+    //   )
     // }
-
-    if (!deepEqual(this._previousAuctionInfo.value, previousAuctionInfo)) {
-      console.log(
-        'Previous Auctions: Not equal, updating',
-        this._previousAuctionInfo.value.size,
-        previousAuctionInfo.size
-      )
-      this._previousAuctionInfo.next(previousAuctionInfo)
-      this._colorStates.next(new Map())
-    } else {
-      console.log(
-        'Previous Auctions: responses are equal',
-        this._previousAuctionInfo.value.size,
-        previousAuctionInfo.size
-      )
-    }
   }
 
   async getAuctionBids() {

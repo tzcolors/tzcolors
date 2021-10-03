@@ -9,7 +9,7 @@ export const environment = {
   rpcUrl: 'https://mainnet-tezos.giganode.io',
   appName: 'tzcolors',
   indexerUrl: 'https://tzcolors-indexer.prod.gke.papers.tech/api/v1/',
-  dipdupUrl: 'https://tzcolors-indexer.dev.gke.papers.tech/v1/graphql/',
+  dipdupUrl: 'https://tzcolors-indexer-v2.prod.gke.papers.tech/v1/graphql/',
 }
 
 /*

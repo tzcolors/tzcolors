@@ -10,17 +10,17 @@
       <div class="card mb-3" *ngIf="history">
         <div class="card-body">
           <ng-container>
-            <h3 class="mb-3">Bids - {{ history.length }}</h3>
-            <p class="text-muted" *ngIf="!history.length">
+            <h3 class="mb-3">Bids - {{ history.bids.length - 1 }}</h3>
+            <p class="text-muted" *ngIf="!history.bids.length">
               There are no bids so far.
             </p>
             <!--TDOO: show up to 5 then display load more button-->
-            <ng-container *ngFor="let item of history">
+            <ng-container *ngFor="let item of history.bids">
               <div class="row align-items-center">
                 <div class="col col-md-6">
                   <h5 class="mb-0">
                     {{
-                      item.storage_diff.children[0].children[5].value
+                      item.bid_amount
                         | amountConverter
                           : {
                               decimals: 6,
@@ -31,19 +31,12 @@
                   </h5>
                   <p class="text-muted m-0">
                     <a
-                      (click)="
-                        openAddress(
-                          item.storage_diff.children[0].children[6].value
-                        )
-                      "
+                      (click)="openAddress(item.bidder_id)"
                       href
                       class="text-muted"
                       target="_blank"
                     >
-                      {{
-                        item.storage_diff.children[0].children[6].value
-                          | shorten
-                      }}
+                      {{ item.bidder_id | shorten }}
                     </a>
                   </p>
                 </div>
@@ -78,11 +71,9 @@
                 >
                   <div class="pull-left float-left text-left">
                     <h5 class="mb-0">
-                      <ng-container
-                        *ngIf="!auction.bids || auction.bids.length > 0"
-                      >
+                      <ng-container *ngIf="auction.bids.length > 1">
                         {{
-                          auction.maxBid
+                          auction.bids[0].bid_amount
                             | amountConverter
                               : {
                                   decimals: 6,
@@ -92,14 +83,13 @@
                         }}
                       </ng-container>
 
-                      <ng-container
-                        *ngIf="!auction.bids || auction.bids.length === 0"
+                      <ng-container *ngIf="auction.bids.length === 1"
                         >Not Sold</ng-container
                       >
                     </h5>
                     <p class="text-muted m-0">
                       {{
-                        auction.ask
+                        auction.bids[auction.bids.length - 1].bid_amount
                           | amountConverter
                             : {
                                 decimals: 6,
@@ -110,18 +100,14 @@
                     </p>
                   </div>
                   <p class="m-0 text-muted float-right pull-right">
-                    {{ auction.estimatedEndDate | amTimeAgo }}
+                    {{ auction.end_timestamp | amTimeAgo }}
                   </p>
                 </button>
-                <h5 class="mb-4">
-                  Bids - {{ auction.bids ? auction.bids.length : 0 }}
-                </h5>
-                <ng-container
-                  *ngIf="!auction.bids || auction.bids.length === 0"
-                >
+                <h5 class="mb-4">Bids - {{ auction.bids.length - 1 }}</h5>
+                <ng-container *ngIf="auction.bids.length === 1">
                   No bids
                 </ng-container>
-                <ng-container *ngIf="auction.bids && auction.bids.length > 0">
+                <ng-container *ngIf="auction.bids.length > 1">
                   <div
                     *ngFor="let bid of auction.bids"
                     class="row align-items-center pb-4"
@@ -129,7 +115,7 @@
                     <div class="col col-md-6">
                       <h5 class="mb-0">
                         {{
-                          bid.amount
+                          bid.bid_amount
                             | amountConverter
                               : {
                                   decimals: 6,
@@ -141,12 +127,12 @@
                       <p class="text-muted m-0">
                         <a href class="text-muted" target="_blank">
                           <a
-                            (click)="openAddress(bid.source)"
+                            (click)="openAddress(bid.bidder_id)"
                             href
                             class="text-muted"
                             target="_blank"
                           >
-                            {{ bid.source | shorten }}
+                            {{ bid.bidder_id | shorten }}
                           </a>
                         </a>
                       </p>
