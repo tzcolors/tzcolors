@@ -23,11 +23,8 @@ export interface AllAuctionsForTokenResponse {
         bidder_id: string
         timestamp: string
       }[]
-      bids_aggregate: {
-        aggregate: {
-          max: { bid_amount: number }
-        }
-      }
+      bid_count: number
+      ask_price: number
     }[]
   }
 }
@@ -137,11 +134,7 @@ export class ApiService {
         data: {
           auctions: {
             id: number
-            bids_aggregate: {
-              aggregate: {
-                count: number
-              }
-            }
+            bid_count: number
           }[]
         }
       }>(
@@ -150,11 +143,7 @@ export class ApiService {
           query: `{
           auctions {
             id
-            bids_aggregate {
-              aggregate {
-                count
-              }
-            }
+            bid_count
           }
         }`,
         },
@@ -164,49 +153,7 @@ export class ApiService {
         map((res) => {
           const x: { [key: string]: number } = {}
           res.data.auctions.forEach((auction) => {
-            x[auction.id] = auction.bids_aggregate.aggregate.count
-          })
-          return x
-        })
-      )
-      .toPromise()
-  }
-  getMaxBidForAllAuctions(): Promise<{ [key: string]: number }> {
-    return this.http
-      .post<{
-        data: {
-          auctions: {
-            id: number
-            bids_aggregate: {
-              aggregate: {
-                max: { bid_amount: number }
-              }
-            }
-          }[]
-        }
-      }>(environment.dipdupUrl, {
-        query: `
-        {
-          auctions {
-            id
-            bids_aggregate {
-              aggregate {
-                max {
-                  bid_amount
-                }
-              }
-            }
-          }
-        }        
-        `,
-      })
-      .pipe(
-        map((res) => {
-          const x: { [key: string]: number } = {}
-          console.log('res', res)
-          res.data.auctions.forEach((auction) => {
-            console.log('auction', auction)
-            x[auction.id] = auction.bids_aggregate.aggregate.max.bid_amount
+            x[auction.id] = auction.bid_count
           })
           return x
         })
@@ -214,7 +161,6 @@ export class ApiService {
       .toPromise()
   }
 
-  // TODO
   getAllAuctionsForToken(tokenId: number) {
     return this.http
       .post<AllAuctionsForTokenResponse>(environment.dipdupUrl, {
@@ -233,11 +179,9 @@ export class ApiService {
               bidder_id
               timestamp
             }
-            bids_aggregate {
-              aggregate {
-                count
-              }
-            }
+            bid_amount
+            bid_count
+            ask_price
           }
         }
               `,
@@ -257,11 +201,7 @@ export class ApiService {
               bidder_id: string
               timestamp: string
             }[]
-            bids_aggregate: {
-              aggregate: {
-                max: { bid_amount: number }
-              }
-            }
+            bid_count: number
           }[]
         }
       }>(environment.dipdupUrl, {
@@ -280,6 +220,7 @@ export class ApiService {
               bidder_id
               timestamp
             }
+            bid_count
           }
         }
               `,
@@ -302,9 +243,39 @@ export class ApiService {
   }
 
   getLatestOperations(limit: number) {
-    const params = limit ? `?limit=${limit}` : ``
     return this.http
-      .get<any>(`${environment.indexerUrl}auction/operations${params}`)
+      .post<{
+        data: {
+          activity: {
+            auction: {
+              id: number
+              token_id: number
+              end_timestamp: string
+            }
+            created: string
+            sender: string
+            tez_amount: number
+            event: 'CREATE_AUCTION' | 'BID' | 'WITHDRAW'
+          }[]
+        }
+      }>(environment.dipdupUrl, {
+        query: `
+        {
+          activity(limit: ${limit} order_by: {created: desc}) {
+            operation_hash
+            auction {
+              id
+              token_id
+              end_timestamp
+            }
+            created
+            sender
+            tez_amount
+            event
+          }
+        }
+              `,
+      })
       .toPromise()
   }
 
@@ -326,6 +297,7 @@ export class ApiService {
             holder: {
               address: string
             }
+            last_bid_amount: number
           }[]
         }
       }>(environment.dipdupUrl, {
@@ -336,16 +308,7 @@ export class ApiService {
             holder {
               address
             }
-            auctions {
-              id
-              bid_amount
-              end_timestamp
-              bids_aggregate {
-                aggregate {
-                  count
-                }
-              }
-            }
+            last_bid_amount
           }
         }        
         `,

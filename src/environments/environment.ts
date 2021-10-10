@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   tzColorsContract: 'KT1FyaDqiMQWg7Exo7VUiXAgZbd2kCzo3d4s',
   tzColorsAuctionContract: 'KT1CpeSQKdkhWi4pinYcseCFKmDhs5M74BkU',
-  rpcUrl: 'https://mainnet-tezos.giganode.io',
+  rpcUrl: 'https://mainnet.api.tez.ie',
   appName: 'tzcolors',
   indexerUrl: 'https://tzcolors-indexer.prod.gke.papers.tech/api/v1/',
   dipdupUrl: 'https://tzcolors-indexer-v2.prod.gke.papers.tech/v1/graphql/',

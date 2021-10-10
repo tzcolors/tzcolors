@@ -34,7 +34,12 @@
 
         <div class="card--color--type__container m-2">
           <div
-            class="card-color--type--symbol d-flex justify-content-center align-items-center"
+            class="
+              card-color--type--symbol
+              d-flex
+              justify-content-center
+              align-items-center
+            "
           >
             <p class="m-0">{{ color.category | slice: 0:1 | uppercase }}</p>
           </div>
@@ -177,7 +182,7 @@
         <ng-container *ngIf="color.auction?.bidder !== color.auction?.seller">
           <h3 class="m-0 font-weight-light">
             {{
-              color.auction?.bidAmount
+              color.lastBidAmount
                 | amountConverter
                   : {
                       decimals: 6,
@@ -189,20 +194,18 @@
           <p class="text-muted font-weight-light">Final Price</p>
         </ng-container>
         <ng-container *ngIf="color.auction?.bidder === color.auction?.seller">
-          <ng-container *ngIf="color?.previousAuction">
-            <h3 class="m-0 font-weight-light">
-              {{
-                color?.previousAuction?.bidAmount
-                  | amountConverter
-                    : {
-                        decimals: 6,
-                        symbol: 'tez'
-                      }
-                  | async
-              }}
-            </h3>
-            <p class="text-muted font-weight-light">Final Price</p>
-          </ng-container>
+          <h3 class="m-0 font-weight-light">
+            {{
+              color.lastBidAmount
+                | amountConverter
+                  : {
+                      decimals: 6,
+                      symbol: 'tez'
+                    }
+                | async
+            }}
+          </h3>
+          <p class="text-muted font-weight-light">Final Price</p>
         </ng-container>
         <p class="m-0 font-weight-light">
           <a
@@ -241,7 +244,7 @@
       <ng-container *ngIf="state === 'own'">
         <h3 class="m-0 font-weight-light">
           {{
-            color?.previousAuction?.bidAmount
+            color.lastBidAmount
               | amountConverter
                 : {
                     decimals: 6,

@@ -26,11 +26,7 @@ export class ColorHistoryModalComponent implements OnInit {
           bidder_id: string
           timestamp: string
         }[]
-        bids_aggregate: {
-          aggregate: {
-            max: { bid_amount: number }
-          }
-        }
+        bid_count: number
       }
     | undefined
 
@@ -74,6 +70,7 @@ export class ColorHistoryModalComponent implements OnInit {
 
       const series = response.data.auctions
         .map((a) => ({ ...a }))
+        .filter((a) => a.bid_count > 0)
         .reverse()
         .map((a, index: number) => {
           return {

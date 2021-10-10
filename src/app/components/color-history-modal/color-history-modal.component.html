@@ -10,7 +10,7 @@
       <div class="card mb-3" *ngIf="history">
         <div class="card-body">
           <ng-container>
-            <h3 class="mb-3">Bids - {{ history.bids.length - 1 }}</h3>
+            <h3 class="mb-3">Bids - {{ history.bids.length }}</h3>
             <p class="text-muted" *ngIf="!history.bids.length">
               There are no bids so far.
             </p>
@@ -71,7 +71,7 @@
                 >
                   <div class="pull-left float-left text-left">
                     <h5 class="mb-0">
-                      <ng-container *ngIf="auction.bids.length > 1">
+                      <ng-container *ngIf="auction.bids.length > 0">
                         {{
                           auction.bids[0].bid_amount
                             | amountConverter
@@ -83,13 +83,13 @@
                         }}
                       </ng-container>
 
-                      <ng-container *ngIf="auction.bids.length === 1"
+                      <ng-container *ngIf="auction.bids.length === 0"
                         >Not Sold</ng-container
                       >
                     </h5>
                     <p class="text-muted m-0">
                       {{
-                        auction.bids[auction.bids.length - 1].bid_amount
+                        auction.bid_amount
                           | amountConverter
                             : {
                                 decimals: 6,
@@ -103,11 +103,11 @@
                     {{ auction.end_timestamp | amTimeAgo }}
                   </p>
                 </button>
-                <h5 class="mb-4">Bids - {{ auction.bids.length - 1 }}</h5>
-                <ng-container *ngIf="auction.bids.length === 1">
+                <h5 class="mb-4">Bids - {{ auction.bids.length }}</h5>
+                <ng-container *ngIf="auction.bids.length === 0">
                   No bids
                 </ng-container>
-                <ng-container *ngIf="auction.bids.length > 1">
+                <ng-container *ngIf="auction.bids.length > 0">
                   <div
                     *ngFor="let bid of auction.bids"
                     class="row align-items-center pb-4"

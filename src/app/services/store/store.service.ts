@@ -43,6 +43,7 @@ export interface Color {
   loading: boolean
   isFavorite: boolean
   previousAuction: PreviousAuctionItem | undefined
+  lastBidAmount: number
 }
 
 export interface Child {
@@ -100,6 +101,11 @@ export interface PreviousAuctionItem {
   seller: string
   bidAmount: string
   bidder: string
+}
+
+interface TokenInfo {
+  owner: string
+  lastBidAmount: number
 }
 
 export type ViewTypes =
@@ -175,7 +181,7 @@ export class StoreService {
     'explore'
   )
 
-  private _ownerInfo: BehaviorSubject<Map<number, string>> =
+  private _ownerInfo: BehaviorSubject<Map<number, TokenInfo>> =
     new BehaviorSubject(new Map())
   private _auctionInfo: BehaviorSubject<Map<number, AuctionItem>> =
     new BehaviorSubject(new Map())
@@ -295,7 +301,7 @@ export class StoreService {
           Color[],
           ColorCategory,
           ViewTypes,
-          Map<number, string>,
+          Map<number, TokenInfo>,
           Map<number, AuctionItem>,
           Map<number, PreviousAuctionItem>,
           Map<number, number>,
@@ -316,10 +322,11 @@ export class StoreService {
               return {
                 ...c,
                 auction,
-                owner: ownerInfo.get(c.token_id),
+                owner: ownerInfo.get(c.token_id)?.owner,
                 loading: colorStates.get(c.token_id) ?? false,
                 isFavorite: favorites.includes(c.token_id), // TODO: use map
                 previousAuction: previousAuctionInfo.get(c.token_id),
+                lastBidAmount: ownerInfo.get(c.token_id)?.lastBidAmount ?? 0,
               }
             })
             .filter((c) =>
@@ -499,12 +506,16 @@ export class StoreService {
       return {
         tokenId: el.id,
         address: el.holder.address,
+        lastBidAmount: el.last_bid_amount,
       }
     })
     const ownerInfo = new Map(this._ownerInfo.value)
 
     info.forEach((d) => {
-      ownerInfo.set(Number(d.tokenId), d.address)
+      ownerInfo.set(Number(d.tokenId), {
+        owner: d.address,
+        lastBidAmount: d.lastBidAmount,
+      })
     })
 
     // const url =
@@ -721,9 +732,7 @@ export class StoreService {
   async getAuctionBids() {
     // TODO: Add response type
     const data = await this.api.getAllBidsForAllAuctions()
-
     const auctionBids = new Map<number, number>()
-
     Object.entries(data).forEach((o) => {
       const auctionInfo = this._auctionInfo.value
       if (auctionInfo) {
@@ -734,7 +743,6 @@ export class StoreService {
       }
       auctionBids.set(Number(o[0]), o[1])
     })
-
     // TODO: This will only update the "loading" state if the color was actually affected by the update
     // const currentAuction = this._auctionInfo.value
     // for (const key of currentAuction.keys()) {
@@ -746,7 +754,6 @@ export class StoreService {
     //     this.setColorLoadingState(key, false)
     //   }
     // }
-
     if (!deepEqual(this._auctionBids.value, auctionBids)) {
       console.log(
         'Auction Bids: Not equal, updating',

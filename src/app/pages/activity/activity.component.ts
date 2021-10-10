@@ -22,7 +22,7 @@ import {
 
 export interface ActivityItem {
   color: Color
-  entrypoint: string
+  event: 'CREATE_AUCTION' | 'BID' | 'WITHDRAW'
   source: string
   amount: string
   timestamp: string
@@ -32,35 +32,21 @@ export interface ActivityItem {
 const mapOps = (
   colors: Color[]
 ): ((operation: any) => ActivityItem | undefined) => {
-  return (operation: any): ActivityItem | undefined => {
-    let color
-    let amount
-    let endDate
-    if (operation.entrypoint === 'withdraw') {
-      color = colors.find(
-        (c) =>
-          c.token_id ===
-          parseInt(operation.storage_diff.children[0].children[1].value)
-      )
-      amount = operation.storage_diff.children[0].children[5].value
-    } else if (operation.entrypoint === 'bid') {
-      color = colors.find(
-        (c) =>
-          c.token_id ===
-          parseInt(operation.storage_diff.children[0].children[1].value)
-      )
-      amount = operation.amount
-      endDate = parseDate(operation.storage_diff.children[0].children[3].value)
-    } else if (operation.entrypoint === 'create_auction') {
-      color = colors.find(
-        (c) =>
-          c.token_id ===
-          parseInt(operation.storage_diff.children[0].children[1].value)
-      )
-      amount = handleBCDBreakingChange(operation.parameters).children[1].value
-      endDate = parseDate(
-        handleBCDBreakingChange(operation.parameters).children[2].value
-      )
+  return (operation: {
+    auction: {
+      id: number
+      token_id: number
+      end_timestamp: string
+    }
+    created: string
+    sender: string
+    tez_amount: number
+    event: 'CREATE_AUCTION' | 'BID' | 'WITHDRAW'
+  }): ActivityItem | undefined => {
+    let color = colors.find((c) => c.token_id === operation.auction.token_id)
+    if (operation.event === 'WITHDRAW') {
+    } else if (operation.event === 'BID') {
+    } else if (operation.event === 'CREATE_AUCTION') {
     }
 
     if (!color) {
@@ -68,11 +54,11 @@ const mapOps = (
     }
     return {
       color,
-      entrypoint: operation.entrypoint,
-      source: operation.source,
-      amount,
-      timestamp: operation.timestamp,
-      endDate,
+      event: operation.event,
+      source: operation.sender,
+      amount: operation.tez_amount.toString(),
+      timestamp: operation.created,
+      endDate: parseDate(operation.auction.end_timestamp),
     }
   }
 }
@@ -146,7 +132,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     this.hasLoaded = true
 
-    this.operations.next(ops)
+    this.operations.next(ops.data.activity)
   }
 
   openHistoryModal(color: Color) {
