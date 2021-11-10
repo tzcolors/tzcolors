@@ -85,9 +85,11 @@ export interface AuctionItem {
   tokenAddress: string
   tokenId: number
   tokenAmount: number
-  endTimestamp: Date
+  endTimestamp: Date // TODO: Remove
+  end_timestamp: Date
   seller: string
-  bidAmount: string
+  bidAmount: string // TODO: Remove
+  bid_amount: string
   numberOfBids?: number | undefined
   bidder: string
 }
@@ -99,13 +101,15 @@ export interface PreviousAuctionItem {
   tokenAmount: number
   endTimestamp: Date
   seller: string
-  bidAmount: string
+  bidAmount: string // TODO: Remove
+  bid_amount: string
   bidder: string
 }
 
 interface TokenInfo {
   owner: string
   lastBidAmount: number
+  auction: AuctionItem | undefined
 }
 
 export type ViewTypes =
@@ -128,15 +132,15 @@ export const isOwner = (color: Color, accountInfo?: AccountInfo) => {
 
 export const isActiveAuction = (color: Color) => {
   return (
-    !!color.auction &&
-    color.auction.endTimestamp.getTime() > new Date().getTime()
+    color.auction &&
+    new Date(color.auction.end_timestamp).getTime() > new Date().getTime()
   )
 }
 
 export const isClaimable = (color: Color, accountInfo?: AccountInfo) => {
   return (
     !!color.auction &&
-    color.auction.endTimestamp.getTime() < new Date().getTime() &&
+    new Date(color.auction.end_timestamp).getTime() < new Date().getTime() &&
     (color.auction.bidder === accountInfo?.address ||
       color.auction.seller === accountInfo?.address)
   )
@@ -314,19 +318,17 @@ export class StoreService {
         ]) =>
           colors
             .map((c) => {
-              const auction = auctionInfo.get(c.token_id)
-              const auctionBidSize = auctionBids.size // If size > 0, we know that we have the API response and can assume all non existent ones are 0
-              if (auctionBidSize > 0 && auction) {
-                auction.numberOfBids = auctionBids.get(auction.auctionId) ?? 0
-              }
+              const tokenInfo = ownerInfo.get(c.token_id)
+
               return {
                 ...c,
-                auction,
-                owner: ownerInfo.get(c.token_id)?.owner,
+                // auction,
+                auction: tokenInfo?.auction,
+                owner: tokenInfo?.owner,
                 loading: colorStates.get(c.token_id) ?? false,
                 isFavorite: favorites.includes(c.token_id), // TODO: use map
                 previousAuction: previousAuctionInfo.get(c.token_id),
-                lastBidAmount: ownerInfo.get(c.token_id)?.lastBidAmount ?? 0,
+                lastBidAmount: tokenInfo?.lastBidAmount ?? 0,
               }
             })
             .filter((c) =>
@@ -507,6 +509,7 @@ export class StoreService {
         tokenId: el.id,
         address: el.holder.address,
         lastBidAmount: el.last_bid_amount,
+        auction: (el as any).auctions[0],
       }
     })
     const ownerInfo = new Map(this._ownerInfo.value)
@@ -515,6 +518,7 @@ export class StoreService {
       ownerInfo.set(Number(d.tokenId), {
         owner: d.address,
         lastBidAmount: d.lastBidAmount,
+        auction: d.auction,
       })
     })
 
@@ -556,59 +560,53 @@ export class StoreService {
   }
 
   async getAuctions() {
-    const auctions = await this.api.getAllAuctions()
-    console.log('Auctions', auctions)
-
-    const info = auctions.data.auctions.map((el) => {
-      return {
-        key: el.id,
-        tokenAddress: 'tz1...',
-        tokenId: el.token_id,
-        tokenAmount: Number(1),
-        endTimestamp: new Date(el.end_timestamp),
-        seller: el.seller.address,
-        bidAmount: el.bid_amount.toString(),
-        bidder: el.bidder.address,
-      }
-    })
-    const auctionInfo = new Map(this._auctionInfo.value)
-
-    info.forEach((d) => {
-      const tokenAddress = d.tokenAddress
-      const tokenId = d.tokenId
-      const tokenAmount = d.tokenAmount
-      const endTimestamp = d.endTimestamp
-      const seller = d.seller
-      const bidAmount = d.bidAmount
-      const bidder = d.bidder
-
-      const auctionItem = {
-        auctionId: Number(d.key),
-        tokenAddress,
-        tokenId,
-        tokenAmount,
-        endTimestamp,
-        seller,
-        bidAmount,
-        bidder,
-      }
-
-      auctionInfo.set(tokenId, auctionItem)
-    })
-
+    // const auctions = await this.api.getAllAuctions()
+    // console.log('Auctions', auctions)
+    // const info = auctions.data.auctions.map((el) => {
+    //   return {
+    //     key: el.id,
+    //     tokenAddress: 'tz1...',
+    //     tokenId: el.token_id,
+    //     tokenAmount: Number(1),
+    //     endTimestamp: new Date(el.end_timestamp),
+    //     seller: el.seller.address,
+    //     bidAmount: el.bid_amount.toString(),
+    //     bidder: el.bidder.address,
+    //   }
+    // })
+    // const auctionInfo = new Map(this._auctionInfo.value)
+    // info.forEach((d) => {
+    //   const tokenAddress = d.tokenAddress
+    //   const tokenId = d.tokenId
+    //   const tokenAmount = d.tokenAmount
+    //   const endTimestamp = d.endTimestamp
+    //   const seller = d.seller
+    //   const bidAmount = d.bidAmount
+    //   const bidder = d.bidder
+    //   const auctionItem = {
+    //     auctionId: Number(d.key),
+    //     tokenAddress,
+    //     tokenId,
+    //     tokenAmount,
+    //     endTimestamp,
+    //     seller,
+    //     bidAmount,
+    //     bidder,
+    //   }
+    //   if (auctionInfo.has(tokenId)) {
+    //   } else {
+    //     auctionInfo.set(tokenId, auctionItem)
+    //   }
+    // })
     // const url =
     //   hasInitialAuctionState === false
     //     ? `${environment.auctionBigmapUrl}?size=10000`
     //     : `${environment.auctionBigmapUrl}?size=20`
     // const data = await this.http.get<RootObject[]>(url).toPromise()
-
     // hasInitialAuctionState = true
-
     // const auctionInfo = new Map(this._auctionInfo.value)
-
     // data.forEach((d) => {
     //   const value = d.data.value
-
     //   if (!value) {
     //     return
     //   }
@@ -619,7 +617,6 @@ export class StoreService {
     //   const seller = value.children[4].value
     //   const bidAmount = value.children[5].value
     //   const bidder = value.children[6].value
-
     //   const auctionItem = {
     //     auctionId: Number(d.data.key_string),
     //     tokenAddress,
@@ -630,10 +627,8 @@ export class StoreService {
     //     bidAmount,
     //     bidder,
     //   }
-
     //   auctionInfo.set(tokenId, auctionItem)
     // })
-
     // TODO: This will only update the "loading" state if the color was actually affected by the update
     // const currentAuction = this._auctionInfo.value
     // for (const key of currentAuction.keys()) {
@@ -645,22 +640,21 @@ export class StoreService {
     //     this.setColorLoadingState(key, false)
     //   }
     // }
-
-    if (!deepEqual(this._auctionInfo.value, auctionInfo)) {
-      console.log(
-        'Auctions: Not equal, updating',
-        this._auctionInfo.value.size,
-        auctionInfo.size
-      )
-      this._auctionInfo.next(auctionInfo)
-      this._colorStates.next(new Map())
-    } else {
-      console.log(
-        'Auctions: responses are equal',
-        this._auctionInfo.value.size,
-        auctionInfo.size
-      )
-    }
+    // if (!deepEqual(this._auctionInfo.value, auctionInfo)) {
+    //   console.log(
+    //     'Auctions: Not equal, updating',
+    //     this._auctionInfo.value.size,
+    //     auctionInfo.size
+    //   )
+    //   this._auctionInfo.next(auctionInfo)
+    //   this._colorStates.next(new Map())
+    // } else {
+    //   console.log(
+    //     'Auctions: responses are equal',
+    //     this._auctionInfo.value.size,
+    //     auctionInfo.size
+    //   )
+    // }
   }
 
   async getPreviousAuctions() {
@@ -731,18 +725,18 @@ export class StoreService {
 
   async getAuctionBids() {
     // TODO: Add response type
-    const data = await this.api.getAllBidsForAllAuctions()
-    const auctionBids = new Map<number, number>()
-    Object.entries(data).forEach((o) => {
-      const auctionInfo = this._auctionInfo.value
-      if (auctionInfo) {
-        const auction = auctionInfo.get(Number(o[0]))
-        if (auction) {
-          auction.numberOfBids = o[1]
-        }
-      }
-      auctionBids.set(Number(o[0]), o[1])
-    })
+    // const data = await this.api.getAllBidsForAllAuctions()
+    // const auctionBids = new Map<number, number>()
+    // Object.entries(data).forEach((o) => {
+    //   const auctionInfo = this._auctionInfo.value
+    //   if (auctionInfo) {
+    //     const auction = auctionInfo.get(Number(o[0]))
+    //     if (auction) {
+    //       auction.numberOfBids = o[1]
+    //     }
+    //   }
+    //   auctionBids.set(Number(o[0]), o[1])
+    // })
     // TODO: This will only update the "loading" state if the color was actually affected by the update
     // const currentAuction = this._auctionInfo.value
     // for (const key of currentAuction.keys()) {
@@ -754,20 +748,20 @@ export class StoreService {
     //     this.setColorLoadingState(key, false)
     //   }
     // }
-    if (!deepEqual(this._auctionBids.value, auctionBids)) {
-      console.log(
-        'Auction Bids: Not equal, updating',
-        this._auctionBids.value.size,
-        auctionBids.size
-      )
-      this._auctionBids.next(auctionBids)
-    } else {
-      console.log(
-        'Auction Bids: responses are equal',
-        this._auctionBids.value.size,
-        auctionBids.size
-      )
-    }
+    // if (!deepEqual(this._auctionBids.value, auctionBids)) {
+    //   console.log(
+    //     'Auction Bids: Not equal, updating',
+    //     this._auctionBids.value.size,
+    //     auctionBids.size
+    //   )
+    //   this._auctionBids.next(auctionBids)
+    // } else {
+    //   console.log(
+    //     'Auction Bids: responses are equal',
+    //     this._auctionBids.value.size,
+    //     auctionBids.size
+    //   )
+    // }
   }
 
   updateState() {

@@ -128,38 +128,38 @@ export interface HistoryItem {
 export class ApiService {
   constructor(private readonly http: HttpClient) {}
 
-  getAllBidsForAllAuctions(): Promise<{ [key: string]: number }> {
-    return this.http
-      .post<{
-        data: {
-          auctions: {
-            id: number
-            bid_count: number
-          }[]
-        }
-      }>(
-        environment.dipdupUrl,
-        {
-          query: `{
-          auctions {
-            id
-            bid_count
-          }
-        }`,
-        },
-        { headers }
-      )
-      .pipe(
-        map((res) => {
-          const x: { [key: string]: number } = {}
-          res.data.auctions.forEach((auction) => {
-            x[auction.id] = auction.bid_count
-          })
-          return x
-        })
-      )
-      .toPromise()
-  }
+  // getAllBidsForAllAuctions(): Promise<{ [key: string]: number }> {
+  //   return this.http
+  //     .post<{
+  //       data: {
+  //         auctions: {
+  //           id: number
+  //           bid_count: number
+  //         }[]
+  //       }
+  //     }>(
+  //       environment.dipdupUrl,
+  //       {
+  //         query: `{
+  //         auctions {
+  //           id
+  //           bid_count
+  //         }
+  //       }`,
+  //       },
+  //       { headers }
+  //     )
+  //     .pipe(
+  //       map((res) => {
+  //         const x: { [key: string]: number } = {}
+  //         res.data.auctions.forEach((auction) => {
+  //           x[auction.id] = auction.bid_count
+  //         })
+  //         return x
+  //       })
+  //     )
+  //     .toPromise()
+  // }
 
   getAllAuctionsForToken(tokenId: number) {
     return this.http
@@ -309,8 +309,25 @@ export class ApiService {
               address
             }
             last_bid_amount
+            last_auction_id
+            auction_infos { 
+              auction {
+                id
+                end_timestamp
+                seller {
+                  address
+                }
+                bidder {
+                  address
+                }
+                bid_amount
+                token_id
+                status
+                ask_price
+              }
+            }
           }
-        }        
+        }
         `,
       })
       .toPromise()
@@ -337,7 +354,7 @@ export class ApiService {
       }>(environment.dipdupUrl, {
         query: `
         {
-          auctions {
+          auctions(order_by: {end_timestamp: desc}) {
             id
             end_timestamp
             seller {
