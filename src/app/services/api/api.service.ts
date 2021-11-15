@@ -298,6 +298,22 @@ export class ApiService {
               address: string
             }
             last_bid_amount: number
+            auction_infos: {
+              auction: {
+                id: number
+                end_timestamp: string
+                seller: {
+                  address: string
+                }
+                bidder: {
+                  address: string
+                }
+                bid_amount: string
+                token_id: number
+                status: string
+                ask_price: string
+              }
+            }[]
           }[]
         }
       }>(environment.dipdupUrl, {
@@ -309,7 +325,6 @@ export class ApiService {
               address
             }
             last_bid_amount
-            last_auction_id
             auction_infos { 
               auction {
                 id

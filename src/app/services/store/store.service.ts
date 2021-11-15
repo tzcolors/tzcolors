@@ -175,30 +175,38 @@ export class StoreService {
 
   private _numberOfItems: BehaviorSubject<number> = new BehaviorSubject(12)
   private _searchTerm: BehaviorSubject<string> = new BehaviorSubject('')
-  private _sortType: BehaviorSubject<SortTypes> =
-    new BehaviorSubject<SortTypes>('time')
-  private _sortDirection: BehaviorSubject<SortDirection> =
-    new BehaviorSubject<SortDirection>('desc')
-  private _category: BehaviorSubject<ColorCategory> =
-    new BehaviorSubject<ColorCategory>('all')
+  private _sortType: BehaviorSubject<SortTypes> = new BehaviorSubject<SortTypes>(
+    'time'
+  )
+  private _sortDirection: BehaviorSubject<SortDirection> = new BehaviorSubject<SortDirection>(
+    'desc'
+  )
+  private _category: BehaviorSubject<ColorCategory> = new BehaviorSubject<ColorCategory>(
+    'all'
+  )
   private _view: BehaviorSubject<ViewTypes> = new BehaviorSubject<ViewTypes>(
     'explore'
   )
 
-  private _ownerInfo: BehaviorSubject<Map<number, TokenInfo>> =
-    new BehaviorSubject(new Map())
-  private _auctionInfo: BehaviorSubject<Map<number, AuctionItem>> =
-    new BehaviorSubject(new Map())
+  private _ownerInfo: BehaviorSubject<
+    Map<number, TokenInfo>
+  > = new BehaviorSubject(new Map())
+  private _auctionInfo: BehaviorSubject<
+    Map<number, AuctionItem>
+  > = new BehaviorSubject(new Map())
   private _previousAuctionInfo: BehaviorSubject<
     Map<number, PreviousAuctionItem>
   > = new BehaviorSubject(new Map())
-  private _auctionBids: BehaviorSubject<Map<number, number>> =
-    new BehaviorSubject(new Map())
-  private _colorStates: BehaviorSubject<Map<number, boolean>> =
-    new BehaviorSubject(new Map())
+  private _auctionBids: BehaviorSubject<
+    Map<number, number>
+  > = new BehaviorSubject(new Map())
+  private _colorStates: BehaviorSubject<
+    Map<number, boolean>
+  > = new BehaviorSubject(new Map())
 
-  private _accountInfo: BehaviorSubject<AccountInfo | undefined> =
-    new BehaviorSubject<AccountInfo | undefined>(undefined)
+  private _accountInfo: BehaviorSubject<
+    AccountInfo | undefined
+  > = new BehaviorSubject<AccountInfo | undefined>(undefined)
 
   private _loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     true
@@ -322,7 +330,6 @@ export class StoreService {
 
               return {
                 ...c,
-                // auction,
                 auction: tokenInfo?.auction,
                 owner: tokenInfo?.owner,
                 loading: colorStates.get(c.token_id) ?? false,
@@ -505,11 +512,24 @@ export class StoreService {
     console.log('OWNERS', holders)
 
     const info = holders.data.tokens.map((el) => {
+      const auction = el.auction_infos[0].auction
       return {
         tokenId: el.id,
         address: el.holder.address,
         lastBidAmount: el.last_bid_amount,
-        auction: (el as any).auctions[0],
+        auction: {
+          key: auction.id,
+          auctionId: auction.id,
+          tokenAddress: 'tz1...',
+          tokenId: auction.token_id,
+          tokenAmount: Number(1),
+          endTimestamp: new Date(auction.end_timestamp),
+          end_timestamp: new Date(auction.end_timestamp),
+          seller: auction.seller.address,
+          bidAmount: auction.bid_amount.toString(),
+          bid_amount: auction.bid_amount.toString(),
+          bidder: auction.bidder.address,
+        },
       }
     })
     const ownerInfo = new Map(this._ownerInfo.value)
