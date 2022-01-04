@@ -90,7 +90,7 @@ export interface AuctionItem {
   seller: string
   bidAmount: string // TODO: Remove
   bid_amount: string
-  numberOfBids?: number | undefined
+  numberOfBids: number
   bidder: string
 }
 
@@ -356,8 +356,13 @@ export class StoreService {
               (c) =>
                 c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 c.owner?.toLowerCase() === searchTerm.toLowerCase() ||
-                c.auction?.bidder?.toLowerCase() === searchTerm.toLowerCase() ||
-                c.auction?.seller?.toLowerCase() === searchTerm.toLowerCase()
+                (c.auction &&
+                  c.auction.endTimestamp > new Date() &&
+                  c.auction.bidder.toLowerCase() ===
+                    searchTerm.toLowerCase()) ||
+                (c.auction &&
+                  c.auction.endTimestamp > new Date() &&
+                  c.auction.seller.toLowerCase() === searchTerm.toLowerCase())
             )
             .sort((a_, b_) => {
               const { a, b } =
@@ -525,6 +530,7 @@ export class StoreService {
           tokenAmount: Number(1),
           endTimestamp: new Date(auction.end_timestamp),
           end_timestamp: new Date(auction.end_timestamp),
+          numberOfBids: Number(auction.bid_count),
           seller: auction.seller.address,
           bidAmount: auction.bid_amount.toString(),
           bid_amount: auction.bid_amount.toString(),

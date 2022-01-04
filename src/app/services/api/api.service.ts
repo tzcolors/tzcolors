@@ -308,6 +308,7 @@ export class ApiService {
                 bidder: {
                   address: string
                 }
+                bid_count: number
                 bid_amount: string
                 token_id: number
                 status: string
@@ -335,6 +336,7 @@ export class ApiService {
                 bidder {
                   address
                 }
+                bid_count
                 bid_amount
                 token_id
                 status
