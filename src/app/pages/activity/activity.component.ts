@@ -14,11 +14,7 @@ import {
   ColorCategory,
   StoreService,
 } from 'src/app/services/store/store.service'
-import {
-  handleBCDBreakingChange,
-  parseDate,
-  wrapApiRequest,
-} from 'src/app/utils'
+import { parseDate, wrapApiRequest } from 'src/app/utils'
 
 export interface ActivityItem {
   color: Color

@@ -1,12 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core'
 
-import { Color } from 'src/app/services/store/store.service'
+import { Color, isActiveAuction } from 'src/app/services/store/store.service'
 import {
   AllAuctionsForTokenResponse,
   ApiService,
-  HistoryItem,
 } from 'src/app/services/api/api.service'
-import { handleBCDBreakingChange, parseDate } from 'src/app/utils'
 
 @Component({
   selector: 'app-history-modal',
@@ -52,14 +50,18 @@ export class ColorHistoryModalComponent implements OnInit {
     if (this.color && this.color.auction) {
       this.history = (
         await this.api.getBidsForAuction(this.color.auction.auctionId)
-      ).data.auctions[0]
+      ).data.auctions.filter(
+        (auction) =>
+          new Date(auction.end_timestamp).getTime() > new Date().getTime()
+      )[0]
     }
   }
 
   public async getAuctions() {
     if (this.color) {
-      const response: AllAuctionsForTokenResponse =
-        await this.api.getAllAuctionsForToken(this.color.token_id)
+      const response: AllAuctionsForTokenResponse = await this.api.getAllAuctionsForToken(
+        this.color.token_id
+      )
       console.log('ALL AUCTIONS', response)
 
       if (response.data.auctions.length === 0) {

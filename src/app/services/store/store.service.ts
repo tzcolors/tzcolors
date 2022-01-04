@@ -9,7 +9,6 @@ import {
 import { HttpClient } from '@angular/common/http'
 import { Store } from '@ngrx/store'
 import { State } from 'src/app/app.reducer'
-import { environment } from 'src/environments/environment'
 import {
   debounceTime,
   distinctUntilChanged,
@@ -19,18 +18,10 @@ import {
 } from 'rxjs/operators'
 import { AccountInfo } from '@airgap/beacon-sdk'
 import { ApiService } from '../api/api.service'
-import {
-  handleBCDBreakingChange,
-  parseAddress,
-  parseDate,
-  wrapApiRequest,
-} from 'src/app/utils'
+import { wrapApiRequest } from 'src/app/utils'
 var deepEqual = require('fast-deep-equal/es6')
 
 const colorsFromStorage: Color[] = require('../../../assets/colors.json')
-
-let hasInitialAuctionState = false
-let hasInitialColorState = false
 
 export interface Color {
   name: string
@@ -92,6 +83,7 @@ export interface AuctionItem {
   bid_amount: string
   numberOfBids: number
   bidder: string
+  status: string
 }
 
 export interface PreviousAuctionItem {
@@ -142,7 +134,8 @@ export const isClaimable = (color: Color, accountInfo?: AccountInfo) => {
     !!color.auction &&
     new Date(color.auction.end_timestamp).getTime() < new Date().getTime() &&
     (color.auction.bidder === accountInfo?.address ||
-      color.auction.seller === accountInfo?.address)
+      color.auction.seller === accountInfo?.address) &&
+    color.auction.status === '0' // "0" means "unclaimed"
   )
 }
 
@@ -348,7 +341,7 @@ export class StoreService {
                 : view === 'my-colors'
                 ? isOwner(c, accountInfo) ||
                   isClaimable(c, accountInfo) ||
-                  isSeller(c, accountInfo)
+                  (isActiveAuction(c) && isSeller(c, accountInfo))
                 : true
             )
             .filter((c) => category === 'all' || c.category === category)
@@ -535,6 +528,7 @@ export class StoreService {
           bidAmount: auction.bid_amount.toString(),
           bid_amount: auction.bid_amount.toString(),
           bidder: auction.bidder.address,
+          status: auction.status,
         },
       }
     })
@@ -547,26 +541,6 @@ export class StoreService {
         auction: d.auction,
       })
     })
-
-    // const url =
-    //   hasInitialColorState === false
-    //     ? `${environment.colorsBigmapUrl}?size=10000`
-    //     : `${environment.colorsBigmapUrl}?size=20`
-
-    // const data = await this.http.get<RootObject[]>(url).toPromise()
-
-    // hasInitialColorState = true
-
-    // const ownerInfo = new Map(this._ownerInfo.value)
-
-    // data
-    //   .filter((d) => d.data.value !== null)
-    //   .forEach((d) => {
-    //     ownerInfo.set(
-    //       Number(d.data.key.children[0].value),
-    //       d.data.key.children[1].value
-    //     )
-    //   })
 
     if (!deepEqual(this._ownerInfo.value, ownerInfo)) {
       console.log(
@@ -585,238 +559,15 @@ export class StoreService {
     }
   }
 
-  async getAuctions() {
-    // const auctions = await this.api.getAllAuctions()
-    // console.log('Auctions', auctions)
-    // const info = auctions.data.auctions.map((el) => {
-    //   return {
-    //     key: el.id,
-    //     tokenAddress: 'tz1...',
-    //     tokenId: el.token_id,
-    //     tokenAmount: Number(1),
-    //     endTimestamp: new Date(el.end_timestamp),
-    //     seller: el.seller.address,
-    //     bidAmount: el.bid_amount.toString(),
-    //     bidder: el.bidder.address,
-    //   }
-    // })
-    // const auctionInfo = new Map(this._auctionInfo.value)
-    // info.forEach((d) => {
-    //   const tokenAddress = d.tokenAddress
-    //   const tokenId = d.tokenId
-    //   const tokenAmount = d.tokenAmount
-    //   const endTimestamp = d.endTimestamp
-    //   const seller = d.seller
-    //   const bidAmount = d.bidAmount
-    //   const bidder = d.bidder
-    //   const auctionItem = {
-    //     auctionId: Number(d.key),
-    //     tokenAddress,
-    //     tokenId,
-    //     tokenAmount,
-    //     endTimestamp,
-    //     seller,
-    //     bidAmount,
-    //     bidder,
-    //   }
-    //   if (auctionInfo.has(tokenId)) {
-    //   } else {
-    //     auctionInfo.set(tokenId, auctionItem)
-    //   }
-    // })
-    // const url =
-    //   hasInitialAuctionState === false
-    //     ? `${environment.auctionBigmapUrl}?size=10000`
-    //     : `${environment.auctionBigmapUrl}?size=20`
-    // const data = await this.http.get<RootObject[]>(url).toPromise()
-    // hasInitialAuctionState = true
-    // const auctionInfo = new Map(this._auctionInfo.value)
-    // data.forEach((d) => {
-    //   const value = d.data.value
-    //   if (!value) {
-    //     return
-    //   }
-    //   const tokenAddress = value.children[0].value
-    //   const tokenId = Number(value.children[1].value)
-    //   const tokenAmount = Number(value.children[2].value)
-    //   const endTimestamp = parseDate(value.children[3].value)
-    //   const seller = value.children[4].value
-    //   const bidAmount = value.children[5].value
-    //   const bidder = value.children[6].value
-    //   const auctionItem = {
-    //     auctionId: Number(d.data.key_string),
-    //     tokenAddress,
-    //     tokenId,
-    //     tokenAmount,
-    //     endTimestamp,
-    //     seller,
-    //     bidAmount,
-    //     bidder,
-    //   }
-    //   auctionInfo.set(tokenId, auctionItem)
-    // })
-    // TODO: This will only update the "loading" state if the color was actually affected by the update
-    // const currentAuction = this._auctionInfo.value
-    // for (const key of currentAuction.keys()) {
-    //   console.log('KEY,', key)
-    //   if (deepEqual(currentAuction.get(key), auctionInfo.get(key))) {
-    //     continue
-    //   } else {
-    //     console.log(`TOKEN "${key}" WAS UPDATED`)
-    //     this.setColorLoadingState(key, false)
-    //   }
-    // }
-    // if (!deepEqual(this._auctionInfo.value, auctionInfo)) {
-    //   console.log(
-    //     'Auctions: Not equal, updating',
-    //     this._auctionInfo.value.size,
-    //     auctionInfo.size
-    //   )
-    //   this._auctionInfo.next(auctionInfo)
-    //   this._colorStates.next(new Map())
-    // } else {
-    //   console.log(
-    //     'Auctions: responses are equal',
-    //     this._auctionInfo.value.size,
-    //     auctionInfo.size
-    //   )
-    // }
-  }
-
-  async getPreviousAuctions() {
-    // // TODO: Add response type
-    // const data = await this.http
-    //   .get<any>(
-    //     `${environment.indexerUrl}auction/operations?status=applied&entrypoint=withdraw&limit=100000`
-    //   )
-    //   .toPromise()
-    // const previousAuctionInfo = new Map<number, PreviousAuctionItem>()
-    // data
-    //   .filter((o: any) => o.entrypoint === 'withdraw')
-    //   .reverse()
-    //   .forEach((o: any) => {
-    //     const value = o.storage_diff?.children[0]?.children
-    //     if (!value) {
-    //       return
-    //     }
-    //     const tokenAddress = value[0].value
-    //     const tokenId = Number(value[1].value)
-    //     const tokenAmount = Number(value[2].value)
-    //     const endTimestamp = parseDate(value[3].value)
-    //     const seller = value[4].value
-    //     const bidAmount = value[5].value
-    //     const bidder = value[6].value
-    //     const auctionItem = {
-    //       auctionId: Number(handleBCDBreakingChange(o.parameters).value),
-    //       tokenAddress,
-    //       tokenId,
-    //       tokenAmount,
-    //       endTimestamp,
-    //       seller,
-    //       bidAmount,
-    //       bidder,
-    //     }
-    //     if (auctionItem.bidder !== auctionItem.seller) {
-    //       // This check is here because otherwise the owner can "fake" the previous auction price
-    //       previousAuctionInfo.set(tokenId, auctionItem)
-    //     }
-    //   })
-    // // TODO: This will only update the "loading" state if the color was actually affected by the update
-    // // const currentAuction = this._auctionInfo.value
-    // // for (const key of currentAuction.keys()) {
-    // //   console.log('KEY,', key)
-    // //   if (deepEqual(currentAuction.get(key), auctionInfo.get(key))) {
-    // //     continue
-    // //   } else {
-    // //     console.log(`TOKEN "${key}" WAS UPDATED`)
-    // //     this.setColorLoadingState(key, false)
-    // //   }
-    // // }
-    // if (!deepEqual(this._previousAuctionInfo.value, previousAuctionInfo)) {
-    //   console.log(
-    //     'Previous Auctions: Not equal, updating',
-    //     this._previousAuctionInfo.value.size,
-    //     previousAuctionInfo.size
-    //   )
-    //   this._previousAuctionInfo.next(previousAuctionInfo)
-    //   this._colorStates.next(new Map())
-    // } else {
-    //   console.log(
-    //     'Previous Auctions: responses are equal',
-    //     this._previousAuctionInfo.value.size,
-    //     previousAuctionInfo.size
-    //   )
-    // }
-  }
-
-  async getAuctionBids() {
-    // TODO: Add response type
-    // const data = await this.api.getAllBidsForAllAuctions()
-    // const auctionBids = new Map<number, number>()
-    // Object.entries(data).forEach((o) => {
-    //   const auctionInfo = this._auctionInfo.value
-    //   if (auctionInfo) {
-    //     const auction = auctionInfo.get(Number(o[0]))
-    //     if (auction) {
-    //       auction.numberOfBids = o[1]
-    //     }
-    //   }
-    //   auctionBids.set(Number(o[0]), o[1])
-    // })
-    // TODO: This will only update the "loading" state if the color was actually affected by the update
-    // const currentAuction = this._auctionInfo.value
-    // for (const key of currentAuction.keys()) {
-    //   console.log('KEY,', key)
-    //   if (deepEqual(currentAuction.get(key), auctionInfo.get(key))) {
-    //     continue
-    //   } else {
-    //     console.log(`TOKEN "${key}" WAS UPDATED`)
-    //     this.setColorLoadingState(key, false)
-    //   }
-    // }
-    // if (!deepEqual(this._auctionBids.value, auctionBids)) {
-    //   console.log(
-    //     'Auction Bids: Not equal, updating',
-    //     this._auctionBids.value.size,
-    //     auctionBids.size
-    //   )
-    //   this._auctionBids.next(auctionBids)
-    // } else {
-    //   console.log(
-    //     'Auction Bids: responses are equal',
-    //     this._auctionBids.value.size,
-    //     auctionBids.size
-    //   )
-    // }
-  }
-
   updateState() {
     wrapApiRequest('getColorOwners', () => {
       return this.getColorOwners()
-    })
-    wrapApiRequest('getAuctions', () => {
-      return this.getAuctions()
-    })
-    wrapApiRequest('getPreviousAuctions', () => {
-      return this.getPreviousAuctions()
-    })
-    wrapApiRequest('getAuctionBids', () => {
-      return this.getAuctionBids()
     })
 
     let subscription = interval(30_000).subscribe((x) => {
       console.log('refresh')
       wrapApiRequest('getColorOwners', () => {
         return this.getColorOwners()
-      })
-      wrapApiRequest('getAuctions', () => {
-        return this.getAuctions()
-      })
-      wrapApiRequest('getPreviousAuctions', () => {
-        return this.getPreviousAuctions()
-      })
-      wrapApiRequest('getAuctionBids', () => {
-        return this.getAuctionBids()
       })
     })
   }

@@ -1,13 +1,7 @@
 <div class="pt-md-5 my-5">
   <div class="row my-3 align-items-center">
     <div
-      class="
-        col-12 col-md-6
-        d-flex
-        flex-column flex-md-row
-        align-items-center
-        pb-3 pb-md-0
-      "
+      class="col-12 col-md-6 d-flex flex-column flex-md-row align-items-center pb-3 pb-md-0"
     >
       <h3 class="m-md-0 mr-md-3 pb-3 pb-md-0">Activity</h3>
       <div *ngIf="category$ | async as category">
@@ -59,13 +53,7 @@
       <div class="card-body">
         <div class="row align-items-center">
           <div
-            class="
-              col-12 col-md-4
-              pb-3 pb-md-0
-              d-flex
-              align-items-center
-              color--details__container
-            "
+            class="col-12 col-md-4 pb-3 pb-md-0 d-flex align-items-center color--details__container"
             (click)="openHistoryModal(item.color)"
           >
             <div
@@ -99,7 +87,31 @@
                 with the starting price of
               </ng-container>
               <ng-container *ngIf="item.event === 'WITHDRAW'">
-                <strong>claimed</strong> a color for
+                <ng-container
+                  *ngIf="
+                    item.source === item.color.owner &&
+                    item.source === item.color.auction?.seller
+                  "
+                >
+                  <strong>claimed</strong> their unsold color for
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    !(
+                      item.source === item.color.owner &&
+                      item.source === item.color.auction?.seller
+                    )
+                  "
+                >
+                  <ng-container *ngIf="item.source === item.color.owner">
+                    <strong>won</strong> the auction and claimed the color for
+                  </ng-container>
+                  <ng-container
+                    *ngIf="item.source === item.color.auction?.seller"
+                  >
+                    <strong>sold</strong> a color and claimed
+                  </ng-container>
+                </ng-container>
               </ng-container>
               {{
                 item.amount

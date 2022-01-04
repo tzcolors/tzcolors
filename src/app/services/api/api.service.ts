@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
-import { map } from 'rxjs/operators'
 
 const headers = new HttpHeaders().set(
   'Content-Type',
@@ -96,72 +95,13 @@ export interface StorageDiff {
   children: Child5[]
 }
 
-export interface HistoryItem {
-  level: number
-  fee: number
-  counter: number
-  gas_limit: number
-  amount: number
-  content_index: number
-  result: Result
-  parameters: Parameters
-  storage_diff: StorageDiff
-  timestamp: Date
-  id: string
-  protocol: string
-  hash: string
-  network: string
-  kind: string
-  source: string
-  destination: string
-  status: string
-  entrypoint: string
-  internal: boolean
-  mempool: boolean
-  storage_limit?: number
-  burned?: number
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   constructor(private readonly http: HttpClient) {}
 
-  // getAllBidsForAllAuctions(): Promise<{ [key: string]: number }> {
-  //   return this.http
-  //     .post<{
-  //       data: {
-  //         auctions: {
-  //           id: number
-  //           bid_count: number
-  //         }[]
-  //       }
-  //     }>(
-  //       environment.dipdupUrl,
-  //       {
-  //         query: `{
-  //         auctions {
-  //           id
-  //           bid_count
-  //         }
-  //       }`,
-  //       },
-  //       { headers }
-  //     )
-  //     .pipe(
-  //       map((res) => {
-  //         const x: { [key: string]: number } = {}
-  //         res.data.auctions.forEach((auction) => {
-  //           x[auction.id] = auction.bid_count
-  //         })
-  //         return x
-  //       })
-  //     )
-  //     .toPromise()
-  // }
-
-  getAllAuctionsForToken(tokenId: number) {
+  public getAllAuctionsForToken(tokenId: number) {
     return this.http
       .post<AllAuctionsForTokenResponse>(environment.dipdupUrl, {
         query: `
@@ -189,12 +129,13 @@ export class ApiService {
       .toPromise()
   }
 
-  getBidsForAuction(auctionId: number) {
+  public getBidsForAuction(auctionId: number) {
     return this.http
       .post<{
         data: {
           auctions: {
             id: number
+            end_timestamp: string
             bids: {
               id: string
               bid_amount: string
@@ -228,21 +169,21 @@ export class ApiService {
       .toPromise()
   }
 
-  getOperationCount(entrypoint?: string) {
+  public getOperationCount(entrypoint?: string) {
     const params = entrypoint ? `?entrypoint=${entrypoint}` : ``
     return this.http
       .get<number>(`${environment.indexerUrl}auction/operations/count${params}`)
       .toPromise()
   }
 
-  getSum(field?: string) {
+  public getSum(field?: string) {
     const params = field ? `?aggregate=${field}` : ``
     return this.http
       .get<number>(`${environment.indexerUrl}auction/operations/sum${params}`)
       .toPromise()
   }
 
-  getLatestOperations(limit: number) {
+  public getLatestOperations(limit: number) {
     return this.http
       .post<{
         data: {
@@ -276,15 +217,6 @@ export class ApiService {
         }
               `,
       })
-      .toPromise()
-  }
-
-  getOperationsSince(from: number) {
-    const params = from ? `?from=${from}` : `?`
-    return this.http
-      .get<any>(
-        `https://api.better-call.dev/v1/contract/mainnet/${environment.tzColorsAuctionContract}/operations${params}&with_storage_diff=true&status=applied&size=20`
-      )
       .toPromise()
   }
 
