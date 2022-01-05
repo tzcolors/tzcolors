@@ -241,10 +241,10 @@ export class ApiService {
                   address: string
                 }
                 bid_count: number
-                bid_amount: string
+                bid_amount: number
                 token_id: number
-                status: string
-                ask_price: string
+                status: number
+                ask_price: number
               }
             }[]
           }[]
