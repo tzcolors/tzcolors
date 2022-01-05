@@ -83,7 +83,7 @@ export interface AuctionItem {
   bid_amount: string
   numberOfBids: number
   bidder: string
-  status: string
+  status: number
 }
 
 export interface PreviousAuctionItem {
@@ -135,7 +135,7 @@ export const isClaimable = (color: Color, accountInfo?: AccountInfo) => {
     new Date(color.auction.end_timestamp).getTime() < new Date().getTime() &&
     (color.auction.bidder === accountInfo?.address ||
       color.auction.seller === accountInfo?.address) &&
-    color.auction.status === '0' // "0" means "unclaimed"
+    color.auction.status === 0 // 0 means "unclaimed"
   )
 }
 
