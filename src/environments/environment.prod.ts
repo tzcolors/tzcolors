@@ -4,7 +4,6 @@ export const environment = {
   tzColorsAuctionContract: 'KT1CpeSQKdkhWi4pinYcseCFKmDhs5M74BkU',
   rpcUrl: 'https://mainnet.api.tez.ie',
   appName: 'tzcolors',
-  colorsBigmapUrl: 'https://api.better-call.dev/v1/bigmap/mainnet/411/keys',
-  auctionBigmapUrl: 'https://api.better-call.dev/v1/bigmap/mainnet/409/keys',
-  indexerUrl: 'https://tzcolors-indexer.prod.gke.papers.tech/api/v1/',
+  indexerUrl: 'https://tzcolors-indexer-v2.prod.gke.papers.tech/',
+  dipdupUrl: 'https://tzcolors-indexer-v2.prod.gke.papers.tech/v1/graphql/',
 }

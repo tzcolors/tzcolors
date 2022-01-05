@@ -80,7 +80,7 @@
           <div class="col pr-0">
             <h3 class="m-0 font-weight-light">
               {{
-                color.auction?.bidAmount
+                color.auction?.bid_amount
                   | amountConverter
                     : {
                         decimals: 6,
@@ -177,7 +177,7 @@
         <ng-container *ngIf="color.auction?.bidder !== color.auction?.seller">
           <h3 class="m-0 font-weight-light">
             {{
-              color.auction?.bidAmount
+              color.lastBidAmount
                 | amountConverter
                   : {
                       decimals: 6,
@@ -189,20 +189,18 @@
           <p class="text-muted font-weight-light">Final Price</p>
         </ng-container>
         <ng-container *ngIf="color.auction?.bidder === color.auction?.seller">
-          <ng-container *ngIf="color?.previousAuction">
-            <h3 class="m-0 font-weight-light">
-              {{
-                color?.previousAuction?.bidAmount
-                  | amountConverter
-                    : {
-                        decimals: 6,
-                        symbol: 'tez'
-                      }
-                  | async
-              }}
-            </h3>
-            <p class="text-muted font-weight-light">Final Price</p>
-          </ng-container>
+          <h3 class="m-0 font-weight-light">
+            {{
+              color.lastBidAmount
+                | amountConverter
+                  : {
+                      decimals: 6,
+                      symbol: 'tez'
+                    }
+                | async
+            }}
+          </h3>
+          <p class="text-muted font-weight-light">Final Price</p>
         </ng-container>
         <p class="m-0 font-weight-light">
           <a
@@ -216,20 +214,18 @@
         <p class="text-muted font-weight-light m-0">Owner</p>
       </ng-container>
       <ng-container *ngIf="state === 'owned'">
-        <ng-container *ngIf="color?.previousAuction">
-          <h3 class="m-0 font-weight-light">
-            {{
-              color?.previousAuction?.bidAmount
-                | amountConverter
-                  : {
-                      decimals: 6,
-                      symbol: 'tez'
-                    }
-                | async
-            }}
-          </h3>
-          <p class="text-muted font-weight-light">Final Price</p>
-        </ng-container>
+        <h3 class="m-0 font-weight-light">
+          {{
+            color?.lastBidAmount
+              | amountConverter
+                : {
+                    decimals: 6,
+                    symbol: 'tez'
+                  }
+              | async
+          }}
+        </h3>
+        <p class="text-muted font-weight-light">Final Price</p>
         <p class="m-0 font-weight-light">
           <a href class="text-dark" [routerLink]="'/address/' + color?.owner!">
             {{ color?.owner! | shorten }}
@@ -241,7 +237,7 @@
       <ng-container *ngIf="state === 'own'">
         <h3 class="m-0 font-weight-light">
           {{
-            color?.previousAuction?.bidAmount
+            color.lastBidAmount
               | amountConverter
                 : {
                     decimals: 6,

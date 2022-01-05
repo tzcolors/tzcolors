@@ -1,6 +1,32 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
+
+const headers = new HttpHeaders().set(
+  'Content-Type',
+  'application/json; charset=utf-8'
+)
+
+export interface AllAuctionsForTokenResponse {
+  data: {
+    auctions: {
+      id: number
+      end_timestamp: string
+      seller: {
+        address: string
+      }
+      status: string
+      bids: {
+        id: string
+        bid_amount: string
+        bidder_id: string
+        timestamp: string
+      }[]
+      bid_count: number
+      ask_price: number
+    }[]
+  }
+}
 
 export interface Result {
   consumed_gas: number
@@ -69,142 +95,230 @@ export interface StorageDiff {
   children: Child5[]
 }
 
-export interface HistoryItem {
-  level: number
-  fee: number
-  counter: number
-  gas_limit: number
-  amount: number
-  content_index: number
-  result: Result
-  parameters: Parameters
-  storage_diff: StorageDiff
-  timestamp: Date
-  id: string
-  protocol: string
-  hash: string
-  network: string
-  kind: string
-  source: string
-  destination: string
-  status: string
-  entrypoint: string
-  internal: boolean
-  mempool: boolean
-  storage_limit?: number
-  burned?: number
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   constructor(private readonly http: HttpClient) {}
 
-  getAllBidsForAllAuctions() {
+  public getAllAuctionsForToken(tokenId: number) {
     return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations/count?entrypoint=bid&groupBy=storage_diff.children.0.name`
-      )
-      .toPromise()
-  }
-  getMaxBidForAllAuctions() {
-    return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations/max?entrypoint=bid&groupBy=storage_diff.children.0.name`
-      )
-      .toPromise()
-  }
-  getMaxBidForAllTokens() {
-    return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations/max?entrypoint=bid&groupBy=storage_diff.children.0.children.1.value`
-      )
-      .toPromise()
-  }
-  getBidCountForAllTokens() {
-    return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations/count?entrypoint=bid&groupBy=storage_diff.children.0.children.1.value`
-      )
-      .toPromise()
-  }
-  getAllAuctionsForToken(tokenId: number) {
-    return this.http
-      .get<{ [key: string]: number }>(
-        `${environment.indexerUrl}auction/operations?entrypoint=create_auction&parameters.0.children.5.value=${tokenId}`
-      )
-      .toPromise()
-  }
-  getBidsForAuction(auctionId: number) {
-    return this.http
-      .get<HistoryItem[]>(
-        `${environment.indexerUrl}auction/operations?entrypoint=bid&parameters.0.value=${auctionId}`
-      )
+      .post<AllAuctionsForTokenResponse>(environment.dipdupUrl, {
+        query: `
+        {
+          auctions(order_by: {end_timestamp: desc} where: {token_id: {_eq: ${tokenId}}}) {
+            id
+            end_timestamp
+            seller {
+              address
+            }
+            status
+            bids(order_by: {timestamp: desc}) {
+              id
+              bid_amount
+              bidder_id
+              timestamp
+            }
+            bid_amount
+            bid_count
+            ask_price
+          }
+        }
+              `,
+      })
       .toPromise()
   }
 
-  getOperationCount(entrypoint?: string) {
+  public getBidsForAuction(auctionId: number) {
+    return this.http
+      .post<{
+        data: {
+          auctions: {
+            id: number
+            end_timestamp: string
+            bids: {
+              id: string
+              bid_amount: string
+              bidder_id: string
+              timestamp: string
+            }[]
+            bid_count: number
+          }[]
+        }
+      }>(environment.dipdupUrl, {
+        query: `
+        {
+          auctions(where: {id: {_eq: ${auctionId}}}) {
+            id
+            end_timestamp
+            seller {
+              address
+            }
+            status
+            bids(order_by: {timestamp: desc}) {
+              id
+              bid_amount
+              bidder_id
+              timestamp
+            }
+            bid_count
+          }
+        }
+              `,
+      })
+      .toPromise()
+  }
+
+  public getOperationCount(entrypoint?: string) {
     const params = entrypoint ? `?entrypoint=${entrypoint}` : ``
     return this.http
       .get<number>(`${environment.indexerUrl}auction/operations/count${params}`)
       .toPromise()
   }
 
-  getSum(field?: string) {
+  public getSum(field?: string) {
     const params = field ? `?aggregate=${field}` : ``
     return this.http
       .get<number>(`${environment.indexerUrl}auction/operations/sum${params}`)
       .toPromise()
   }
 
-  getLatestOperations(limit: number) {
-    const params = limit ? `?limit=${limit}` : ``
+  public getLatestOperations(limit: number) {
     return this.http
-      .get<any>(`${environment.indexerUrl}auction/operations${params}`)
-      .toPromise()
-  }
-
-  getOperationsSince(from: number) {
-    const params = from ? `?from=${from}` : `?`
-    return this.http
-      .get<any>(
-        `https://api.better-call.dev/v1/contract/mainnet/${environment.tzColorsAuctionContract}/operations${params}&with_storage_diff=true&status=applied&size=20`
-      )
-      .toPromise()
-  }
-
-  getBigmapFromConseil(mapId: string) {
-    return this.http
-      .post<any[]>(
-        'https://tezos-mainnet-conseil.prod.gke.papers.tech/v2/data/tezos/mainnet/big_map_contents',
-        {
-          fields: [
-            'key',
-            'key_hash',
-            'operation_group_id',
-            'big_map_id',
-            'value',
-          ],
-          predicates: [
-            {
-              field: 'big_map_id',
-              operation: 'eq',
-              set: [mapId],
-              inverse: false,
-            },
-            { field: 'value', operation: 'isnull', set: [''], inverse: true },
-          ],
-          orderBy: [{ field: 'key', direction: 'desc' }],
-          aggregation: [],
-          limit: 2000,
-        },
-        {
-          headers: {
-            apiKey: 'airgap00391',
-          },
+      .post<{
+        data: {
+          activity: {
+            auction: {
+              id: number
+              token_id: number
+              end_timestamp: string
+            }
+            created: string
+            sender: string
+            tez_amount: number
+            event: 'CREATE_AUCTION' | 'BID' | 'WITHDRAW'
+          }[]
         }
-      )
+      }>(environment.dipdupUrl, {
+        query: `
+        {
+          activity(limit: ${limit} order_by: {created: desc}) {
+            operation_hash
+            auction {
+              id
+              token_id
+              end_timestamp
+            }
+            created
+            sender
+            tez_amount
+            event
+          }
+        }
+              `,
+      })
+      .toPromise()
+  }
+
+  getAllHolders() {
+    return this.http
+      .post<{
+        data: {
+          tokens: {
+            id: number
+            holder: {
+              address: string
+            }
+            last_bid_amount: number
+            auction_infos: {
+              auction: {
+                id: number
+                end_timestamp: string
+                seller: {
+                  address: string
+                }
+                bidder: {
+                  address: string
+                }
+                bid_count: number
+                bid_amount: string
+                token_id: number
+                status: string
+                ask_price: string
+              }
+            }[]
+          }[]
+        }
+      }>(environment.dipdupUrl, {
+        query: `
+        {
+          tokens {
+            id
+            holder {
+              address
+            }
+            last_bid_amount
+            auction_infos { 
+              auction {
+                id
+                end_timestamp
+                seller {
+                  address
+                }
+                bidder {
+                  address
+                }
+                bid_count
+                bid_amount
+                token_id
+                status
+                ask_price
+              }
+            }
+          }
+        }
+        `,
+      })
+      .toPromise()
+  }
+
+  getAllAuctions() {
+    return this.http
+      .post<{
+        data: {
+          auctions: {
+            id: number
+            end_timestamp: string
+            seller: {
+              address: string
+            }
+            bidder: {
+              address: string
+            }
+            bid_amount: number
+            status: number
+            token_id: number
+          }[]
+        }
+      }>(environment.dipdupUrl, {
+        query: `
+        {
+          auctions(order_by: {end_timestamp: desc}) {
+            id
+            end_timestamp
+            seller {
+              address
+            }
+            bidder {
+              address
+            }
+            bid_amount
+            token_id
+            status
+          }
+        }
+                `,
+      })
       .toPromise()
   }
 }

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 import { HttpClientModule } from '@angular/common/http'
-import { BsModalService, ModalModule } from 'ngx-bootstrap/modal'
+import { ModalModule } from 'ngx-bootstrap/modal'
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 
 import { AppRoutingModule } from './app-routing.module'
@@ -102,7 +102,7 @@ import { AddressDetailComponent } from './pages/address-detail/address-detail.co
     FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent, BsModalService],
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
